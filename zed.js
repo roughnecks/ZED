@@ -2,10 +2,9 @@
 
 BOT'S INFO: ZED
 
-Author:			roughnecks | http://steamcommunity.com/id/starshiptrooper/
-Description:	SteamBot | Handles Trade Offers and Friends Invites
-Date:			11 Jan. 2019
-Version:		1.3
+Author:         roughnecks | http://steamcommunity.com/id/starshiptrooper/
+Description:    SteamBot | Handles Trade Offers and Friends Invites
+Date:           11 Jan. 2019
 
 --------------------------------------------------------------------------
 
@@ -20,6 +19,7 @@ require('console-stamp')(console, 'HH:MM');
 
 //Inizializing -- VARS
 
+const version = '1.3';
 
 const config = require('./config.json');
 const SteamUser = require('steam-user');
@@ -52,6 +52,8 @@ donationnum = 0;
 
 //Logging ON
 
+
+console.log('Bot version: ' + version);
 
 client.logOn(logOnOptions);
 
