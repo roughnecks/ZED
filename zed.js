@@ -142,11 +142,11 @@ client.on('newComments', function(count, myItems, discussions) {
 //Chat Messages Check
 
 //This will fire when we receive a chat message from ANY friend
-//client.on('friendMessage', function(steamID, message) {
-//	client.getPersonas([steamID], function (personas) {
-//		console.log('Friend message from ' + personas[steamID]["player_name"] + ': '  + message);
-//	});
-//});
+client.on('friendMessage', function(steamID, message) {
+	client.getPersonas([steamID], function (personas) {
+		console.log('Friend message from ' + personas[steamID]["player_name"] + ': '  + message);
+	});
+});
 
 
 //New Items Check
