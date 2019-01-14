@@ -45,9 +45,9 @@ const logOnOptions = {
 const ownerSteamID3 = config.ownerSteamID3;
 const botSteamID3 = config.botSteamID3;
 
-success = 0;
-donator = 0;
-donationnum = 0;
+var success = 0;
+var donator = 0;
+var donationnum = 0;
 
 
 //Logging ON
@@ -133,7 +133,7 @@ community.on('sessionExpired', function(err) {
 
 //This will fire when we receive a comment
 client.on('newComments', function(count, myItems, discussions) {
-	if (count != 0) {
+	if (count !== 0) {
 	console.log('New comment(s): ' + count);
 	}
 });
@@ -154,7 +154,7 @@ client.on('newComments', function(count, myItems, discussions) {
 //This will fire when we receive any Items in our Inventory
 //To reset its value we need to load Inventory while logged in
 client.on('newItems', function(count) {
-	if (count != 0) {
+	if (count !== 0) {
 		client.chatMessage(ownerSteamID3, 'New Items in my Inventory - Check them out!'); 
 		console.log('New Items in Inventory: ' + count);
 	}
