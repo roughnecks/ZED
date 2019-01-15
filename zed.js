@@ -14,7 +14,7 @@ Date:           11 Jan. 2019
 
 
 require('console-stamp')(console, 'HH:MM');
-//var cron = require('node-cron');
+
 
 
 //Inizializing -- VARS
@@ -108,22 +108,6 @@ community.on('sessionExpired', function(err) {
 		console.log('called logon');
 	}
 });
-
-
-
-//Session refresh every 30 minutes
-
-
-//cron.schedule('*/30 * * * *', () => {
-//	if (client.steamID) {
-//		console.log('Already logged in: ' + client.steamID);
-//		client.webLogOn();
-//	} else {
-//		client.logOn(logOnOptions);
-//		console.log('Logged in again using cron');
-//	}
-//});
-
 
 
 //EVENTS
