@@ -86,7 +86,11 @@ client.on('webSession', (sessionid, cookies) => {
 	//Checking for offline friend requests
 	for (let i = 0; i < Object.keys(client.myFriends).length; i++) {
         if (client.myFriends[Object.keys(client.myFriends)[i]] == 2) {
-			console.log('"for loop" inside websession executed.');
+
+			client.getPersonas([Object.keys(client.myFriends)[i]], function (personas) {
+				console.log('Adding New Friend: ' + personas[Object.keys(client.myFriends)[i]]["player_name"]);
+			});
+			
 			client.addFriend(Object.keys(client.myFriends)[i]);
 			console.log('Offline Friend Request Accepted.');
         }
