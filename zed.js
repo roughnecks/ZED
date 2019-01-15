@@ -19,7 +19,7 @@ require('console-stamp')(console, 'HH:MM');
 
 //Inizializing -- VARS
 
-const version = '1.3';
+const version = '1.3.1';
 
 const config = require('./config.json');
 const SteamUser = require('steam-user');
@@ -86,7 +86,8 @@ client.on('webSession', (sessionid, cookies) => {
 	//Checking for offline friend requests
 	for (let i = 0; i < Object.keys(client.myFriends).length; i++) {
         if (client.myFriends[Object.keys(client.myFriends)[i]] == 2) {
-
+			
+			//Getting name of friend to be added next
 			client.getPersonas([Object.keys(client.myFriends)[i]], function (personas) {
 				console.log('Adding New Friend: ' + personas[Object.keys(client.myFriends)[i]]["player_name"]);
 			});
@@ -143,8 +144,8 @@ client.on('friendMessage', function(steamID, message) {
 //To reset its value we need to load Inventory while logged in
 client.on('newItems', function(count) {
 	if (count !== 0) {
-		client.chatMessage(ownerSteamID3, 'New Items in my Inventory - Check them out!'); 
-		console.log('New Items in Inventory: ' + count);
+		client.chatMessage(ownerSteamID3, 'New Item(s) in my Inventory - Check them out!'); 
+		console.log('New Item(s) in Inventory: ' + count);
 	}
 });
 
@@ -164,33 +165,31 @@ manager.on('newOffer', offer => {
 		});
 	} else {
 
-		offer.getUserDetails((err, me, them) => {
-			if (typeof (them) !== 'undefined') {
-				donator = them.personaName;
-				//console.log(`donator is: ${donator}`);
-			} else { console.log('getuserdetails' + err); }
-		});
-
 		if (offer.itemsToGive.length === 0) {
 
-			offer.accept((err, status) => {
+			offer.getUserDetails((err, me, them) => {
+				if (typeof (them) !== 'undefined') {
+					donator = them.personaName;
+					//console.log(`donator is: ${donator}`);
 
-				offer.getReceivedItems((err, items) => {
-					if (typeof (items) !== 'undefined') {
-						donationnum = items.length;
-						//console.log(`donationnum is: ${donationnum}`);
-					} else { console.log('getreceiveditems' + err); }
-				});
-
-				if (err) {
-					console.log(err);
-				} else {
-					console.log(`Donation accepted. Status: ${status}.`);
-					success = 1;
-				}
+					offer.accept((err, status) => {
+						if (err) {
+							console.log(err);
+						} else {
+							offer.getReceivedItems((err, items) => {
+								if (typeof (items) !== 'undefined') {
+									donationnum = items.length;
+									//console.log(`donationnum is: ${donationnum}`);
+								} else { console.log('getreceiveditems: ' + err); }
+							});
+							console.log(`Donation accepted. Status: ${status}.`);
+							success = 1;
+						}
+					});
+				} else { console.log('getuserdetails: ' + err); }
 			});
 
-			setTimeout(postComment, 3000);
+			postComment();
 
 		} else {
 			offer.decline(err => {
@@ -242,7 +241,15 @@ client.on('friendMessage', function (steamID, message) {
 //Functions
 
 
-function postComment () {
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function postComment () {
+
+	//console.log('Taking a break...');
+	await sleep(10000);
+	//console.log('Ten seconds later');
 
 	//console.log(`Before Commenting: success = ${success}; donator = ${donator}; donationnum = ${donationnum}`);
 	if ((success == 1) && (donator) && (donationnum)) {
@@ -252,7 +259,9 @@ function postComment () {
 		success = 0;
 		donator = 0;
 		donationnum = 0;
-		//console.log(`After Commenting: success = ${success}; donator = ${donator}; donationnum = ${donationnum}`);
 	} else {console.log('Commenting on bot\'s profile failed: This is a known bug when bot receives its first offer after startup.')}
 
 }
+
+
+
