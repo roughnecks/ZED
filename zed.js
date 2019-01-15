@@ -176,14 +176,14 @@ manager.on('newOffer', offer => {
 		});
 	} else {
 
-		if (offer.itemsToGive.length === 0) {
+		offer.getUserDetails((err, me, them) => {
+			if (typeof (them) !== 'undefined') {
+				donator = them.personaName;
+				//console.log(`donator is: ${donator}`);
+			} else { console.log('getuserdetails' + err); }
+		});
 
-			offer.getUserDetails((err, me, them) => {
-				if (typeof (them) !== 'undefined') {
-					donator = them.personaName;
-					//console.log(`donator is: ${donator}`);
-				} else { console.log('getuserdetails' + err); }
-			});
+		if (offer.itemsToGive.length === 0) {
 
 			offer.accept((err, status) => {
 
