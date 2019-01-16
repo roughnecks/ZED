@@ -19,7 +19,7 @@ require('console-stamp')(console, 'HH:MM');
 
 //Inizializing -- VARS
 
-const version = '1.3.1';
+const version = '1.3.2';
 
 const config = require('./config.json');
 const SteamUser = require('steam-user');
@@ -42,6 +42,7 @@ const logOnOptions = {
 	twoFactorCode: SteamTotp.generateAuthCode(config.sharedSecret),
 };
 
+const identitySecret = config.identitySecret;
 const ownerSteamID3 = config.ownerSteamID3;
 const botSteamID3 = config.botSteamID3;
 
@@ -81,7 +82,8 @@ client.on('loggedOn', function (details) {
 client.on('webSession', (sessionid, cookies) => {
 	manager.setCookies(cookies);
 	community.setCookies(cookies);
-	community.startConfirmationChecker(10000, config.identitySecret);
+	//startConfirmationChecker is deprecated.
+	//community.startConfirmationChecker(10000, config.identitySecret);
 
 	//Checking for offline friend requests
 	for (let i = 0; i < Object.keys(client.myFriends).length; i++) {
@@ -160,7 +162,14 @@ manager.on('newOffer', offer => {
 			if (err) {
 				console.log(err);
 			} else {
-				console.log(`Accepted offer from owner. Status: ${status}.`);
+				console.log(`Accepted offer ${offer.id} from owner. Status: ${status}.`);
+				community.acceptConfirmationForObject(identitySecret, offer.id, function(err) {
+					if(err){
+						console.log("Confirmation Failed for  " + offer.id + ": " + err);
+					} else {
+						console.log("Offer " + offer.id + ": Confirmed!");
+					}
+				});
 			}
 		});
 	} else {
