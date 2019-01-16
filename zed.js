@@ -13,7 +13,7 @@ Date:           11 Jan. 2019
 //BOT START
 
 
-require('console-stamp')(console, 'HH:MM');
+require('console-stamp')(console, 'HH:MM:ss');
 
 
 
