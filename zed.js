@@ -16,7 +16,6 @@ Date:           11 Jan. 2019
 require('console-stamp')(console, 'HH:MM:ss');
 
 
-
 //Inizializing -- VARS
 
 //BoT version
@@ -129,6 +128,7 @@ community.on('sessionExpired', function(err) {
 });
 
 
+
 //EVENTS
 
 
@@ -158,7 +158,7 @@ client.on('friendMessage', function(steamID, message) {
 //To reset its value we need to load Inventory while logged in
 client.on('newItems', function(count) {
 	if (count !== 0) {
-		client.chatMessage(ownerSteamID3, 'New Item(s) in my Inventory - Check them out!'); 
+		//client.chatMessage(ownerSteamID3, 'New Item(s) in my Inventory - Check them out!'); 
 		console.log('New Item(s) in Inventory: ' + count);
 	}
 });
@@ -175,15 +175,18 @@ manager.on('newOffer', offer => {
 				console.log(err);
 			} else {
 				console.log(chalk.green(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
-				community.acceptConfirmationForObject(identitySecret, offer.id, function(err) {
-					if(err){
-						console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
-					} else {
-						console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
-					}
-				});
+				if (offer.itemsToGive.length > 0) {
+					community.acceptConfirmationForObject(identitySecret, offer.id, function (err) {
+						if (err) {
+							console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
+						} else {
+							console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
+						}
+					});
+				} else { console.log(chalk.yellow('No confirmation needed (donation)')) }
 			}
 		});
+		
 	} else {
 
 		if (offer.itemsToGive.length === 0) {
