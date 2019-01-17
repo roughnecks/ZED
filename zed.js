@@ -19,7 +19,11 @@ require('console-stamp')(console, 'HH:MM:ss');
 
 //Inizializing -- VARS
 
+//BoT version
 const version = '1.3.2';
+
+//console colors
+const chalk = require('chalk');
 
 const config = require('./config.json');
 const SteamUser = require('steam-user');
@@ -53,14 +57,16 @@ var donationnum = 0;
 
 //Logging ON
 
-
-console.log('Bot version: ' + version);
+console.log("");
+console.log(chalk.yellow('Bot version: ' + version));
+console.log(chalk.yellow('node.js version: ' + process.version));
 
 client.logOn(logOnOptions);
 
 client.on('loggedOn', function (details) {
 	if (details.eresult == SteamUser.EResult.OK) {
 		client.getPersonas([client.steamID], function (personas) {
+			console.log("");
 			console.log("== Logged in =============")
 			console.log('== Name: ' + personas[client.steamID]["player_name"]);
 			console.log('== ID64: ' + client.steamID);
@@ -80,7 +86,13 @@ client.on('loggedOn', function (details) {
 
 
 client.on('webSession', (sessionid, cookies) => {
-	manager.setCookies(cookies);
+	manager.setCookies(cookies, function (err) {
+		if (err) {
+			console.log(err);
+			process.exit(1); //Exit, if we cannot connect we can't do anything.
+			return;
+		}
+	});
 	community.setCookies(cookies);
 	//startConfirmationChecker is deprecated.
 	//community.startConfirmationChecker(10000, config.identitySecret);
@@ -91,11 +103,11 @@ client.on('webSession', (sessionid, cookies) => {
 			
 			//Getting name of friend to be added next
 			client.getPersonas([Object.keys(client.myFriends)[i]], function (personas) {
-				console.log('Adding New Friend: ' + personas[Object.keys(client.myFriends)[i]]["player_name"]);
+				console.log(chalk.yellow('Adding New Friend: ' + personas[Object.keys(client.myFriends)[i]]["player_name"]));
 			});
 			
 			client.addFriend(Object.keys(client.myFriends)[i]);
-			console.log('Offline Friend Request Accepted.');
+			console.log(chalk.green('Offline Friend Request Accepted.'));
         }
     }
 
@@ -162,12 +174,12 @@ manager.on('newOffer', offer => {
 			if (err) {
 				console.log(err);
 			} else {
-				console.log(`Accepted offer ${offer.id} from owner. Status: ${status}.`);
+				console.log(chalk.green(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
 				community.acceptConfirmationForObject(identitySecret, offer.id, function(err) {
 					if(err){
-						console.log("Confirmation Failed for  " + offer.id + ": " + err);
+						console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
 					} else {
-						console.log("Offer " + offer.id + ": Confirmed!");
+						console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
 					}
 				});
 			}
@@ -191,7 +203,7 @@ manager.on('newOffer', offer => {
 									//console.log(`donationnum is: ${donationnum}`);
 								} else { console.log('getreceiveditems: ' + err); }
 							});
-							console.log(`Donation accepted. Status: ${status}.`);
+							console.log(chalk.green(`Donation accepted. Status: ${status}.`));
 							success = 1;
 						}
 					});
@@ -205,7 +217,7 @@ manager.on('newOffer', offer => {
 				if (err) {
 					console.log(err);
 				} else {
-					console.log('Offer declined (wanted our items).');
+					console.log(chalk.red('Offer declined (wanted our items).'));
 				}
 			});
 		}
@@ -220,9 +232,10 @@ manager.on('newOffer', offer => {
 client.on('friendRelationship', (steamID, relationship) => {
 	if (relationship === 2) {
 		client.getPersonas([steamID], function (personas) {
-			console.log('Adding New Friend: ' + personas[steamID]["player_name"]);
+			console.log(chalk.yellow('Adding New Friend: ' + personas[steamID]["player_name"]));
 		});
 		client.addFriend(steamID);
+		console.log(chalk.green('Friend Request Accepted.'));
 	}
 });
 
@@ -263,12 +276,12 @@ async function postComment () {
 	//console.log(`Before Commenting: success = ${success}; donator = ${donator}; donationnum = ${donationnum}`);
 	if ((success == 1) && (donator) && (donationnum)) {
 		community.postUserComment(botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Item(s)! :steamhappy:');
-		console.log('Comment Posted on Bot\'s Profile');
+		console.log(chalk.green('Comment Posted on Bot\'s Profile'));
 		
 		success = 0;
 		donator = 0;
 		donationnum = 0;
-	} else {console.log('Commenting on bot\'s profile failed: This is a known bug when bot receives its first offer after startup.')}
+	} else {console.log(chalk.red('Commenting on bot\'s profile failed.'))}
 
 }
 
