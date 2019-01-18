@@ -220,6 +220,8 @@ manager.on('newOffer', offer => {
 			
 
 		} else {
+
+			/*
 			offer.decline(err => {
 				if (err) {
 					console.log(err);
@@ -227,6 +229,10 @@ manager.on('newOffer', offer => {
 					console.log(chalk.red('Offer declined (wanted our items).'));
 				}
 			});
+			*/
+			
+			client.chatMessage(ownerSteamID3, 'New Trade Offer asking for our Items');
+
 		}
 	}
 });
