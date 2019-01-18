@@ -4,5 +4,6 @@
 	"sharedSecret": "",
 	"identitySecret": "",
 	"ownerSteamID3": "",
-	"botSteamID3": ""
+	"botSteamID3": "",
+	"customGame": ""
 }

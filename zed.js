@@ -19,7 +19,7 @@ require('console-stamp')(console, 'HH:MM:ss');
 //Inizializing -- VARS
 
 //BoT version
-const version = '1.3.2';
+const version = 'v1.3.2';
 
 //console colors
 const chalk = require('chalk');
@@ -48,6 +48,7 @@ const logOnOptions = {
 const identitySecret = config.identitySecret;
 const ownerSteamID3 = config.ownerSteamID3;
 const botSteamID3 = config.botSteamID3;
+const game = config.customGame;
 
 var success = 0;
 var donator = 0;
@@ -57,7 +58,7 @@ var donationnum = 0;
 //Logging ON
 
 console.log("");
-console.log(chalk.yellow('Bot version: ' + version));
+console.log(chalk.yellow('ZED version: ' + version));
 console.log(chalk.yellow('node.js version: ' + process.version));
 
 client.logOn(logOnOptions);
@@ -73,7 +74,7 @@ client.on('loggedOn', function (details) {
 			console.log("");
 		});
 		client.setPersona(5); //"5": "LookingToTrade" -- https://github.com/DoctorMcKay/node-steam-user/blob/master/enums/EPersonaState.js
-		client.gamesPlayed('Accepting Junk and Making Friends!');
+		client.gamesPlayed(game);
 	} else {
 		console.log(details);
 		//Do whatever u want to handle the error...
@@ -213,7 +214,10 @@ manager.on('newOffer', offer => {
 				} else { console.log('getuserdetails: ' + err); }
 			});
 
-			postComment();
+			if (offer.itemsToReceive.length > 4) {
+				postComment();
+			}
+			
 
 		} else {
 			offer.decline(err => {
