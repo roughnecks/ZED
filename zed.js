@@ -46,6 +46,7 @@ const logOnOptions = {
 };
 
 const identitySecret = config.identitySecret;
+const ownerSteamID64 = config.ownerSteamID64;
 const ownerSteamID3 = config.ownerSteamID3;
 const botSteamID3 = config.botSteamID3;
 const game = config.customGame;
@@ -170,7 +171,7 @@ client.on('newItems', function(count) {
 
 manager.on('newOffer', offer => {
 
-	if (offer.partner.getSteamID64() === '76561198061492959') {
+	if (offer.partner.getSteamID64() === ownerSteamID64) {
 		offer.accept((err, status) => {
 			if (err) {
 				console.log(err);
