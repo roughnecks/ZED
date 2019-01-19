@@ -19,7 +19,7 @@ require('console-stamp')(console, 'HH:MM:ss');
 //Inizializing -- VARS
 
 //BoT version
-const version = 'v1.3.2';
+const version = 'v1.3.3';
 
 //console colors
 const chalk = require('chalk');
