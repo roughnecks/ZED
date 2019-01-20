@@ -205,7 +205,8 @@ manager.on('newOffer', offer => {
 							offer.getReceivedItems((err, items) => {
 								if (typeof (items) !== 'undefined') {
 									donationnum = items.length;
-									//console.log(`donationnum is: ${donationnum}`);
+									//console.log(items);
+									console.log('Items Amount: ' + donationnum);
 								} else { console.log('getreceiveditems: ' + err); }
 							});
 							console.log(chalk.green(`Donation accepted. Status: ${status}.`));
@@ -219,7 +220,6 @@ manager.on('newOffer', offer => {
 				postComment();
 			}
 			
-
 		} else {
 
 			/*
@@ -233,7 +233,6 @@ manager.on('newOffer', offer => {
 			*/
 			
 			client.chatMessage(ownerSteamID3, 'New Trade Offer asking for our Items');
-
 		}
 	}
 });
