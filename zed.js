@@ -178,13 +178,15 @@ manager.on('newOffer', offer => {
 			} else {
 				console.log(chalk.green(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
 				if (offer.itemsToGive.length > 0) {
-					community.acceptConfirmationForObject(identitySecret, offer.id, function (err) {
-						if (err) {
-							console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
-						} else {
-							console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
-						}
-					});
+					setTimeout(() => {
+						community.acceptConfirmationForObject(identitySecret, offer.id, function (err) {
+							if (err) {
+								console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
+							} else {
+								console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
+							}
+						});
+					}, 2000);
 				} else { console.log(chalk.yellow('No confirmation needed (donation)')) }
 			}
 		});
