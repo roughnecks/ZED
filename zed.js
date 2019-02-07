@@ -14,6 +14,7 @@ Date:           11 Jan. 2019
 
 
 require('console-stamp')(console, 'HH:MM:ss');
+var cron = require('node-cron');
 
 
 //Inizializing -- VARS
@@ -57,6 +58,7 @@ var donationnum = 0;
 var lottery = 0;
 var tradeOfferObject;
 var themEscrow = null;
+var cooldown = {};
 
 //Logging ON
 
@@ -130,6 +132,21 @@ community.on('sessionExpired', function (err) {
 	} else {
 		client.logOn(logOnOptions);
 		console.log('called logon');
+	}
+});
+
+
+//Session refresh every 30 minutes
+
+
+cron.schedule('*/30 * * * *', () => {
+	if (client.steamID) {
+		//console.log('Already logged in: ' + client.steamID);
+		client.webLogOn();
+		//console.log('Called weblogon from cron');
+	} else {
+		client.logOn(logOnOptions);
+		console.log('Logged in again using cron');
 	}
 });
 
@@ -232,6 +249,10 @@ manager.on('newOffer', offer => {
 								console.log(chalk.green(`Lottery accepted. Status: ${status}.`));
 							}
 						});
+
+						//Save partner info and timestamp to implement a cooldown
+
+						
 
 						offer.itemsToReceive[0].tags.forEach(element => {
 							//console.log(element);
