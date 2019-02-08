@@ -58,7 +58,10 @@ var donationnum = 0;
 var lottery = 0;
 var tradeOfferObject;
 var themEscrow = null;
-var cooldown = {};
+//Items that bot owns and are not up for trading
+const lockedItems = [':meltdownzed:', ':tradingcard:', ':PrisDrone:', ':goldfeatherduster:', ':dustpan:', ':deal_done:', ':ChipWink:', ':Zed Background:'];
+
+
 
 //Logging ON
 
@@ -250,9 +253,6 @@ manager.on('newOffer', offer => {
 							}
 						});
 
-						//Save partner info and timestamp to implement a cooldown
-
-						
 
 						offer.itemsToReceive[0].tags.forEach(element => {
 							//console.log(element);
@@ -427,10 +427,13 @@ async function lotterySend() {
 
 			const offer = manager.createOffer(tradeOfferObject.partner.getSteam3RenderedID());
 
-			//filter items bot owns and are not up for trading
+			//filter items that bot owns and are not up for trading
 			const reducedInv = inventory.filter(function (element) {
-				return ((element.name != ':meltdownzed:') && (element.name != ':tradingcard:') && (element.name != ':PrisDrone:') && (element.name != ':goldfeatherduster:') &&
-					(element.name != ':dustpan:') && (element.name != ':deal_done:') && (element.name != ':ChipWink:') && (element.name != 'Zed Background'));
+
+				for (var i in lockedItems) {
+					return (element.name != lockedItems[i]);
+				}
+
 			});
 
 			//create new array with just 1 type of items (cards - bgs - emotes -boosters)
