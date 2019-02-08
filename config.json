@@ -6,5 +6,6 @@
 	"ownerSteamID64": "",
 	"ownerSteamID3": "",
 	"botSteamID3": "",
-	"customGame": ""
+	"customGame": "",
+	"lockedItems": []
 }

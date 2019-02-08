@@ -51,6 +51,8 @@ const ownerSteamID64 = config.ownerSteamID64;
 const ownerSteamID3 = config.ownerSteamID3;
 const botSteamID3 = config.botSteamID3;
 const game = config.customGame;
+//Items that bot owns and are not up for trading
+const lockedItems = config.lockedItems;
 
 var success = 0;
 var donator = 0;
@@ -58,8 +60,6 @@ var donationnum = 0;
 var lottery = 0;
 var tradeOfferObject;
 var themEscrow = null;
-//Items that bot owns and are not up for trading
-const lockedItems = [':meltdownzed:', ':tradingcard:', ':PrisDrone:', ':goldfeatherduster:', ':dustpan:', ':deal_done:', ':ChipWink:', ':Zed Background:'];
 
 
 
