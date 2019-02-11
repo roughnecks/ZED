@@ -1,11 +1,14 @@
 {
-	"username": "",
-	"password": "",
-	"sharedSecret": "",
-	"identitySecret": "",
-	"ownerSteamID64": "",
-	"ownerSteamID3": "",
-	"botSteamID3": "",
-	"customGame": "",
-	"lockedItems": []
+  "username": "",
+  "password": "",
+  "sharedSecret": "",
+  "identitySecret": "",
+  "ownerSteamID64": "",
+  "ownerSteamID3": "",
+  "botSteamID3": "",
+  "customGame": "",
+  "lockedItems": [],
+  "db": {
+    "connectionString": ""
+  }
 }

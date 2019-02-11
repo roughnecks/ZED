@@ -1,2 +1,4 @@
 temp/
 
+/.vs
+/node_modules
