@@ -1,6 +1,7 @@
 'use strict';
 
 const SteamUser = require('steam-user');
+const config = require('../config');
 
 //console colors
 const chalk = require('chalk');
@@ -16,11 +17,11 @@ client.on('loggedOn', function (details) {
             console.log('== ID64: ' + client.steamID);
             console.log("==========================");
             console.log("");
-            console.log(chalk.bgBlue(game));
+            console.log(chalk.bgBlue(config.customGame));
             console.log("");
         });
         client.setPersona(5); //"5": "LookingToTrade" -- https://github.com/DoctorMcKay/node-steam-user/blob/master/enums/EPersonaState.js
-        client.gamesPlayed(game);
+        client.gamesPlayed(config.customGame);
     } else {
         console.log(details);
         //Do whatever u want to handle the error...
