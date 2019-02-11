@@ -20,6 +20,7 @@ const zed = {
         identitySecret: config.identitySecret,
         ownerSteamID64: config.ownerSteamID64,
         ownerSteamID3: config.ownerSteamID3,
+        botSteamID64: config.botSteamID64,
         botSteamID3: config.botSteamID3,
         game: config.customGame,
         

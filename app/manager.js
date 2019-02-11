@@ -145,7 +145,7 @@ async function processLottery(offer, them) {
                     randomItem = await db.getRandomInventoryItem(itemType, newItemPrice);
                 }
 
-                var inventory = await helpers.loadInventory(config.ownerSteamID64, 753, 6, true);
+                var inventory = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
                 const itemToGive = inventory.find(x => x.assetid === randomItem.assetId);
 
                 if (itemToGive) {

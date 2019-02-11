@@ -5,6 +5,7 @@
   "identitySecret": "",
   "ownerSteamID64": "",
   "ownerSteamID3": "",
+  "botSteamID64":  "",
   "botSteamID3": "",
   "customGame": "",
   "lockedItems": [],
