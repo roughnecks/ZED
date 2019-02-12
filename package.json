@@ -1,11 +1,15 @@
 {
-  "name": "ZED",
+  "name": "zed",
   "version": "1.4.0",
   "description": "SteamBot | Handles Trade Offers and Friends Invites",
   "main": "zed.js",
   "author": {
-    "name": "roughnecks | http://steamcommunity.com/id/starshiptrooper/"
+    "name": "roughnecks"
+    , "url": "http://steamcommunity.com/id/starshiptrooper/"
   },
+  "contributors": [
+    "andrei-kom (https://steamcommunity.com/id/andrei-kom/)"
+  ],
   "scripts": {
     "start": "node zed.js"
   },
