@@ -6,7 +6,7 @@ const enums = {
         Card: 2,
         Background: 3,
         Emote: 4,
-        Booster: 3,
+        Booster: 5,
         Gems: 7,
         Unknown: 99999999,
         properties:
