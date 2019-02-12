@@ -2,6 +2,18 @@
 
 **Steam Trading BoT** | Handles Trade Offers and Friends Invites
 
+The following is a list of functions that ZED provides at the moment:
+
+* Accept any offer from owner.
+* Accept donations from everyone (no items loss).
+* Accept Friendship Invitations from everyone.
+* Simple interaction via chat and signing friends profiles upon request.
+* Post a comment on its own profile with a "Thank You" message to donors (Donation must contain >4 Items).
+* New items check (logs to console when our inventory has new items).
+* Chat messages check (logs to console when bot receives a chat message).
+* Notifications check (logs to console if any new comment is available).
+* Lottery: Send any 1 Trading Card, Background, Emoticon or Booster Pack to the BoT and it will send you back a random Item of the same type (card for card, emote for emote etc...).
+
 
 ## Required software
 
