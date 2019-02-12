@@ -2,6 +2,7 @@
 
 const zed = require('./main');
 const config = require('../config');
+const SteamUser = require('steam-user');
 
 //console colors
 const chalk = require('chalk');
