@@ -1,6 +1,6 @@
 # ZED
 
-**Steam Trading BoT** | Handles Trade Offers and Friends Invites
+**_Steam Trading BoT | Handles Trade Offers and Friends Invites_**
 
 The following is a list of functions that ZED provides at the moment:
 
