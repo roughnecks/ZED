@@ -6,14 +6,10 @@ const SteamTotp = require('steam-totp');
 //Inizializing -- VARS
 
 const config = require('../config.json');
-const client = require('./client');
-const community = require('./community');
 const manager = require('./manager');
 const db = require('./db');
 
 const zed = {
-    client: client,
-    community: community,
     manager: manager,
     db: db,
     config: {

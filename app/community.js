@@ -1,20 +1,17 @@
 'use strict';
 
-const SteamCommunity = require('steamcommunity');
-var client = require('./client');
+const zed = require('./main');
 var cron = require('node-cron');
 
-const community = new SteamCommunity();
-
 //Session
-community.on('sessionExpired', function (err) {
+zed.manager._community.on('sessionExpired', function (err) {
     if (err) {
         console.log('Session Expired: ' + err);
     }
 
-    if (client.steamID) {
-        client.webLogOn();
-        console.log('called weblogon: ' + client.steamID);
+    if (zed.manager.steam.steamID) {
+        zed.manager.steam.webLogOn();
+        console.log('called weblogon: ' + zed.manager.steam.steamID);
     } else {
         client.logOn(logOnOptions);
         console.log('called logon');
@@ -24,14 +21,12 @@ community.on('sessionExpired', function (err) {
 
 //Session refresh every 30 minutes
 cron.schedule('*/30 * * * *', () => {
-    if (client.steamID) {
-        //console.log('Already logged in: ' + client.steamID);
-        client.webLogOn();
+    if (zed.manager.steam.steamID) {
+        //console.log('Already logged in: ' + zed.manager.steam.steamID);
+        zed.manager.steam.webLogOn();
         //console.log('Called weblogon from cron');
     } else {
-        client.logOn(logOnOptions);
+        zed.manager.steam.logOn(logOnOptions);
         console.log('Logged in again using cron');
     }
 });
-
-module.exports = community;

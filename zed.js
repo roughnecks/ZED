@@ -17,6 +17,8 @@ Date:           11 Jan. 2019
 
 //Main module
 var zed = require('./app/main');
+require('./app/community');
+require('./app/client');
 
 //console colors
 const chalk = require('chalk');
@@ -40,7 +42,7 @@ async function init() {
     await zed.db.checkData();
 
     //Everything ready, now we can logon
-    zed.client.logOn(zed.config.logOnOptions);
+    zed.manager._steaam.logOn(zed.config.logOnOptions);
 }
 
 init();

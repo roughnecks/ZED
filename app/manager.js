@@ -1,8 +1,8 @@
 'use strict';
 
 const TradeOfferManager = require('steam-tradeoffer-manager');
-const client = require('./client');
-const community = require('./community');
+const SteamUser = require('steam-user');
+const SteamCommunity = require('steamcommunity');
 
 //console colors
 const chalk = require('chalk');
@@ -13,8 +13,8 @@ const db = require('./db');
 const config = require('../config.json');
 
 const manager = new TradeOfferManager({
-    steam: client,
-    community: community,
+    steam: new SteamUser(),
+    community: new SteamCommunity(),
     language: 'en'
 });
 
@@ -41,7 +41,7 @@ async function postComment(donator, donationnum) {
     //console.log('Ten seconds later');
 
     //console.log(`Before Commenting: success = ${success}; donator = ${donator}; donationnum = ${donationnum}`);
-    community.postUserComment(botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Item(s)! :steamhappy:');
+    manager._community.postUserComment(botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Item(s)! :steamhappy:');
     console.log(chalk.green('Comment Posted on Bot\'s Profile'));
 
 }
@@ -56,7 +56,7 @@ async function processOffer(offer, them) {
                 console.log(chalk.green(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
                 if (offer.itemsToGive.length > 0) {
                     setTimeout(() => {
-                        community.acceptConfirmationForObject(identitySecret, offer.id, function (err) {
+                        manager._community.acceptConfirmationForObject(identitySecret, offer.id, function (err) {
                             if (err) {
                                 console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
                             } else {
@@ -110,7 +110,7 @@ async function processOffer(offer, them) {
             });
             */
 
-            client.chatMessage(ownerSteamID3, 'New Trade Offer asking for our Items');
+            manager._steam.chatMessage(ownerSteamID3, 'New Trade Offer asking for our Items');
         }
     }
 }
@@ -118,12 +118,12 @@ async function processOffer(offer, them) {
 async function processLottery(offer, them) {
     if (!them || !them.escrowDays) {
 
-        client.chatMessage(offer.partner.getSteam3RenderedID(), 'Something went wrong, could not check Escrow');
+        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Something went wrong, could not check Escrow');
         return console.log(chalk.red('Something went wrong, could not check Escrow (null)'));
 
     } else if (them.escrowDays > 0) {
 
-        client.chatMessage(offer.partner.getSteam3RenderedID(), 'You\'re in Escrow - Cannot Participate in Lottery :(');
+        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'You\'re in Escrow - Cannot Participate in Lottery :(');
         return console.log(chalk.red('User in Escrow - Aborting Lottery: escrow = ' + themEscrow));
 
     } else {
@@ -168,7 +168,7 @@ async function processLottery(offer, them) {
                         } else {
                             console.log(chalk.red('Offer declined (No items of correcsponding price found).'));
                             //TODO: write "normal" message
-                            client.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (No items of correcsponding price found).');
+                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (No items of correcsponding price found).');
                         }
                     });
                 }
@@ -178,7 +178,7 @@ async function processLottery(offer, them) {
                         console.log(err);
                     } else {
                         console.log(chalk.red('Offer declined (Bad Item Type or Number).'));
-                        client.chatMessage(offer.partner.getSteam3RenderedID(), 'You sent more than 1 item, asked for any of my items or sent an item which is not supported by lottery; valid types are "Cards-BGs-Emotes-Boosters"');
+                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'You sent more than 1 item, asked for any of my items or sent an item which is not supported by lottery; valid types are "Cards-BGs-Emotes-Boosters"');
                     }
                 });
             }
@@ -188,7 +188,7 @@ async function processLottery(offer, them) {
                     console.log(err);
                 } else {
                     console.log(chalk.red('Offer declined (Bad Item Type or Number).'));
-                    client.chatMessage(offer.partner.getSteam3RenderedID(), 'You sent more than 1 item, asked for any of my items or sent an item which is not supported by lottery; valid types are "Cards-BGs-Emotes-Boosters"');
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'You sent more than 1 item, asked for any of my items or sent an item which is not supported by lottery; valid types are "Cards-BGs-Emotes-Boosters"');
                 }
             });
         }
@@ -201,7 +201,7 @@ async function lotterySend(partner, itemToGive, itemType) {
 
     console.log('Lottery Item is: ' + enums.InventoryItemType.properties[itemType].name);
 
-    client.chatMessage(partner.getSteam3RenderedID(),
+    manager._steam.chatMessage(partner.getSteam3RenderedID(),
         'I just received 1 ' + enums.InventoryItemType.properties[itemType].name + ' item for the lottery; sending a random ' + enums.InventoryItemType.properties[itemType].name + ' back now!');
 
     const offer = manager.createOffer(partner.getSteam3RenderedID());
@@ -214,7 +214,7 @@ async function lotterySend(partner, itemToGive, itemType) {
         } else {
             console.log(`Sent offer. Status: ${status}.`);
             setTimeout(() => {
-                community.acceptConfirmationForObject(identitySecret, offer.id, function (err) {
+                manager._community.acceptConfirmationForObject(identitySecret, offer.id, function (err) {
                     if (err) {
                         console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
                     } else {

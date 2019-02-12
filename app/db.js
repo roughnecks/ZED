@@ -11,7 +11,7 @@ const enums = require('./enums');
 const _db = {
     db: null,
 
-    client: new MongoClient(config.db.connectionString),
+    client: new MongoClient(config.db.connectionString, { useNewUrlParser: true }),
 
     connect: async function () {
         try {
