@@ -36,13 +36,13 @@ async function init() {
         return false;
     }
 
-    process.on('exit', function () { zed.db.disconnect(); });
+    //process.on('exit', function () { zed.db.disconnect(); });
 
     //Check for inventory items in DB and parse them if DB is empty
     await zed.db.checkData();
 
     //Everything ready, now we can logon
-    zed.manager._steaam.logOn(zed.config.logOnOptions);
+    zed.manager._steam.logOn(zed.config.logOnOptions);
 }
 
 init();
