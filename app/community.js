@@ -9,11 +9,11 @@ zed.manager._community.on('sessionExpired', function (err) {
         console.log('Session Expired: ' + err);
     }
 
-    if (zed.manager.steam.steamID) {
-        zed.manager.steam.webLogOn();
-        console.log('called weblogon: ' + zed.manager.steam.steamID);
+    if (zed.manager._steam.steamID) {
+        zed.manager._steam.webLogOn();
+        console.log('called weblogon: ' + zed.manager._steam.steamID);
     } else {
-        client.logOn(logOnOptions);
+        zed.manager._steam.logOn(logOnOptions);
         console.log('called logon');
     }
 });
@@ -21,12 +21,12 @@ zed.manager._community.on('sessionExpired', function (err) {
 
 //Session refresh every 30 minutes
 cron.schedule('*/30 * * * *', () => {
-    if (zed.manager.steam.steamID) {
+    if (zed.manager._steam.steamID) {
         //console.log('Already logged in: ' + zed.manager.steam.steamID);
-        zed.manager.steam.webLogOn();
+        zed.manager._steam.webLogOn();
         //console.log('Called weblogon from cron');
     } else {
-        zed.manager.steam.logOn(logOnOptions);
+        zed.manager._steam.logOn(logOnOptions);
         console.log('Logged in again using cron');
     }
 });
