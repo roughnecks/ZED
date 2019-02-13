@@ -7,7 +7,6 @@ const CEconItem = require('../node_modules/steamcommunity/classes/CEconItem.js')
 
 const utils = {
     getInventoryItemType: function (item) {
-        console.log('item:: ', item);
         let tag = item.getTag('item_class');
 
         if (typeof tag === undefined) {
