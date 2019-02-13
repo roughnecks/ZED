@@ -47,7 +47,7 @@ async function postComment(donator, donationnum) {
 }
 
 async function processOffer(offer, them) {
-    if (offer.partner.getSteamID64() === ownerSteamID64) {
+    if (offer.partner.getSteamID64() === zed.config.ownerSteamID64) {
 
         offer.accept((err, status) => {
             if (err) {
@@ -56,7 +56,7 @@ async function processOffer(offer, them) {
                 console.log(chalk.green(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
                 if (offer.itemsToGive.length > 0) {
                     setTimeout(() => {
-                        manager._community.acceptConfirmationForObject(identitySecret, offer.id, function (err) {
+                        manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
                             if (err) {
                                 console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
                             } else {
