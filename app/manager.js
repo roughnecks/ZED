@@ -37,7 +37,7 @@ manager.on('newOffer', offer => {
 //Functions
 async function postComment(donator, donationnum) {
     //console.log('Taking a break...');
-    await heplpers.sleep(10000);
+    //await helpers.sleep(10000);
     //console.log('Ten seconds later');
 
     //console.log(`Before Commenting: success = ${success}; donator = ${donator}; donationnum = ${donationnum}`);
@@ -197,7 +197,7 @@ async function processLottery(offer, them) {
 }
 
 async function lotterySend(partner, itemToGive, itemType) {
-    //await heplpers.sleep(5000);
+    //await helpers.sleep(5000);
 
     console.log('Lottery Item is: ' + enums.InventoryItemType.properties[itemType].name);
 
