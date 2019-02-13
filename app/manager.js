@@ -47,7 +47,7 @@ async function postComment(donator, donationnum) {
 }
 
 async function processOffer(offer, them) {
-    if (offer.partner.getSteamID64() === zed.config.ownerSteamID64) {
+    if (offer.partner.getSteamID64() === config.ownerSteamID64) {
 
         offer.accept((err, status) => {
             if (err) {
