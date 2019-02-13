@@ -41,7 +41,7 @@ async function postComment(donator, donationnum) {
     //console.log('Ten seconds later');
 
     //console.log(`Before Commenting: success = ${success}; donator = ${donator}; donationnum = ${donationnum}`);
-    manager._community.postUserComment(botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Item(s)! :steamhappy:');
+    manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Item(s)! :steamhappy:');
     console.log(chalk.green('Comment Posted on Bot\'s Profile'));
 
 }
