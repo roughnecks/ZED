@@ -58,7 +58,7 @@ const _db = {
                     type: helpers.getInventoryItemType(el),
                     price: await helpers.getInventoryItemPrice(el.market_hash_name)
                 });
-                await helpers.sleep(1000);
+                await helpers.sleep(2500);
             }
         }
     },
@@ -123,7 +123,7 @@ const _db = {
         for (let item of items) {
             item.price = await helpers.getInventoryItemPrice(item.market_hash_name);
             await this.updateInventoryItem(item.assetId, item.price);
-            await helpers.sleep(1000);
+            await helpers.sleep(2500);
         }
     }
 };
