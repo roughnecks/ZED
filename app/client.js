@@ -118,6 +118,10 @@ zed.manager._steam.on('friendRelationship', (steamID, relationship) => {
 
 //Commands
 zed.manager._steam.on('friendMessage', function (steamID, message) {
+    if (message.startsWith('[tradeoffer sender=')) {
+        return;
+    }
+
     if (message === "!help") {
         zed.manager._steam.chatMessage(steamID, 'Hello, if you want me to sign your profile, type "!sign" without the quotes. For info about bot\'s lottery, type "!lottery". Have a nice day!');
     }
