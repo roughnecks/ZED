@@ -18,7 +18,7 @@ const zed = {
         ownerSteamID3: config.ownerSteamID3,
         botSteamID64: config.botSteamID64,
         botSteamID3: config.botSteamID3,
-        game: config.customGame,
+        customGame: config.customGame,
         
         //Items that bot owns and are not up for trading
         lockedItems: config.lockedItems,
