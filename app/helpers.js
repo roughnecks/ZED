@@ -32,7 +32,7 @@ const utils = {
         var inventory = [];
 
         do {
-            console.log('sending request');
+            console.log('Sending request');
             try {
                 var response = await axios.get('https://steamcommunity.com/inventory/' + userId64 + '/' + appId + '/' + contextId + '?l=english&count=5000&start_assetid=' + start, {
                     method: 'get',

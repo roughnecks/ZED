@@ -17,7 +17,7 @@ const _db = {
         try {
             // Use connect method to connect to the Server
             await this.client.connect();
-            console.log("Connected successfully to server");
+            console.log("Connected successfully to DB Server");
 
             this.db = this.client.db('zed');
             return true;
@@ -39,11 +39,11 @@ const _db = {
     },
 
     initInventoryItems: async function () {
-        console.log('trying to load inventory');
+        console.log('Trying to load inventory');
         var inventory = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
-        console.log('inventory loaded: ' + inventory.length + ' item(s)');
+        console.log('Inventory loaded: ' + inventory.length + ' item(s)');
 
-        console.log('updating prices...');
+        console.log('Updating prices... This might take a while.');
         if (inventory && inventory.length > 0) {
             //filter items that bot owns and are not up for trading
             let reducedInv = inventory.filter(el => !config.lockedItems.some(x => x === el.name));
