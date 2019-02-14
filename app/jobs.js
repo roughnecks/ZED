@@ -16,7 +16,8 @@ cron.schedule('*/30 * * * *', () => {
 });
 
 //Update Prices every day at 1:30pm
-cron.schedule('30 13 * * *', async () => {
-    console.log('Updating Prices in DB... This might take a while.');
+cron.schedule('30 13 * * 1,3,5,7', async () =>{
+    console.log('Updating prices in DB... This might take a while.');
     await zed.db.updatePricesInDb();
 });
+
