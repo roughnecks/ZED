@@ -222,7 +222,7 @@ async function lotterySend(partner, itemToGive, itemType) {
                 });
             }, 2000);
 
-            db.deleteInventoryItem(itemToGive.assetId);
+            db.deleteInventoryItem(itemToGive.assetid);
         }
     });
 }
