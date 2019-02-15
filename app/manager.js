@@ -123,7 +123,7 @@ async function processLottery(offer, them) {
     } else if (them.escrowDays > 0) {
 
         manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'You\'re in Escrow - Cannot Participate in Lottery :(');
-        return console.log(chalk.red('User in Escrow - Aborting Lottery: escrow = ' + themEscrow));
+        return console.log(chalk.red('User in Escrow - Aborting Lottery: escrow = ' + them.escrowDays));
 
     } else {
 
