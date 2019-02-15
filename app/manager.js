@@ -73,8 +73,7 @@ async function processOffer(offer, them) {
 
     } else if (offer.message === 'lottery') {
 
-        //setTimeout(() => { processLottery(them); }, 5000);
-        processLottery(offer, them);
+        await processLottery(offer, them);
 
     } else {
 
@@ -116,7 +115,7 @@ async function processOffer(offer, them) {
 }
 
 async function processLottery(offer, them) {
-    if (!them || !them.escrowDays) {
+    if (!them || typeof them.escrowDays === 'undefined') {
 
         manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Something went wrong, could not check Escrow');
         return console.log(chalk.red('Something went wrong, could not check Escrow (null)'));
