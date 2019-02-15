@@ -19,6 +19,7 @@ Date:           11 Jan. 2019
 var zed = require('./app/main');
 require('./app/community');
 require('./app/client');
+require('./app/jobs');
 
 //console colors
 const chalk = require('chalk');
