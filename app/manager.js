@@ -130,7 +130,7 @@ async function processLottery(offer, them) {
         if (offer.itemsToGive.length === 0
             && offer.itemsToReceive.length === 1
             && offer.itemsToReceive[0].appid === 753
-            && offer.itemsToReceive[0].contextid === 6
+            && offer.itemsToReceive[0].contextid === '6'
             && offer.itemsToReceive[0].amount === 1
             && offer.itemsToReceive[0].type !== 'Steam Gems') {
 
@@ -213,7 +213,7 @@ async function lotterySend(partner, itemToGive, itemType) {
         } else {
             console.log(`Sent offer. Status: ${status}.`);
             setTimeout(() => {
-                manager._community.acceptConfirmationForObject(identitySecret, offer.id, function (err) {
+                manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
                     if (err) {
                         console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
                     } else {
