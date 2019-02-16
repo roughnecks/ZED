@@ -175,9 +175,9 @@ async function processLottery(offer, them) {
                         if (err) {
                             console.log(err);
                         } else {
-                            console.log(chalk.red('Offer declined (The item not marketable or there was an error while getting items price).'));
+                            console.log(chalk.red('Offer declined (Item\'s not marketable or there was an error while getting its price).'));
                             //TODO: write "normal" message
-                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (The item not marketable or there was an error while getting items price).');
+                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (Item\'s not marketable or there was an error while getting its price).');
                         }
                     });
                 }
