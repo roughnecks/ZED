@@ -2,3 +2,4 @@ temp/
 
 /.vs
 /node_modules
+/.vscode
