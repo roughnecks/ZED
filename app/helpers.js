@@ -78,7 +78,8 @@ const utils = {
                 }
             }
             catch (error) {
-                console.log(error);
+                //console.log(error);
+                console.log('Failed to load inventiry.');
                 return [];
             }
         }
@@ -122,7 +123,7 @@ const utils = {
             return parseFloat(data.lowest_price.replace('$', '').replace(' USD', ''));
         }
         catch (error) {
-            console.log(error);
+            //console.log(error);
             return 0;
         }
     },
