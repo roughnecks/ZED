@@ -35,6 +35,9 @@ const _db = {
     checkData: async function () {
         if (await this.db.collection('inventory_items').countDocuments() === 0) {
             await this.initInventoryItems();
+        } else if (config.updatePricesOnStartup) {
+            console.log('updatePricesOnStartup is set to true. Prices will be updated in background.');
+            this.updatePricesInDb();
         }
     },
 
@@ -119,12 +122,18 @@ const _db = {
     updatePricesInDb: async function () {
         var items = await this.db.collection('inventory_items').find().toArray();
 
+        console.log('Updating prices in DB...');
+
         //There is limit for number of requests so we will update items one by one. Ideally there should be a delay between requests
         for (let item of items) {
             item.price = await helpers.getInventoryItemPrice(item.market_hash_name);
-            await this.updateInventoryItem(item.assetId, item.price);
+            if (item.price > 0) {
+                await this.updateInventoryItem(item.assetId, item.price);
+            }
             await helpers.sleep(2500);
         }
+
+        console.log('Prices in DB were successfully updated!');
     }
 };
 
