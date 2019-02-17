@@ -26,7 +26,6 @@ The following is a list of functions that ZED provides at the moment:
 * chalk
 * console-stamp
 * mongodb
-* node-cron
 * steam-totp
 * steam-tradeoffer-manager
 * steam-user
