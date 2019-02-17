@@ -4,8 +4,8 @@
   "description": "SteamBot | Handles Trade Offers and Friends Invites",
   "main": "zed.js",
   "author": {
-    "name": "roughnecks"
-    , "url": "http://steamcommunity.com/id/starshiptrooper/"
+    "name": "roughnecks",
+    "url": "http://steamcommunity.com/id/starshiptrooper/"
   },
   "contributors": [
     "andrei-kom (https://steamcommunity.com/id/andrei-kom/)"
@@ -18,7 +18,6 @@
     "chalk": "^2.4.2",
     "console-stamp": "^0.2.7",
     "mongodb": "^3.1.13",
-    "node-cron": "^2.0.3",
     "steam-totp": "^2.1.0",
     "steam-tradeoffer-manager": "^2.9.5",
     "steam-user": "^4.2.0",

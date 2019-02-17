@@ -138,28 +138,46 @@ async function processLottery(offer, them) {
 
             if (itemType !== enums.InventoryItemType.Unknown) {
 
-                var newItemPrice = await helpers.getInventoryItemPrice(offer.itemsToReceive[0].market_hash_name);
+                var newItemPrice = 0;
+                if (offer.itemsToReceive[0].marketable) {
+                    newItemPrice = await helpers.getInventoryItemPrice(offer.itemsToReceive[0].market_hash_name);
+                }
+
                 var randomItem;
-                if (newItemPrice > 0) {
-                    randomItem = await db.getRandomInventoryItem(itemType, newItemPrice);
+                if (newItemPrice > 0 || !offer.itemsToReceive[0].marketable) {
+                    randomItem = await db.getRandomInventoryItem(itemType, offer.itemsToReceive[0].marketable, newItemPrice);
 
-                    var inventory = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
-                    const itemToGive = inventory.find(x => x.assetid === randomItem.assetId);
+                    if (randomItem) {
+                        var inventory = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
+                        const itemToGive = inventory.find(x => x.assetid === randomItem.assetId);
 
-                    if (itemToGive) {
-                        console.log(chalk.green('Lottery is good to go'));
+                        if (itemToGive) {
+                            console.log(chalk.green('Lottery is good to go'));
 
-                        offer.accept((err, status) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log(chalk.green(`Lottery accepted. Status: ${status}.`));
-                            }
-                        });
+                            offer.accept((err, status) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log(chalk.green(`Lottery accepted. Status: ${status}.`));
+                                }
+                            });
 
-                        await db.insertReceivedItems(offer.itemsToReceive);
-                        lotterySend(offer.partner, itemToGive, itemType);
+                            await db.insertReceivedItems(offer.itemsToReceive);
+                            lotterySend(offer.partner, itemToGive, itemType);
+                        } else {
+                            //Random item picked from DB but there was inventory sync error
+                            offer.decline(err => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log(chalk.red('Offer declined (No items of correcsponding price found).'));
+                                    //TODO: write "normal" message
+                                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (No items of correcsponding price found).');
+                                }
+                            });
+                        }
                     } else {
+                        //No random item found
                         offer.decline(err => {
                             if (err) {
                                 console.log(err);
@@ -175,9 +193,9 @@ async function processLottery(offer, them) {
                         if (err) {
                             console.log(err);
                         } else {
-                            console.log(chalk.red('Offer declined (Item\'s not marketable or there was an error while getting its price).'));
+                            console.log(chalk.red('Offer declined (There was an error while getting items price).'));
                             //TODO: write "normal" message
-                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (Item\'s not marketable or there was an error while getting its price).');
+                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (There was an error while getting items price).');
                         }
                     });
                 }

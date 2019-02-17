@@ -59,7 +59,8 @@ const _db = {
                     name: el.name,
                     market_hash_name: el.market_hash_name,
                     type: helpers.getInventoryItemType(el),
-                    price: await helpers.getInventoryItemPrice(el.market_hash_name)
+                    marketable: el.marketable,
+                    price: el.marketable ? await helpers.getInventoryItemPrice(el.market_hash_name) : 0
                 });
                 await helpers.sleep(2500);
             }
@@ -91,7 +92,8 @@ const _db = {
                     name: el.name,
                     market_hash_name: el.market_hash_name,
                     type: helpers.getInventoryItemType(el),
-                    price: await helpers.getInventoryItemPrice(el.market_hash_name)
+                    marketable: el.marketable,
+                    price: el.marketable ? await helpers.getInventoryItemPrice(el.market_hash_name) : 0
                 });
                 await helpers.sleep(500);
             }
@@ -106,9 +108,9 @@ const _db = {
         await this.db.collection('inventory_items').deleteOne({ assetId: assetId });
     },
 
-    getRandomInventoryItem: async function (itemType, price) {
+    getRandomInventoryItem: async function (itemType, marketable, price) {
         var items = await this.db.collection('inventory_items').aggregate([
-            { $match: { $and: [{ type: itemType }, { price: { $lte: price } }] } }, // filter the results
+            { $match: { $and: [{ type: itemType }, { marketable: marketable }, { price: { $lte: price } }] } }, // filter the results
             { $sample: { size: 1 } } // we want to get 1 item
         ]).toArray();
 
@@ -126,11 +128,13 @@ const _db = {
 
         //There is limit for number of requests so we will update items one by one. Ideally there should be a delay between requests
         for (let item of items) {
-            item.price = await helpers.getInventoryItemPrice(item.market_hash_name);
-            if (item.price > 0) {
-                await this.updateInventoryItem(item.assetId, item.price);
+            if (item.marketable) {
+                item.price = await helpers.getInventoryItemPrice(item.market_hash_name);
+                if (item.price > 0) {
+                    await this.updateInventoryItem(item.assetId, item.price);
+                }
+                await helpers.sleep(2500);
             }
-            await helpers.sleep(2500);
         }
 
         console.log('Prices in DB were successfully updated!');
