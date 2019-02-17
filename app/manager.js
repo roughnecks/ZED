@@ -64,10 +64,9 @@ async function processOffer(offer, them) {
                             }
                         });
                     }, 2000);
-
-                    db.insertReceivedItems(offer.itemsToReceive);
-
                 } else { console.log(chalk.yellow('No confirmation needed (donation)')); }
+
+                db.insertReceivedItems(offer.itemsToReceive);
             }
         });
 
