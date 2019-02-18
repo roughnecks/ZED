@@ -79,6 +79,10 @@ zed.manager._steam.on('newComments', function (count, myItems, discussions) {
 //Chat Messages Check
 //This will fire when we receive a chat message from ANY friend
 zed.manager._steam.on('friendMessage', function (steamID, message) {
+    if (message.startsWith('[tradeoffer sender=')) {
+        return;
+    }
+
     zed.manager._steam.getPersonas([steamID], function (err, personas) {
         if (!err) {
             console.log('Friend message from ' + personas[steamID]["player_name"] + ': ' + message);
