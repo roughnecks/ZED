@@ -61,6 +61,10 @@ async function processOffer(offer, them) {
                                 console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
                             } else {
                                 console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
+
+                                if (offer.itemsToReceive.length > 0 && offer.itemsToGive.length > 0) {
+                                    offer.getReceivedItems(async (err, items) => { if (items && items.length > 0) { await db.insertReceivedItems(items); } });
+                                }
                             }
                         });
                     }, 2000);
@@ -70,7 +74,7 @@ async function processOffer(offer, them) {
                     await db.deleteGivenItems(offer.itemsToGive);
                 }
 
-                if (offer.itemsToReceive.length > 0) {
+                if (offer.itemsToReceive.length > 0 && offer.itemsToGive.length === 0) {
                     offer.getReceivedItems(async (err, items) => { if (items && items.length > 0) { await db.insertReceivedItems(items); } });
                 }
             }
