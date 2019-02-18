@@ -49,6 +49,8 @@ async function postComment(donator, donationnum) {
 async function processOffer(offer, them) {
     if (offer.partner.getSteamID64() === config.ownerSteamID64) {
 
+        console.log('items to receive', offer.itemsToReceive);
+
         offer.accept((err, status) => {
             if (err) {
                 console.log(err);
@@ -66,7 +68,7 @@ async function processOffer(offer, them) {
                     }, 2000);
                 } else { console.log(chalk.yellow('No confirmation needed (donation)')); }
 
-                db.insertReceivedItems(offer.itemsToReceive);
+                offer.getReceivedItems((err, items) => { console.log('received items', err, items); if (items && items.length > 0) { db.insertReceivedItems(items); } });
             }
         });
 
@@ -92,7 +94,8 @@ async function processOffer(offer, them) {
                         postComment(them.personaName, offer.itemsToReceive.length);
                     }
 
-                    db.insertReceivedItems(offer.itemsToReceive);
+                    //db.insertReceivedItems(offer.itemsToReceive);
+                    offer.getReceivedItems((err, items) => { if (items && items.length > 0) { db.insertReceivedItems(items); } });
                 }
             });
 
@@ -159,9 +162,11 @@ async function processLottery(offer, them) {
                                 } else {
                                     console.log(chalk.green(`Lottery accepted. Status: ${status}.`));
                                 }
+
+                                offer.getReceivedItems((err, items) => { if (items && items.length > 0) { db.insertReceivedItems(items); } });
                             });
 
-                            await db.insertReceivedItems(offer.itemsToReceive);
+                            //await db.insertReceivedItems(offer.itemsToReceive);
                             lotterySend(offer.partner, itemToGive, itemType);
                         } else {
                             //Random item picked from DB but there was inventory sync error
