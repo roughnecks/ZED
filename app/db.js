@@ -104,6 +104,12 @@ const _db = {
         await this.db.collection('inventory_items').updateOne({ assetId: assetId }, { $set: { price: price } });
     },
 
+    deleteGivenItems: async function (items) {
+        for (let item of items) {
+            await this.deleteInventoryItem(item.assetid);
+        }
+    },
+
     deleteInventoryItem: async function (assetId) {
         await this.db.collection('inventory_items').deleteOne({ assetId: assetId });
     },

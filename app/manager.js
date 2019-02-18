@@ -49,9 +49,7 @@ async function postComment(donator, donationnum) {
 async function processOffer(offer, them) {
     if (offer.partner.getSteamID64() === config.ownerSteamID64) {
 
-        console.log('items to receive', offer.itemsToReceive);
-
-        offer.accept((err, status) => {
+        offer.accept(async (err, status) => {
             if (err) {
                 console.log(err);
             } else {
@@ -68,7 +66,13 @@ async function processOffer(offer, them) {
                     }, 2000);
                 } else { console.log(chalk.yellow('No confirmation needed (donation)')); }
 
-                offer.getReceivedItems((err, items) => { console.log('received items', err, items); if (items && items.length > 0) { db.insertReceivedItems(items); } });
+                if (offer.itemsToGive.length > 0) {
+                    await db.deleteGivenItems(offer.itemsToGive);
+                }
+
+                if (offer.itemsToReceive.length > 0) {
+                    offer.getReceivedItems(async (err, items) => { if (items && items.length > 0) { await db.insertReceivedItems(items); } });
+                }
             }
         });
 
