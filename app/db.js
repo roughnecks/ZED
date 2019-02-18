@@ -67,7 +67,7 @@ const _db = {
         }
     },
 
-    getInvaentoryItem: async function (assetId) {
+    getInventoryItem: async function (assetId) {
         var items = await this.db.collection('inventory_items').find({ assetId: assetId }).toArray();
 
         if (items.length === 1) {
