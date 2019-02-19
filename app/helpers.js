@@ -13,15 +13,19 @@ const utils = {
             return enums.InventoryItemType.Unknown;
         }
 
-        if (tag.internal_name === 'item_class_2') {
-            return enums.InventoryItemType.Card;
-        } else if (tag.internal_name === 'item_class_3') {
-            return enums.InventoryItemType.Background;
-        } else if (tag.internal_name === 'item_class_4') {
-            return enums.InventoryItemType.Emote;
-        } else if (tag.internal_name === 'item_class_5') {
-            return enums.InventoryItemType.Booster;
-        } else {
+        try {
+            if (tag.internal_name === 'item_class_2') {
+                return enums.InventoryItemType.Card;
+            } else if (tag.internal_name === 'item_class_3') {
+                return enums.InventoryItemType.Background;
+            } else if (tag.internal_name === 'item_class_4') {
+                return enums.InventoryItemType.Emote;
+            } else if (tag.internal_name === 'item_class_5') {
+                return enums.InventoryItemType.Booster;
+            } else {
+                return enums.InventoryItemType.Unknown;
+            }
+        } catch {
             return enums.InventoryItemType.Unknown;
         }
     },
