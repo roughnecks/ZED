@@ -86,17 +86,17 @@ const _db = {
             //Save received items to db
             //There is limit for number of requests so we will update items one by one. Ideally there should be a delay between requests
             //But on the other hand the delay shouldn't be too long because we want't user to wait too long
-            for (let el of receivedItems) {
+            for (let item of receivedItems) {
                 //Only cards, boosters, backgrounds and emotes are aloowed for lottery so we don't want to save to DB any other items
                 //Locked items are also excluded
                 if (item.appid === 753 && item.contextid === '6' && helpers.getInventoryItemType(item) !== enums.InventoryItemType.Unknown && !config.lockedItems.some(x => x === item.name)) {
                     await this.insertInventoryItem({
-                        assetId: el.assetid,
-                        name: el.name,
-                        market_hash_name: el.market_hash_name,
-                        type: helpers.getInventoryItemType(el),
-                        marketable: el.marketable,
-                        price: el.marketable ? await helpers.getInventoryItemPrice(el.market_hash_name) : 0
+                        assetId: item.assetid,
+                        name: item.name,
+                        market_hash_name: item.market_hash_name,
+                        type: helpers.getInventoryItemType(item),
+                        marketable: item.marketable,
+                        price: item.marketable ? await helpers.getInventoryItemPrice(item.market_hash_name) : 0
                     });
                     await helpers.sleep(500);
                 }
