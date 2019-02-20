@@ -27,8 +27,9 @@ const chalk = require('chalk');
 async function init() {
     //Logging ON
     console.log("");
-    console.log(chalk.yellow('ZED version: ' + process.env.npm_package_version));
+    console.log(chalk.yellow('ZED version: v' + process.env.npm_package_version));
     console.log(chalk.yellow('node.js version: ' + process.version));
+    console.log("");
 
     //Connect to database
     //If connection fails - exit

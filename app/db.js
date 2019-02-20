@@ -19,7 +19,7 @@ const _db = {
         try {
             // Use connect method to connect to the Server
             await this.client.connect();
-            console.log("Connected successfully to DB Server");
+            console.log(chalk.green("Connected successfully to DB Server"));
 
             this.db = this.client.db('zed');
             return true;
