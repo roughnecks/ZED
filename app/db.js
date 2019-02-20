@@ -6,6 +6,8 @@ const config = require('../config.json');
 const helpers = require('./helpers');
 const enums = require('./enums');
 
+const chalk = require('chalk');
+
 //const InventoryItem = require('./models');
 
 const _db = {
@@ -46,7 +48,7 @@ const _db = {
         var inventory = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
         console.log('Inventory loaded: ' + inventory.length + ' item(s)');
 
-        console.log('Updating prices... This might take a while.');
+        console.log(chalk.yellow('Updating prices... This might take a while.'));
         if (inventory && inventory.length > 0) {
             //filter items that bot owns and are not up for trading
             let reducedInv = inventory.filter(el => !config.lockedItems.some(x => x === el.name));
@@ -73,7 +75,7 @@ const _db = {
         if (items.length === 1) {
             return items[0];
         } else if (items.length > 1) {
-            console.log('Something went wrong: assetId must be unique!');
+            console.log(chalk.red('Something went wrong: assetId must be unique!'));
         }
     },
 
@@ -131,14 +133,14 @@ const _db = {
         if (items.length > 0) {
             return items[0];
         } else {
-            console.log('No items of type ' + enums.InventoryItemType.properties[itemType].name + ' and with price lower or equal to ' + price);
+            console.log(chalk.red('No items of type ' + enums.InventoryItemType.properties[itemType].name + ' and with price lower or equal to ' + price));
         }
     },
 
     updatePricesInDb: async function () {
         var items = await this.db.collection('inventory_items').find().toArray();
 
-        console.log('Updating prices in DB...');
+        console.log(chalk.yellow('Updating prices in DB...'));
 
         //There is limit for number of requests so we will update items one by one. Ideally there should be a delay between requests
         for (let item of items) {
@@ -151,7 +153,7 @@ const _db = {
             }
         }
 
-        console.log('Prices in DB were successfully updated!');
+        console.log(chalk.green('Prices in DB were successfully updated!'));
     }
 };
 

@@ -5,6 +5,8 @@ const enums = require('./enums');
 
 const CEconItem = require('../node_modules/steamcommunity/classes/CEconItem.js');
 
+const chalk = require('chalk');
+
 const utils = {
     getInventoryItemType: function (item) {
         let tag = item.getTag('item_class');
@@ -36,7 +38,7 @@ const utils = {
         var inventory = [];
 
         do {
-            console.log('Loading Inventory - Sending request...');
+            console.log(chalk.yellow('Loading Inventory - Sending request...'));
             try {
                 var response = await axios.get('https://steamcommunity.com/inventory/' + userId64 + '/' + appId + '/' + contextId + '?l=english&count=5000&start_assetid=' + start, {
                     method: 'get',
@@ -55,9 +57,9 @@ const utils = {
                 if (!data || !data.success || !data.assets || !data.descriptions) {
                     if (data) {
                         // Dunno if the error/Error property even exists on this new endpoint
-                        console.log('Malformed response');
+                        console.log(chalk.red('Malformed response'));
                     } else {
-                        console.log('Malformed response');
+                        console.log(chalk.red('Malformed response'));
                     }
 
                     return [];
@@ -83,7 +85,7 @@ const utils = {
             }
             catch (error) {
                 //console.log(error);
-                console.log('Failed to load inventiry.');
+                console.log(chalk.red('Failed to load inventory.'));
                 return [];
             }
         }

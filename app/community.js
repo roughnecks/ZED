@@ -1,19 +1,20 @@
 'use strict';
 
 const zed = require('./main');
+const chalk = require('chalk');
 
 //Session
 zed.manager._community.on('sessionExpired', function (err) {
     if (err) {
-        console.log('Session Expired: ' + err);
+        console.log(chalk.red('Session Expired: ' + err));
     }
 
     if (zed.manager._steam.steamID) {
         zed.manager._steam.webLogOn();
-        console.log('called weblogon: ' + zed.manager._steam.steamID);
+        console.log(chalk.yellow('Called WebLogon'));
     } else {
         zed.manager._steam.logOn(logOnOptions);
-        console.log('called logon');
+        console.log(chalk.yellow('Called Logon'));
     }
 });
 

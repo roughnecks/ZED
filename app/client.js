@@ -55,7 +55,7 @@ zed.manager._steam.on('webSession', (sessionid, cookies) => {
                 }
                 else {
                     console.log(err);
-                    console.log('Adding new friend...');
+                    console.log(chalk.yellow('Adding new friend...'));
                 }
             });
 
@@ -71,7 +71,7 @@ zed.manager._steam.on('webSession', (sessionid, cookies) => {
 //This will fire when we receive a comment
 zed.manager._steam.on('newComments', function (count, myItems, discussions) {
     if (count !== 0) {
-        console.log('New comment(s): ' + count);
+        console.log(chalk.yellow('New comment(s): ' + count));
     }
 });
 
@@ -100,7 +100,7 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
 zed.manager._steam.on('newItems', function (count) {
     if (count !== 0) {
         //zed.manager._steam.chatMessage(ownerSteamID3, 'New Item(s) in my Inventory - Check them out!'); 
-        console.log('New Item(s) in Inventory: ' + count);
+        console.log(chalk.yellow('New Item(s) in Inventory: ' + count));
     }
 });
 

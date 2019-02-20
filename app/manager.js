@@ -36,11 +36,7 @@ manager.on('newOffer', offer => {
 
 //Functions
 async function postComment(donator, donationnum) {
-    //console.log('Taking a break...');
-    //await helpers.sleep(10000);
-    //console.log('Ten seconds later');
 
-    //console.log(`Before Commenting: success = ${success}; donator = ${donator}; donationnum = ${donationnum}`);
     manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Item(s)! :steamhappy:');
     console.log(chalk.green('Comment Posted on Bot\'s Profile'));
 
@@ -89,8 +85,6 @@ async function processOffer(offer, them) {
         console.log('Not a lottery; continue checking if it\'s a donation');
 
         if (offer.itemsToGive.length === 0) {
-
-            //console.log(`donator is: ${donator}`);
 
             offer.accept((err, status) => {
                 if (err) {
@@ -252,7 +246,7 @@ async function lotterySend(partner, itemToGive, itemType) {
         if (err) {
             console.log(err);
         } else {
-            console.log(`Sent offer. Status: ${status}.`);
+            console.log(chalk.yellow(`Sent offer. Status: ${status}.`));
             setTimeout(() => {
                 manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
                     if (err) {
