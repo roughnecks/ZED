@@ -1,6 +1,7 @@
 'use strict';
 
 const zed = require('./main');
+const config = require('../config.json');
 const SteamUser = require('steam-user');
 
 //console colors
@@ -33,17 +34,27 @@ zed.manager._steam.on('loggedOn', function (details) {
 
 //Session
 zed.manager._steam.on('webSession', (sessionid, cookies) => {
-    zed.manager.setCookies(cookies, function (err) {
-        if (err) {
-            console.log(err);
-            process.exit(1); //Exit, if we cannot connect we can't do anything.
-            return;
-        }
-    });
-    zed.manager._community.setCookies(cookies);
-    //startConfirmationChecker is deprecated.
-    //zed.manager._community.startConfirmationChecker(10000, config.identitySecret);
 
+    if (typeof config.familyViewPin === undefined) {
+        zed.manager.setCookies(cookies, function (err) {
+            if (err) {
+                console.log(err);
+                process.exit(1); //Exit, if we cannot connect we can't do anything.
+                return;
+            }
+        });
+        zed.manager._community.setCookies(cookies);
+    } else {
+        zed.manager.setCookies(cookies, config.familyViewPin, function (err) {
+            if (err) {
+                console.log(err);
+                process.exit(1); //Exit, if we cannot connect we can't do anything.
+                return;
+            }
+        });
+        zed.manager._community.setCookies(cookies, config.familyViewPin);
+    }
+    
     //Checking for offline friend requests
     for (let i = 0; i < Object.keys(zed.manager._steam.myFriends).length; i++) {
         if (zed.manager._steam.myFriends[Object.keys(zed.manager._steam.myFriends)[i]] == 2) {
