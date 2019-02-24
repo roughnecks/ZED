@@ -57,6 +57,10 @@ Run `npm install` inside BoT's directory to install all dependencies.
 
 **lockedItems**: This is an array of Items you don't want to be traded by the BoT (maybe you're using them in your profile, like a background).
 
+**familyViewPin**: If your account has Family View enabled, you need to supply your PIN here.
+
+**updatePricesOnStartup**: If you want the bot to update prices for all the Items in its Steam Inventory at startup, set this to true.
+
 **db "connectionString"**: This depends on your MongoDB Configuration - Something like this should work: "mongodb://localhost:27017/zed"
 
 
