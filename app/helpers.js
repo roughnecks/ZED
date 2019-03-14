@@ -94,46 +94,6 @@ const utils = {
         return inventory;
     },
 
-    // A bit of optimization; objects are hash tables so it's more efficient to look up by key than to iterate an array
-    quickDescriptionLookup: {},
-
-    getDescription: function (descriptions, classID, instanceID) {
-        var key = classID + '_' + (instanceID || '0'); // instanceID can be undefined, in which case it's 0.
-
-        if (this.quickDescriptionLookup[key]) {
-            return this.quickDescriptionLookup[key];
-        }
-
-        for (var i = 0; i < descriptions.length; i++) {
-            this.quickDescriptionLookup[descriptions[i].classid + '_' + (descriptions[i].instanceid || '0')] = descriptions[i];
-        }
-
-        return this.quickDescriptionLookup[key];
-    },
-
-    getInventoryItemPrice: async function (market_hash_name) {
-        //euro
-        //https://steamcommunity.com/market/priceoverview/?appid=753&country=IT&currency=3&market_hash_name=312790-Yumil
-        //{"success":true,"lowest_price":"0,08\u20ac","volume":"1","median_price":"0,07\u20ac"}
-
-        //usd
-        //https://steamcommunity.com/market/priceoverview/?appid=753&country=IT&currency=1&market_hash_name=312790-Yumil
-        //{"success":true,"lowest_price":"$0.09 USD","volume":"1","median_price":"$0.07 USD"}
-
-        var url = 'https://steamcommunity.com/market/priceoverview/?appid=753&country=IT&currency=1&market_hash_name=' + market_hash_name;
-
-        try {
-            var response = await axios.get(url);
-            var data = response.data;
-
-            return parseFloat(data.lowest_price.replace('$', '').replace(' USD', ''));
-        }
-        catch (error) {
-            //console.log(error);
-            return 0;
-        }
-    },
-
     sleep: function (ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }

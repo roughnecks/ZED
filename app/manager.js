@@ -9,7 +9,6 @@ const chalk = require('chalk');
 
 const helpers = require('./helpers');
 const enums = require('./enums');
-const db = require('./db');
 const config = require('../config.json');
 
 const manager = new TradeOfferManager({
@@ -57,22 +56,10 @@ async function processOffer(offer, them) {
                                 console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
                             } else {
                                 console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
-
-                                if (offer.itemsToReceive.length > 0 && offer.itemsToGive.length > 0) {
-                                    offer.getReceivedItems(async (err, items) => { if (items && items.length > 0) { await db.insertReceivedItems(items); } });
-                                }
                             }
                         });
                     }, 2000);
                 } else { console.log(chalk.yellow('No confirmation needed (donation)')); }
-
-                if (offer.itemsToGive.length > 0) {
-                    await db.deleteGivenItems(offer.itemsToGive);
-                }
-
-                if (offer.itemsToReceive.length > 0 && offer.itemsToGive.length === 0) {
-                    offer.getReceivedItems(async (err, items) => { if (items && items.length > 0) { await db.insertReceivedItems(items); } });
-                }
             }
         });
 
@@ -96,9 +83,6 @@ async function processOffer(offer, them) {
                     if (offer.itemsToReceive.length > 4) {
                         postComment(them.personaName, offer.itemsToReceive.length);
                     }
-
-                    //db.insertReceivedItems(offer.itemsToReceive);
-                    offer.getReceivedItems((err, items) => { if (items && items.length > 0) { db.insertReceivedItems(items); } });
                 }
             });
 
@@ -132,80 +116,77 @@ async function processLottery(offer, them) {
 
     } else {
 
-        if (offer.itemsToGive.length === 0
-            && offer.itemsToReceive.length === 1
-            && offer.itemsToReceive[0].appid === 753
-            && offer.itemsToReceive[0].contextid === '6'
-            && offer.itemsToReceive[0].amount === 1
-            && offer.itemsToReceive[0].type !== 'Steam Gems') {
+        if (offer.itemsToGive.length === 0 &&
+            offer.itemsToReceive.length === 1 &&
+            offer.itemsToReceive[0].appid === 753 &&
+            offer.itemsToReceive[0].contextid === '6' &&
+            offer.itemsToReceive[0].amount === 1 &&
+            offer.itemsToReceive[0].type !== 'Steam Gems') {
 
             var itemType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
 
             if (itemType !== enums.InventoryItemType.Unknown) {
 
-                var newItemPrice = 0;
-                if (offer.itemsToReceive[0].marketable) {
-                    newItemPrice = await helpers.getInventoryItemPrice(offer.itemsToReceive[0].market_hash_name);
-                }
+                //console.log('itemtype= ' + itemType);
+                
+                console.log(chalk.green('Lottery is good to go'));
 
-                var randomItem;
-                if (newItemPrice > 0 || !offer.itemsToReceive[0].marketable) {
-                    randomItem = await db.getRandomInventoryItem(itemType, offer.itemsToReceive[0].marketable, newItemPrice);
-
-                    if (randomItem) {
-                        var inventory = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
-                        const itemToGive = inventory.find(x => x.assetid === randomItem.assetId);
-
-                        if (itemToGive) {
-                            console.log(chalk.green('Lottery is good to go'));
-
-                            offer.accept((err, status) => {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    console.log(chalk.green(`Lottery accepted. Status: ${status}.`));
-                                }
-
-                                offer.getReceivedItems((err, items) => { if (items && items.length > 0) { db.insertReceivedItems(items); } });
-                            });
-
-                            //await db.insertReceivedItems(offer.itemsToReceive);
-                            lotterySend(offer.partner, itemToGive, itemType);
-                        } else {
-                            //Random item picked from DB but there was inventory sync error
-                            offer.decline(err => {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    console.log(chalk.red('Offer declined (No items of correcsponding price found).'));
-                                    //TODO: write "normal" message
-                                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (No items of correcsponding price found).');
-                                }
-                            });
-                        }
+                offer.accept((err, status) => {
+                    if (err) {
+                        console.log(err);
                     } else {
-                        //No random item found
-                        offer.decline(err => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log(chalk.red('Offer declined (No items of correcsponding price found).'));
-                                //TODO: write "normal" message
-                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (No items of correcsponding price found).');
-                            }
-                        });
+                        console.log(chalk.green(`Lottery accepted. Status: ${status}.`));
                     }
-                } else {
-                    offer.decline(err => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log(chalk.red('Offer declined (There was an error while getting items price).'));
-                            //TODO: write "normal" message
-                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined (There was an error while getting items price).');
+
+                });
+
+                var inventory = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
+                //console.log(inventory);
+                //return;
+
+                const reducedInv = inventory.filter(function (element) {
+
+                    for (var i in config.lockedItems) {
+                        return (element.name != config.lockedItems[i]);
+                    }
+    
+                });
+
+                //create new array with just 1 type of items (cards - bgs - emotes -boosters)
+                var filteredInv = new Array();
+                reducedInv.forEach(element => {
+                    if (itemType == 2) {
+                        let tag;
+                        if ((tag = element.getTag('item_class')) && tag.internal_name == 'item_class_2') {
+                            //console.log(tag) 
+                            filteredInv.push(element);
                         }
-                    });
-                }
+                    } else if (itemType == 3) {
+                        let tag;
+                        if ((tag = element.getTag('item_class')) && tag.internal_name == 'item_class_3') {
+                            //console.log(tag) 
+                            filteredInv.push(element);
+                        }
+                    } else if (itemType == 4) {
+                        let tag;
+                        if ((tag = element.getTag('item_class')) && tag.internal_name == 'item_class_4') {
+                            //console.log(tag) 
+                            filteredInv.push(element);
+                        }
+                    } else if (itemType == 5) {
+                        let tag;
+                        if ((tag = element.getTag('item_class')) && tag.internal_name == 'item_class_5') {
+                            //console.log(tag) 
+                            filteredInv.push(element);
+                        }
+                    }
+                });
+
+                const itemToGive = filteredInv[Math.floor(Math.random() * filteredInv.length - 1)];
+                //console.log(itemToGive);
+
+                lotterySend(offer.partner, itemToGive, itemType);
+
             } else {
                 offer.decline(err => {
                     if (err) {
@@ -216,17 +197,7 @@ async function processLottery(offer, them) {
                     }
                 });
             }
-        } else {
-            offer.decline(err => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(chalk.red('Offer declined (Bad Item Type or Number).'));
-                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'You sent more than 1 item, asked for any of my items or sent an item which is not supported by lottery; valid types are "Cards-BGs-Emotes-Boosters"');
-                }
-            });
         }
-
     }
 }
 
@@ -256,8 +227,6 @@ async function lotterySend(partner, itemToGive, itemType) {
                     }
                 });
             }, 2000);
-
-            db.deleteInventoryItem(itemToGive.assetid);
         }
     });
 }

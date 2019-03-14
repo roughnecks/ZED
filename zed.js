@@ -31,18 +31,6 @@ async function init() {
     console.log(chalk.yellow('node.js version: ' + process.version));
     console.log("");
 
-    //Connect to database
-    //If connection fails - exit
-    if (!await zed.db.connect()) {
-        process.exit(1);
-        return false;
-    }
-
-    //process.on('exit', function () { zed.db.disconnect(); });
-
-    //Check for inventory items in DB and parse them if DB is empty
-    await zed.db.checkData();
-
     //Everything ready, now we can logon
     zed.manager._steam.logOn(zed.config.logOnOptions);
 }

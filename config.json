@@ -9,9 +9,5 @@
   "botSteamID3": "",
   "customGame": "",
   "lockedItems": [],
-  "familyViewPin": "",
-  "updatePricesOnStartup": false,
-  "db": {
-    "connectionString": ""
-  }
+  "familyViewPin": ""
 }

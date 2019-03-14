@@ -7,11 +7,9 @@ const SteamTotp = require('steam-totp');
 
 const config = require('../config.json');
 const manager = require('./manager');
-const db = require('./db');
 
 const zed = {
     manager: manager,
-    db: db,
     config: {
         identitySecret: config.identitySecret,
         ownerSteamID64: config.ownerSteamID64,
