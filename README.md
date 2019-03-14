@@ -18,14 +18,12 @@ The following is a list of functions that ZED provides at the moment:
 ## Required software
 
 * Node.js (Recommended: Latest LTS Version: 10.15.1 (includes npm 6.4.1))
-* MongoDB Server (https://www.mongodb.com/download-center/community)
 
 ## Required npm modules (dependencies)
 
 * axios
 * chalk
 * console-stamp
-* mongodb
 * steam-totp
 * steam-tradeoffer-manager
 * steam-user
@@ -58,11 +56,6 @@ Run `npm install` inside BoT's directory to install all dependencies.
 `lockedItems`: This is an array of Items you don't want to be traded by the BoT (maybe you're using them in your profile, like a background).
 
 `familyViewPin`: If your account has Family View enabled, you need to supply your PIN here.
-
-`updatePricesOnStartup`: If you want the bot to update prices for all the Items in its Steam Inventory at startup, set this to true.
-
-`db "connectionString"`: This depends on your MongoDB Configuration - Something like this should work: "mongodb://localhost:27017/zed"
-
 
 [1] Shared/Identity secrets must be extracted from your Two Factor Authenticator App, so it's always a different process depending on which device
 you're actually using: iPhone - Android - 3rd Party Desktop App like WinAuth etc...
