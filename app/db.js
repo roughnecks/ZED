@@ -149,7 +149,7 @@ const _db = {
                 if (item.price > 0) {
                     await this.updateInventoryItem(item.assetId, item.price);
                 }
-                await helpers.sleep(2500);
+                await helpers.sleep(5000);
             }
         }
 
