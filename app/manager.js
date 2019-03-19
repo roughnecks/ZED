@@ -114,7 +114,7 @@ async function processOffer(offer, them) {
             });
             */
 
-            manager._steam.chatMessage(ownerSteamID3, 'New Trade Offer asking for our Items');
+            manager._steam.chatMessage(config.ownerSteamID3, 'New Trade Offer asking for our Items');
         }
     }
 }
