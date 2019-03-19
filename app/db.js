@@ -46,7 +46,7 @@ const _db = {
     initInventoryItems: async function () {
         console.log('Trying to load inventory');
         var inventory = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
-        console.log('Inventory loaded: ' + inventory.length + ' item(s)');
+        console.log(chalk.green('Inventory loaded: ' + inventory.length + ' item(s)'));
 
         console.log(chalk.yellow('Updating prices... This might take a while.'));
         if (inventory && inventory.length > 0) {
