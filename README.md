@@ -1,4 +1,4 @@
-# ZED
+# ZED - No DB Needed (but no price checks for lottery)
 
 **_Steam Trading BoT | Handles Trade Offers and Friends Invites_**
 
