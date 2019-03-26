@@ -11,6 +11,7 @@
   "lockedItems": [],
   "familyViewPin": "",
   "updatePricesOnStartup": false,
+  "syncInventoryWithDbOnStartup": true,
   "db": {
     "connectionString": ""
   }

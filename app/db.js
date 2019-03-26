@@ -37,9 +37,16 @@ const _db = {
     checkData: async function () {
         if (await this.db.collection('inventory_items').countDocuments() === 0) {
             await this.initInventoryItems();
-        } else if (config.updatePricesOnStartup) {
-            console.log('updatePricesOnStartup is set to true. Prices will be updated in background.');
-            this.updatePricesInDb();
+        } else {
+            if (config.syncInventoryWithDbOnStartup) {
+                console.log('syncInventoryWithDbOnStartup is set to true. Inventory will be synced with DB.');
+                await this.syncInventoryWithDb();
+            }
+
+            if (config.updatePricesOnStartup) {
+                console.log('updatePricesOnStartup is set to true. Prices will be updated in background.');
+                this.updatePricesInDb();
+            }
         }
     },
 
@@ -56,14 +63,7 @@ const _db = {
             //save tradable items to db
             //There is limit for number of requests so we will update items one by one. Ideally there should be a delay between requests
             for (let el of reducedInv) {
-                await this.insertInventoryItem({
-                    assetId: el.assetid,
-                    name: el.name,
-                    market_hash_name: el.market_hash_name,
-                    type: helpers.getInventoryItemType(el),
-                    marketable: el.marketable,
-                    price: el.marketable ? await helpers.getInventoryItemPrice(el.market_hash_name) : 0
-                });
+                await this.insertInventoryItem(el);
                 await helpers.sleep(2500);
             }
         }
@@ -80,7 +80,15 @@ const _db = {
     },
 
     insertInventoryItem: async function (item) {
-        await this.db.collection('inventory_items').insertOne(item);
+        var dbItem = {
+            assetId: item.assetid,
+            name: item.name,
+            market_hash_name: item.market_hash_name,
+            type: helpers.getInventoryItemType(item),
+            marketable: item.marketable,
+            price: item.marketable ? await helpers.getInventoryItemPrice(item.market_hash_name) : 0
+        };
+        await this.db.collection('inventory_items').insertOne(dbItem);
     },
 
     insertReceivedItems: async function (receivedItems) {
@@ -92,14 +100,7 @@ const _db = {
                 //Only cards, boosters, backgrounds and emotes are aloowed for lottery so we don't want to save to DB any other items
                 //Locked items are also excluded
                 if (item.appid === 753 && item.contextid === '6' && helpers.getInventoryItemType(item) !== enums.InventoryItemType.Unknown && !config.lockedItems.some(x => x === item.name)) {
-                    await this.insertInventoryItem({
-                        assetId: item.assetid,
-                        name: item.name,
-                        market_hash_name: item.market_hash_name,
-                        type: helpers.getInventoryItemType(item),
-                        marketable: item.marketable,
-                        price: item.marketable ? await helpers.getInventoryItemPrice(item.market_hash_name) : 0
-                    });
+                    await this.insertInventoryItem(item);
                     await helpers.sleep(500);
                 }
             }
@@ -154,6 +155,27 @@ const _db = {
         }
 
         console.log(chalk.green('Prices in DB were successfully updated!'));
+    },
+
+    syncInventoryWithDb: async function () {
+        console.log('Trying to load inventory');
+        var inventoryItems = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
+        console.log(chalk.green('Inventory loaded: ' + inventory.length + ' item(s)'));
+
+        console.log(chalk.yellow('Syncing inventory with DB...'));
+
+        var itemsAdded = 0;
+
+        for (let inventoryItem in inventoryItems) {
+            var dbItemsCount = await this.db.collection('inventory_items').find({ assetId: assetId }).countDocuments();
+            if (dbItemsCount === 0) {
+                await this.insertInventoryItem(inventoryItem);
+                await helpers.sleep(2500);
+                itemsAdded++;
+            }
+        }
+
+        console.log(chalk.green('Syncing complete. ' + itemsAdded + ' item(s) added.'));
     }
 };
 

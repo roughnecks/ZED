@@ -27,7 +27,7 @@ const utils = {
             } else {
                 return enums.InventoryItemType.Unknown;
             }
-        } catch {
+        } catch (e) {
             return enums.InventoryItemType.Unknown;
         }
     },
