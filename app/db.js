@@ -167,7 +167,7 @@ const _db = {
         var itemsAdded = 0;
 
         for (let inventoryItem in inventoryItems) {
-            var dbItemsCount = await this.db.collection('inventory_items').find({ assetId: inventoryItem.assetId }).countDocuments();
+            var dbItemsCount = await this.db.collection('inventory_items').find({ assetId: inventoryItem.assetId }).count();
             if (dbItemsCount === 0) {
                 await this.insertInventoryItem(inventoryItem);
                 await helpers.sleep(2500);
