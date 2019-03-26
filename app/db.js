@@ -160,7 +160,7 @@ const _db = {
     syncInventoryWithDb: async function () {
         console.log('Trying to load inventory');
         var inventoryItems = await helpers.loadInventory(config.botSteamID64, 753, 6, true);
-        console.log(chalk.green('Inventory loaded: ' + inventory.length + ' item(s)'));
+        console.log(chalk.green('Inventory loaded: ' + inventoryItems.length + ' item(s)'));
 
         console.log(chalk.yellow('Syncing inventory with DB...'));
 
