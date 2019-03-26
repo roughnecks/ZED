@@ -158,6 +158,7 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
     else if (message === "!sync" && steamID.getSteamID64() === zed.config.ownerSteamID64) {
         console.log('!sync request received.');
         zed.db.syncInventoryWithDb();
+        zed.manager._steam.chatMessage(steamID, 'On it. Check your console');
     }
     else {
         zed.manager._steam.chatMessage(steamID, 'I don\'t understand any other command but "!help", "!sign" and "!lottery" (so far).');
