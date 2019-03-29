@@ -1,6 +1,6 @@
 {
   "name": "zed",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "SteamBot | Handles Trade Offers and Friends Invites",
   "main": "zed.js",
   "author": {
