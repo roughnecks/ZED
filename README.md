@@ -61,6 +61,8 @@ Run `npm install` inside BoT's directory to install all dependencies.
 
 `updatePricesOnStartup`: If you want the bot to update prices for all the Items in its Steam Inventory at startup, set this to true.
 
+`syncInventoryWithDbOnStartup`: Update DB entries syncing them with bot's Inventory (you can also sync manually with Admin-Only "!sync" command).
+
 `db "connectionString"`: This depends on your MongoDB Configuration - Something like this should work: "mongodb://localhost:27017/zed"
 
 
@@ -70,3 +72,13 @@ you're actually using: iPhone - Android - 3rd Party Desktop App like WinAuth etc
 ## Starting the BoT
 
 `npm start`
+
+## Commands
+
+### Public
+
+`!help`: You'll get a list of all public commands.
+
+### Admin-Only
+
+`!sync`: Sync DB and Inventory Items manually.
