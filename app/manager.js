@@ -116,6 +116,7 @@ async function processOffer(offer, them) {
 
             manager._steam.chatMessage(config.ownerSteamID3, 'New Trade Offer asking for our Items');
             console.log(chalk.yellow('New Trade Offer asking for our Items'));
+            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer received. Please wait for my master to check that out.');
         }
     }
 }
