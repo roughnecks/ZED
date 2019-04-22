@@ -112,6 +112,7 @@ zed.manager._steam.on('newItems', function (count) {
     if (count !== 0) {
         //zed.manager._steam.chatMessage(ownerSteamID3, 'New Item(s) in my Inventory - Check them out!'); 
         console.log(chalk.yellow('New Item(s) in Inventory: ' + count));
+        zed.db.syncInventoryWithDb();
     }
 });
 
