@@ -120,7 +120,7 @@ const utils = {
         //https://steamcommunity.com/market/priceoverview/?appid=753&country=IT&currency=1&market_hash_name=312790-Yumil
         //{"success":true,"lowest_price":"$0.09 USD","volume":"1","median_price":"$0.07 USD"}
 
-        var url = 'https://steamcommunity.com/market/priceoverview/?appid=753&country=IT&currency=1&market_hash_name=' + market_hash_name;
+        var url = 'https://steamcommunity.com/market/priceoverview/?appid=753&country=IT&currency=1&market_hash_name=' + encodeURIComponent(market_hash_name);
 
         try {
             var response = await axios.get(url);
