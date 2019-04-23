@@ -76,7 +76,7 @@ async function processOffer(offer, them) {
             }
         });
 
-    } else if (offer.message === 'lottery') {
+    } else if (offer.message.toUpperCase() === 'LOTTERY') {
 
         await processLottery(offer, them);
 
