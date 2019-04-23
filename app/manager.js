@@ -41,57 +41,31 @@ async function postComment(donator, donationnum) {
 
 async function processOffer(offer, them) {
 
-    if (offer.partner.getSteamID64() === config.ownerSteamID64) {
+    if (offer.itemsToGive.length === 0) {
 
-        offer.accept(async (err, status) => {
+        offer.accept((err, status) => {
             if (err) {
                 console.log(err);
             } else {
-                console.log(chalk.green(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
-                if (offer.itemsToGive.length > 0) {
-                    setTimeout(() => {
-                        manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
-                            if (err) {
-                                console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
-                            } else {
-                                console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
-                            }
-                        });
-                    }, 2000);
-                } else { console.log(chalk.yellow('No confirmation needed (donation)')); }
+                console.log(chalk.green(`Donation accepted. Status: ${status}.`));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
+
+                if (offer.itemsToReceive.length > 4) {
+                    postComment(them.personaName, offer.itemsToReceive.length);
+                }
             }
         });
 
     } else {
 
-        console.log('Not my master; continue checking if it\'s a donation');
-
-        if (offer.itemsToGive.length === 0) {
-
-            offer.accept((err, status) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(chalk.green(`Donation accepted. Status: ${status}.`));
-                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
-
-                    if (offer.itemsToReceive.length > 4) {
-                        postComment(them.personaName, offer.itemsToReceive.length);
-                    }
-                }
-            });
-
-        } else {
-
-            offer.decline(err => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(chalk.red('Offer declined (wanted our items).'));
-                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'I\'m only accepting donations. Sorry');
-                }
-            });
-        }
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined (wanted our items).'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'I\'m only accepting donations. Sorry');
+            }
+        });
     }
 }
 
