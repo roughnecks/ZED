@@ -1,5 +1,15 @@
 # ZED
 
+## Branches explained
+
+* master: always current.
+* development: new code which will hopefully end up in master.
+* nodb: this bot instance doesn't use Mongo DB so it doesn't do price checking for lotteries.
+* donation-only: this bot instance only accepts all donations and all kind of offers from bot's owner (doesn't use Mongo DB and doesn't do lotteries).
+* donation-only-without-2FA: this bot instance only accepts donations (no item loss) and doesn't use Mobile AUth (doesn't use Mongo DB and doesn't do lotteries).
+
+***
+
 **_Steam Trading BoT | Handles Trade Offers and Friends Invites_**
 
 The following is a list of functions that ZED provides at the moment:
