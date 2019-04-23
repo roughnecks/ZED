@@ -19,7 +19,6 @@ The following is a list of functions that ZED provides at the moment:
 
 ## Required npm modules (dependencies)
 
-* axios
 * chalk
 * console-stamp
 * steam-totp
