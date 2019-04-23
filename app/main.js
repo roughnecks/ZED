@@ -18,8 +18,6 @@ const zed = {
         botSteamID3: config.botSteamID3,
         customGame: config.customGame,
         pin: config.familyViewPin,        
-        //Items that bot owns and are not up for trading
-        lockedItems: config.lockedItems,
         logOnOptions: {
             accountName: config.username,
             password: config.password,

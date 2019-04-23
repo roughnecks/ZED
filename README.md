@@ -1,4 +1,4 @@
-# ZED - No DB Needed (but no price checks for lottery)
+# ZED - Donation Only BoT
 
 **_Steam Trading BoT | Handles Trade Offers and Friends Invites_**
 
@@ -12,8 +12,6 @@ The following is a list of functions that ZED provides at the moment:
 * New items check (logs to console when our inventory has new items).
 * Chat messages check (logs to console when bot receives a chat message).
 * Notifications check (logs to console if any new comment is available).
-* Lottery: Send any 1 Trading Card, Background, Emoticon or Booster Pack to the BoT and it will send you back a random Item of the same type (card for card, emote for emote etc...).
-
 
 ## Required software
 
@@ -52,8 +50,6 @@ Run `npm install` inside BoT's directory to install all dependencies.
 `botSteamID3`: See Above
 
 `customGame`: This is Non-Steam Game Played by the BoT - Something like "Trash BoT - Accepting Junk" or whatever you want.
-
-`lockedItems`: This is an array of Items you don't want to be traded by the BoT (maybe you're using them in your profile, like a background).
 
 `familyViewPin`: If your account has Family View enabled, you need to supply your PIN here.
 
