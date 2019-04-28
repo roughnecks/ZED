@@ -6,11 +6,11 @@
 * development: new code which will hopefully end up in master.
 * nodb: this bot instance doesn't use Mongo DB so it doesn't do price checking for lotteries.
 * donation-only: this bot instance only accepts all donations and all kind of offers from bot's owner (doesn't use Mongo DB and doesn't do lotteries).
-* donation-only-without-2FA: this bot instance only accepts donations (no item loss) and doesn't use Mobile AUth (doesn't use Mongo DB and doesn't do lotteries).
+* donation-only-without-2FA: this bot instance only accepts donations (no item loss) and doesn't use Mobile Auth (doesn't use Mongo DB and doesn't do lotteries).
 
 ***
 
-**_Steam Trading BoT | Handles Trade Offers and Friends Invites_**
+**_Steam Trading/CHAT BoT | Handles Trade Offers, Friends Invites and Group CHATs_**
 
 The following is a list of functions that ZED provides at the moment:
 
@@ -23,6 +23,7 @@ The following is a list of functions that ZED provides at the moment:
 * Chat messages check (logs to console when bot receives a chat message).
 * Notifications check (logs to console if any new comment is available).
 * Lottery: Send any 1 Trading Card, Background, Emoticon or Booster Pack to the BoT and it will send you back a random Item of the same type (card for card, emote for emote etc...).
+* Group CHAT: Join the BoT to any Group CHAT manually or via config file and start using commands (WIP).
 
 
 ## Required software
@@ -36,6 +37,7 @@ The following is a list of functions that ZED provides at the moment:
 * chalk
 * console-stamp
 * mongodb
+* request
 * steam-totp
 * steam-tradeoffer-manager
 * steam-user
@@ -51,7 +53,7 @@ Run `npm install` inside BoT's directory to install all dependencies.
 
 `password`: bot's Steam Account Password
 
-`sharedSecret`: You might be wondering where to find the shared/identity secret and there are actually many tutorials depending on your device [1]
+`sharedSecret`: You might be wondering where to find the shared/identity secret and there are actually many tutorials depending on your device. [1]
 
 `identitySecret`: Same as above.
 
@@ -63,6 +65,8 @@ Run `npm install` inside BoT's directory to install all dependencies.
 
 `botSteamID3`: See Above
 
+`ClanChatGroupID`: Your Group's ID64 to have the BoT automatically join it. [2]
+
 `customGame`: This is Non-Steam Game Played by the BoT - Something like "Trash BoT - Accepting Junk" or whatever you want.
 
 `lockedItems`: This is an array of Items you don't want to be traded by the BoT (maybe you're using them in your profile, like a background).
@@ -73,11 +77,16 @@ Run `npm install` inside BoT's directory to install all dependencies.
 
 `syncInventoryWithDbOnStartup`: Update DB entries syncing them with bot's Inventory (you can also sync manually with Admin-Only "!sync" command).
 
-`db "connectionString"`: This depends on your MongoDB Configuration - Something like this should work: "mongodb://localhost:27017/zed"
+`openweathermapAPI`: Not mandatory but "!weather" command won't work without it. If you want to get one for free, visit: "https://openweathermap.org/api".
+
+`steamAPI`: Not mandatory but "!tf2" command won't work without it. You can get yours for free by visiting "https://steamcommunity.com/dev/apikey".
+
+`db "connectionString"`: This depends on your MongoDB Configuration - Something like this should work: "mongodb://localhost:27017/zed".
 
 
 [1] Shared/Identity secrets must be extracted from your Two Factor Authenticator App, so it's always a different process depending on which device
 you're actually using: iPhone - Android - 3rd Party Desktop App like WinAuth etc...
+[2] You can check steamID of your group by navigating to its page, then adding /memberslistxml?xml=1 to the end of the link, so the link will look like this: "https://steamcommunity.com/groups/wrongditch/memberslistxml?xml=1". Then you can get steamID of your group from the result, it's in <groupID64> tag.
 
 ## Starting the BoT
 
@@ -92,3 +101,12 @@ you're actually using: iPhone - Android - 3rd Party Desktop App like WinAuth etc
 ### Admin-Only
 
 `!sync`: Sync DB and Inventory Items manually.
+
+## Group CHAT Commands
+
+`!help` || `!commands`: You'll get a list of all commands.
+
+### Featured Commands
+
+`!weather <city> <unit of measure>`: Query "openweathermaps" to get weather info for chosen city in Metric or Imperial units.
+`!tf2 <class>`: Get personal Team Fortress 2 Stats for chosen class.

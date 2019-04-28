@@ -7,11 +7,14 @@
   "ownerSteamID3": "",
   "botSteamID64": "",
   "botSteamID3": "",
+  "ClanChatGroupID": "",
   "customGame": "",
   "lockedItems": [],
   "familyViewPin": "",
   "updatePricesOnStartup": false,
   "syncInventoryWithDbOnStartup": true,
+  "openweathermapAPI": "",
+  "steamAPI": "",
   "db": {
     "connectionString": ""
   }
