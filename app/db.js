@@ -221,14 +221,22 @@ const _db = {
             groupID: groupID,
             chatID: chatID
         };
-        var res = await this.db.collection('quotes').insertOne(dbItem);
-        return res.insertedId;
+
+        try {
+            var res = await this.db.collection('quotes').insertOne(dbItem);
+            return res.insertedId;
+        } catch (e) {
+            console.error(e);
+        }
     },
 
     deleteQuote: async function (quoteNum) {
-
-        var res = await this.db.collection('quotes').deleteOne({ "_id": quoteNum });
-        return res.deletedCount;
+        try {
+            var res = await this.db.collection('quotes').deleteOne({ "_id": quoteNum });
+            return res.deletedCount;
+        } catch (e) {
+            console.error(e);
+        }
     }
 };
 

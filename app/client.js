@@ -6,6 +6,7 @@ const SteamUser = require('steam-user');
 const db = require('./db');
 const chalk = require('chalk');
 const request = require('request');
+const Tf2Stats = require('./models/Tf2Stats');
 
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
@@ -280,11 +281,16 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             quoteNum = Number(quoteNum);
             if ( isNaN(quoteNum) || (quoteNum === 0) ) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
+                return;
             }                
             var deletion = await db.deleteQuote(quoteNum);
-            if (deletion == 1) {
-            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " deleted.");
-            } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not found");}
+            if (typeof deletion !== 'undefined') {
+                if (deletion === 1) {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " deleted.");
+                } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not found"); }
+            } else {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't deleted :(");
+            }
         }
     }
 }
@@ -330,7 +336,7 @@ async function checkWeather(city, units, groupID, chatID) {
             }
         });
     } else {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No API Key defined in config file, aborting.")
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No API Key defined in config file, aborting.");
         return;
     }
 }
@@ -353,127 +359,16 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
             } else {
                 //console.log(response.statusCode);
 
-                if (response.statusCode == 500) {
+                var tf2Stats = new Tf2Stats();
+
+                if (response.statusCode === 500) {
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
                     return;
-                } else if (response.statusCode == 200) {
+                } else if (response.statusCode === 200) {
                     let output = JSON.parse(body);
                     //console.log(JSON.stringify(output))
 
-                    var accumBuild, maxBuild, accumDam, maxDam, accumDom, maxDom, accumKAss, maxKAss, accumKills, maxKills, accHours, maxMins, maxSecs, accumCap, maxCap, accumDef, maxDef, accumPoints, maxPoints, accumRev, maxRev, accumBack, maxBack, accumLeach, maxLeach, accumBuilt, maxBuilt, accumTel, maxTel, maxSentry, accumHeadS, maxHeadS, accumHeal, maxHeal, accumInvul, maxInvul;
-                    accumBuild = maxBuild = accumDam = maxDam = accumDom = maxDom = accumKAss = maxKAss = accumKills = maxKills = accHours = maxMins = maxSecs = accumCap = maxCap = accumDef = maxDef = accumPoints = maxPoints = accumRev = maxRev = accumBack = maxBack = accumLeach = maxLeach = accumBuilt = maxBuilt = accumTel = maxTel = maxSentry = accumHeadS = maxHeadS = accumHeal = maxHeal = accumInvul = maxInvul = "-";
-
-                    var stats = output.playerstats.stats;
-                    for (var i = 0; i < stats.length; i++) {
-                        if (stats[i].name == tf2classCapitalized + ".accum.iBuildingsDestroyed") {
-                            accumBuild = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iBuildingsDestroyed") {
-                            maxBuild = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iDamageDealt") {
-                            accumDam = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iDamageDealt") {
-                            maxDam = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iDominations") {
-                            accumDom = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iDominations") {
-                            maxDom = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iKillAssists") {
-                            accumKAss = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iKillAssists") {
-                            maxKAss = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iNumberOfKills") {
-                            accumKills = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iNumberOfKills") {
-                            maxKills = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iPlayTime") {
-                            var accumTime = stats[i].value;
-                            accHours = Math.round(accumTime * 100 / 3600) / 100;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iPlayTime") {
-                            var maxTime = stats[i].value;
-                            maxMins = Math.floor(maxTime / 60);
-                            maxSecs = maxTime - maxMins * 60;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iPointCaptures") {
-                            accumCap = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iPointCaptures") {
-                            maxCap = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iPointDefenses") {
-                            accumDef = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iPointDefenses") {
-                            maxDef = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iPointsScored") {
-                            accumPoints = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iPointsScored") {
-                            maxPoints = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iRevenge") {
-                            accumRev = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iRevenge") {
-                            maxRev = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iBackstabs") {
-                            accumBack = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iBackstabs") {
-                            maxBack = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iHealthPointsLeached") {
-                            accumLeach = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iHealthPointsLeached") {
-                            maxLeach = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iBuildingsBuilt") {
-                            accumBuilt = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iBuildingsBuilt") {
-                            maxBuilt = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iNumTeleports") {
-                            accumTel = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iNumTeleports") {
-                            maxTel = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iSentryKills") {
-                            maxSentry = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iHeadshots") {
-                            accumHeadS = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iHeadshots") {
-                            maxHeadS = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iHealthPointsHealed") {
-                            accumHeal = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iHealthPointsHealed") {
-                            maxHeal = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".accum.iNumInvulnerable") {
-                            accumInvul = stats[i].value;
-                        }
-                        else if (stats[i].name == tf2classCapitalized + ".max.iNumInvulnerable") {
-                            maxInvul = stats[i].value;
-                        }
-                    }
+                    tf2Stats.setStatsValues(tf2classCapitalized, output.playerstats.stats);
                 } else {
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Unknown Error");
                     console.log('Response Status Code = ' + response.statusCode);
@@ -481,47 +376,11 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
                     return;
                 }
 
-                let result = ":sticky:" + `${tf2classCapitalized} Stats for Player "${player}":` + "\n" + "\n" 
-                + "Total Playtime / Longest Life: " + `${accHours}hrs` + " / " + `${maxMins}:${maxSecs}mins` + "\n"
-                + "Total / Most Points: " + accumPoints + " / " + maxPoints + "\n"
-                + "Total / Most Kills: " + accumKills + " / " + maxKills + "\n"
-                + "Total / Most Damage Dealt: " + accumDam + " / " + maxDam + "\n"
-                + "Total / Most Kill Assists: " + accumKAss + " / " + maxKAss + "\n"
-                + "Total / Most Dominations: " + accumDom + " / " + maxDom + "\n"
-                + "Total / Most Revenges: " + accumRev + " / " + maxRev + "\n"
-                + "Total / Most Buildings Destroyed: " + accumBuild + " / " + maxBuild + "\n"
-                + "Total / Most Captures: " + accumCap + " / " + maxCap + "\n"
-                + "Total / Most Defenses: " + accumDef + " / " + maxDef;
-                
-                
-                if ((tf2classCapitalized === 'Demoman') || (tf2classCapitalized === 'Soldier') || (tf2classCapitalized === 'Pyro') || (tf2classCapitalized === 'Heavy') || (tf2classCapitalized === 'Scout')) {
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, result);
-                } else if (tf2classCapitalized === 'Medic') {
-                    let medicResult = result + "\n" 
-                    + "Total / Most Points Healed: " + accumHeal + " / " + maxHeal + "\n" 
-                    + "Total / Most ÜberCharges: " + accumInvul + " / " + maxInvul;
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, medicResult);
-                } else if (tf2classCapitalized === 'Engineer') {
-                    let engiResult = result + "\n" 
-                    + "Total / Most Buildings Built: " + accumBuilt + " / " + maxBuilt + "\n" 
-                    + "Total / Most Teleports: " + accumTel + " / " + maxTel + "\n" 
-                    + "Most Kills By Sentry: " + maxSentry;
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, engiResult);
-                } else if (tf2classCapitalized === 'Spy') {
-                    let spyResult = result + "\n" 
-                    + "Total / Most Backstabs: " + accumBack + " / " + maxBack + "\n" 
-                    + "Total / Most Health Points Leached: " + accumLeach + " / " + maxLeach;
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, spyResult);
-                } else if (tf2classCapitalized === 'Sniper') {
-                    let snipResult = result + "\n" 
-                    + "Total / Most Headshots: " + accumHeadS + " / " + maxHeadS;
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, snipResult);
-                }
-                else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Invalid class, moron!")};
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, tf2Stats.getStatSummary(tf2classCapitalized, player));
             }
         });
     } else {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No API Key defined in config file, aborting.")
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No API Key defined in config file, aborting.");
         return;
     }
 }
