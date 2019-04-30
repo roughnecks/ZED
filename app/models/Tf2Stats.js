@@ -48,7 +48,7 @@ class Tf2Stats {
 
             // assign values
             if (statName === '.accum.iPlayTime') {
-                var accumTime = stats[i].value;
+                var accumTime = stat.value;
                 this.accHours = Math.round(accumTime * 100 / 3600) / 100;
             } else if (statName === '.max.iPlayTime') {
                 var maxTime = stat.value;
