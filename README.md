@@ -37,7 +37,6 @@ The following is a list of functions that ZED provides at the moment:
 * chalk
 * console-stamp
 * mongodb
-* request
 * steam-totp
 * steam-tradeoffer-manager
 * steam-user
@@ -111,3 +110,6 @@ you're actually using: iPhone - Android - 3rd Party Desktop App like WinAuth etc
 `!weather <city> <unit of measure>`: Query "openweathermaps" to get weather info for chosen city in Metric or Imperial units.
 
 `!tf2 <class>`: Get personal Team Fortress 2 Stats for chosen class.
+
+`!quote ...`: Manages CHAT Group quotes - Read in-line command help.
+

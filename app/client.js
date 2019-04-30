@@ -5,7 +5,7 @@ const config = require('../config.json');
 const SteamUser = require('steam-user');
 const db = require('./db');
 const chalk = require('chalk');
-const request = require('request');
+const axios = require('axios');
 const Tf2Stats = require('./models/Tf2Stats');
 
 zed.manager._steam.on('loggedOn', function (details) {
@@ -312,29 +312,32 @@ async function checkWeather(city, units, groupID, chatID) {
             return;
         }
 
-        request(url, function (err, response, body) {
-            if (err) {
-                console.log('error:', error);
-            } else {
-                let weather = JSON.parse(body);
-                if (weather.cod == 404) {
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "City not found.");
-                    return;
-                } else if (weather.cod == 200) {
-                    if (units === 'METRIC') {
-                        let result = `It's ${weather.weather[0].description} and ${weather.main.temp} °C in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure} hPa, humidity is ${weather.main.humidity}% and wind speed is ${weather.wind.speed} meter/sec.`;
-                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, result);
-                    } else if (units == 'IMPERIAL') {
-                        let result = `It's ${weather.weather[0].description} and ${weather.main.temp} °F in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure} hPa, humidity is ${weather.main.humidity}% and wind speed is ${weather.wind.speed} miles/hour.`;
-                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, result);
-                    }
-                }
-                else {
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem!");
-                    console.log(weather);
+
+        try {
+            var response = await axios.get(url);
+            var weather = response.data;
+            //console.log(weather);
+            if (weather.cod === 200) {
+                if (units === 'METRIC') {
+                    let result = `It's ${weather.weather[0].description} and ${weather.main.temp} °C in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure} hPa, humidity is ${weather.main.humidity}% and wind speed is ${weather.wind.speed} meter/sec.`;
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, result);
+                } else if (units == 'IMPERIAL') {
+                    let result = `It's ${weather.weather[0].description} and ${weather.main.temp} °F in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure} hPa, humidity is ${weather.main.humidity}% and wind speed is ${weather.wind.speed} miles/hour.`;
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, result);
                 }
             }
-        });
+        } catch (e) {
+            //console.error(e);
+            if (e.response.status === 404) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "City not found.");
+                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                return;
+            } else {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem!");
+                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                return;
+            }
+        }
     } else {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No API Key defined in config file, aborting.");
         return;
@@ -350,34 +353,32 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
         var player = sender;
         var tf2classLower = tf2class.toLowerCase();
         var tf2classCapitalized = tf2classLower.charAt(0).toUpperCase() + tf2classLower.slice(1);
-        
+
         var url = `http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=440&key=${apikey}&steamid=${playerID64}`;
 
-        request(url, function (error, response, body) {
-            if (error) {
-                console.log('error: ' + error);
+
+        try {
+            var response = await axios.get(url);
+            var output = response.data;
+            var tf2Stats = new Tf2Stats();
+            //console.log(JSON.stringify(output))
+
+            tf2Stats.setStatsValues(tf2classCapitalized, output.playerstats.stats);
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, tf2Stats.getStatSummary(tf2classCapitalized, player));
+
+        } catch (e) {
+            //console.error(e);
+            if (e.response.status === 500) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
+                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                return;
             } else {
-                
-                var tf2Stats = new Tf2Stats();
-
-                if (response.statusCode === 500) {
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
-                    return;
-                } else if (response.statusCode === 200) {
-                    let output = JSON.parse(body);
-                    //console.log(JSON.stringify(output))
-
-                    tf2Stats.setStatsValues(tf2classCapitalized, output.playerstats.stats);
-                } else {
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Unknown Error");
-                    console.log('Response Status Code = ' + response.statusCode);
-                    console.log('Body = ' + body);
-                    return;
-                }
-
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, tf2Stats.getStatSummary(tf2classCapitalized, player));
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Unknown Error");
+                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                return;
             }
-        });
+        }
+
     } else {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No API Key defined in config file, aborting.");
         return;
