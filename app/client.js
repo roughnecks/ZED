@@ -3,7 +3,7 @@
 const zed = require('./main');
 const config = require('../config.json');
 const SteamUser = require('steam-user');
-
+const db = require('./db');
 const chalk = require('chalk');
 const request = require('request');
 
@@ -233,13 +233,13 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!next") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your satisfaction is our best prize. Next!");
     } else if (message === "!help") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a trading and chat bot; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a Steam CHAT and Trading BoT; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!commands - !hello - !help - !next - !weather <city> <metric || imperial> - !tf2 <class>");
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!quote add <text> | del <number>" + "\n" + "!tf2 <class>" +
+        "\n" + "!weather <city> <metric || imperial>");
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
         var res = str.split(" ");
-
         if (res.length > 1) {
             var units = res[res.length - 1];
             units = units.toUpperCase();
@@ -254,6 +254,33 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         if (tf2class) {
             tf2Stats(tf2class, groupID, chatID, sender, senderID);
         } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You must specify a class."); }
+    
+    
+    } else if (message.startsWith('!quote')) {
+        var str = message.substr(7);
+        var res = str.split(" ");
+        if (res[0] === 'add') {
+            res.shift();
+            var quote = res.join(' ');
+            var date = new Date();
+            var seconds = Math.round(date.getTime() / 1000);
+            var sequenceID = await db.getNextSequenceValue("quoteID");
+            //console.log(sequenceID);
+            db.insertQuote(sequenceID, sender, quote, seconds, groupID, chatID);
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + sequenceID + " added.");
+        } else if (res[0] === 'del') {
+            res.shift();
+            var quoteNum = res.join(' ');
+            quoteNum = Number(quoteNum);
+            console.log('quotenum is = ' + quoteNum);
+            if ( isNaN(quoteNum) || (quoteNum === 0) ) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
+            }                
+            var deletion = await db.deleteQuote(quoteNum);
+            if (deletion == 1) {
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " deleted.");
+            } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not found");}
+        }
     }
 }
 

@@ -8,8 +8,6 @@ const enums = require('./enums');
 
 const chalk = require('chalk');
 
-//const InventoryItem = require('./models');
-
 const _db = {
     db: null,
 
@@ -33,6 +31,32 @@ const _db = {
         this.client.close();
         console.log('Connection closed');
     },
+
+    //Check if 'counters' collection exists and if not, create it
+    checkCollection: async function () {
+
+        var odb = this.db;
+        odb.listCollections().toArray(function (err, collInfos) {
+            // collInfos is an array of collection info objects that look like:
+            // { name: 'test', options: {} }
+            //console.log(collInfos);
+            var found = false;
+            for (var i = 0; i < collInfos.length; i++) {
+                if (collInfos[i].name == 'counters') {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                var dbItem = {
+                    _id: "quoteID",
+                    sequence_value: 1
+                };
+                odb.collection('counters').insertOne(dbItem);
+            }
+        });
+    },    
+
 
     checkData: async function () {
         if (await this.db.collection('inventory_items').countDocuments() === 0) {
@@ -178,6 +202,35 @@ const _db = {
         }
 
         console.log(chalk.green('Syncing complete. ' + itemsAdded + ' item(s) added.'));
+    },
+
+
+    getNextSequenceValue: async function (sequenceName) {
+
+        var doc = await this.db.collection('counters').findOneAndUpdate ({ "_id": sequenceName }, { $inc:{sequence_value:1} }, {new: true});
+        //console.log(doc);
+        return doc.value.sequence_value;
+    },
+
+    insertQuote: async function(sequenceID, sender, quote, seconds, groupID, chatID) {
+        var dbItem = {
+            _id: sequenceID,
+            author: sender,
+            quote: quote,
+            time: seconds,
+            groupID: groupID,
+            chatID: chatID
+        };
+        await this.db.collection('quotes').insertOne(dbItem, function(err, res) {
+            if (err) throw err;
+            //zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + sequenceID + " added.");
+        });
+    },
+
+    deleteQuote: async function (quoteNum, groupID, chatID) {
+
+        var res = await this.db.collection('quotes').deleteOne({ "_id": quoteNum });
+        return res.deletedCount;
     }
 };
 

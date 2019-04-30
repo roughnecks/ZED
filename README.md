@@ -109,4 +109,5 @@ you're actually using: iPhone - Android - 3rd Party Desktop App like WinAuth etc
 ### Featured Commands
 
 `!weather <city> <unit of measure>`: Query "openweathermaps" to get weather info for chosen city in Metric or Imperial units.
+
 `!tf2 <class>`: Get personal Team Fortress 2 Stats for chosen class.

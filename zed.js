@@ -43,6 +43,9 @@ async function init() {
     //Check for inventory items in DB and parse them if DB is empty
     await zed.db.checkData();
 
+    //Check counters collection
+    await zed.db.checkCollection();
+
     //Everything ready, now we can logon
     zed.manager._steam.logOn(zed.config.logOnOptions);
 }
