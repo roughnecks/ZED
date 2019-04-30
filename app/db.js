@@ -221,13 +221,11 @@ const _db = {
             groupID: groupID,
             chatID: chatID
         };
-        await this.db.collection('quotes').insertOne(dbItem, function(err, res) {
-            if (err) throw err;
-            //zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + sequenceID + " added.");
-        });
+        var res = await this.db.collection('quotes').insertOne(dbItem);
+        return res.insertedId;
     },
 
-    deleteQuote: async function (quoteNum, groupID, chatID) {
+    deleteQuote: async function (quoteNum) {
 
         var res = await this.db.collection('quotes').deleteOne({ "_id": quoteNum });
         return res.deletedCount;

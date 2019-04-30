@@ -262,17 +262,22 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         if (res[0] === 'add') {
             res.shift();
             var quote = res.join(' ');
-            var date = new Date();
-            var seconds = Math.round(date.getTime() / 1000);
-            var sequenceID = await db.getNextSequenceValue("quoteID");
-            //console.log(sequenceID);
-            db.insertQuote(sequenceID, sender, quote, seconds, groupID, chatID);
-            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + sequenceID + " added.");
+            if (quote === "") {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Where's my quote!?");
+            }
+            else {
+                var date = new Date();
+                var seconds = Math.round(date.getTime() / 1000);
+                var sequenceID = await db.getNextSequenceValue("quoteID");
+                var insertion = await db.insertQuote(sequenceID, sender, quote, seconds, groupID, chatID);
+                if (insertion) {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + sequenceID + " added.");
+                } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't added :("); }
+            }
         } else if (res[0] === 'del') {
             res.shift();
             var quoteNum = res.join(' ');
             quoteNum = Number(quoteNum);
-            console.log('quotenum is = ' + quoteNum);
             if ( isNaN(quoteNum) || (quoteNum === 0) ) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
             }                
