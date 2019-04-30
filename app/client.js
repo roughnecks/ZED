@@ -355,10 +355,9 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
 
         request(url, function (error, response, body) {
             if (error) {
-                console.log('error: '+ error);
+                console.log('error: ' + error);
             } else {
-                //console.log(response.statusCode);
-
+                
                 var tf2Stats = new Tf2Stats();
 
                 if (response.statusCode === 500) {

@@ -112,7 +112,11 @@ const _db = {
             marketable: item.marketable,
             price: item.marketable ? await helpers.getInventoryItemPrice(item.market_hash_name) : 0
         };
-        await this.db.collection('inventory_items').insertOne(dbItem);
+        try {
+            await this.db.collection('inventory_items').insertOne(dbItem);
+        } catch (e) {
+            console.error(e);
+        }
     },
 
     insertReceivedItems: async function (receivedItems) {
@@ -132,7 +136,12 @@ const _db = {
     },
 
     updateInventoryItem: async function (assetId, price) {
-        await this.db.collection('inventory_items').updateOne({ assetId: assetId }, { $set: { price: price } });
+
+        try {
+            await this.db.collection('inventory_items').updateOne({ assetId: assetId }, { $set: { price: price } });
+        } catch (e) {
+            console.error(e);
+        }
     },
 
     deleteGivenItems: async function (items) {
@@ -146,7 +155,11 @@ const _db = {
     },
 
     deleteInventoryItem: async function (assetId) {
-        await this.db.collection('inventory_items').deleteOne({ assetId: assetId });
+        try {
+            await this.db.collection('inventory_items').deleteOne({ assetId: assetId });
+        } catch (e) {
+            console.error(e);
+        }
     },
 
     getRandomInventoryItem: async function (itemType, marketable, price) {
