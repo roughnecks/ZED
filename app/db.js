@@ -225,10 +225,11 @@ const _db = {
         return doc.value.sequence_value;
     },
 
-    insertQuote: async function(sequenceID, sender, quote, seconds, groupID, chatID) {
+    insertQuote: async function(sequenceID, sender, senderID, quote, seconds, groupID, chatID) {
         var dbItem = {
             _id: sequenceID,
             author: sender,
+            steamID: senderID,
             quote: quote,
             time: seconds,
             groupID: groupID,
@@ -250,7 +251,25 @@ const _db = {
         } catch (e) {
             console.error(e);
         }
+    },
+
+    findQuote: async function (quoteNum) {
+        try {
+            var res = await this.db.collection("quotes").findOne({ "_id": quoteNum});
+            
+            //var d = new Date(0); //The 0 there is the key, which sets the date to the epoch
+            //d.setUTCSeconds(res.time); //this returns something like Mon Apr 29 2019 18:13:36 GMT+0200 (GMT+02:00)
+            
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+            var d = new Date(res.time * 1000);
+            d = d.toLocaleDateString("en-US", options); //this returns something like Monday, April 29, 2019, 6:13 PM
+            
+            return "[" + quoteNum + "] " + "\"" + res.quote + "\"" + " (added by " + res.author + " on " + d + ")";
+        } catch (e) {
+            console.error(e);
+        }
     }
+
 };
 
 module.exports = _db;

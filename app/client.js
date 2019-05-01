@@ -215,20 +215,6 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         return;
     }
 
-    /*
-    if (server_message && server_message.message == 2) {
-        zed.manager._steam.getPersonas([server_message.steamid_param], function (err, personas) {
-            if (!err) {
-                var joined = personas[server_message.steamid_param]["player_name"];
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Welcome aboard " + "[mention=" + server_message.steamid_param.accountid + "]@" + joined + "[/mention]" + "!" + " :steamhappy:");
-            } else {
-                console.log(err);
-                return;
-            }
-        });
-    }
-    */
-
     if (message === "!hello") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Hi there " + "[mention=" + senderAccountID + "]@" + sender + "[/mention]" + "!" + " :steamhappy:");  // [mention=accountid]@name[/mention]
     } else if (message === "!next") {
@@ -270,28 +256,52 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 var date = new Date();
                 var seconds = Math.round(date.getTime() / 1000);
                 var sequenceID = await db.getNextSequenceValue("quoteID");
-                var insertion = await db.insertQuote(sequenceID, sender, quote, seconds, groupID, chatID);
+                var insertion = await db.insertQuote(sequenceID, sender, senderID, quote, seconds, groupID, chatID);
                 if (insertion) {
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + sequenceID + " added.");
                 } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't added :("); }
             }
+
         } else if (res[0] === 'del') {
+            res.shift();
+            var quoteNum = res.join(' ');
+            quoteNum = Number(quoteNum);
+            if (isNaN(quoteNum) || (quoteNum === 0)) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
+                return;
+            }
+            var mod = await isMod(senderID, groupID);
+            console.log("mod = " + mod);
+            if ((mod === 30) || (mod === 40) || (mod === 50)) {
+                var deletion = await db.deleteQuote(quoteNum);
+                if (typeof deletion !== 'undefined') {
+                    if (deletion === 1) {
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " deleted.");
+                    } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not found"); }
+                } else {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't deleted :(");
+                }
+            } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Sorry, you're not a Group Mod."); }
+
+        } else if (!isNaN(Number(str))) {
+            var quoteNum = Number(str);
+            var quote = await db.findQuote(quoteNum);
+            if (quote) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, quote);
+            } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not found"); }
+
+        } else if(res[0] === 'info') {
             res.shift();
             var quoteNum = res.join(' ');
             quoteNum = Number(quoteNum);
             if ( isNaN(quoteNum) || (quoteNum === 0) ) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
                 return;
-            }                
-            var deletion = await db.deleteQuote(quoteNum);
-            if (typeof deletion !== 'undefined') {
-                if (deletion === 1) {
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " deleted.");
-                } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not found"); }
-            } else {
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't deleted :(");
             }
-        }
+            var quoteinfo = await db.quoteInfo(quoteNum);
+
+
+        } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Not a valid sub-command or quote number."); }
     }
 }
 
@@ -333,7 +343,7 @@ async function checkWeather(city, units, groupID, chatID) {
                 console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             } else {
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem!");
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem! Check console.");
                 console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             }
@@ -373,7 +383,7 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
                 console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             } else {
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Unknown Error");
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem! Check console.");
                 console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             }
@@ -385,3 +395,20 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
     }
 }
 
+
+
+//functions
+
+async function isMod(member, groupID) {
+    var response = await zed.manager._steam.chat.setSessionActiveGroups(groupID);
+    var memberID64 = member.getSteamID64();
+    var groupInfo = Object.values(response.chat_room_groups);
+    var members = groupInfo[0].members;
+    members.forEach(function (element) {
+        var elementID64 = element.steamid.getSteamID64();
+        if (elementID64 === memberID64) {
+            console.log(element.rank);
+            return (element.rank);
+        }
+    });
+}
