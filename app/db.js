@@ -225,17 +225,16 @@ const _db = {
         return doc.value.sequence_value;
     },
 
-    insertQuote: async function(sequenceID, sender, senderID, quote, seconds, groupID, chatID) {
+    insertQuote: async function(sequenceID, sender, senderID64, quote, seconds, groupID, chatID) {
         var dbItem = {
             _id: sequenceID,
             author: sender,
-            steamID: senderID,
+            SteamID64: senderID64,
             quote: quote,
             time: seconds,
             groupID: groupID,
             chatID: chatID
         };
-
         try {
             var res = await this.db.collection('quotes').insertOne(dbItem);
             return res.insertedId;
@@ -265,6 +264,16 @@ const _db = {
             d = d.toLocaleDateString("en-US", options); //this returns something like Monday, April 29, 2019, 6:13 PM
             
             return "[" + quoteNum + "] " + "\"" + res.quote + "\"" + " (added by " + res.author + " on " + d + ")";
+        } catch (e) {
+            console.error(e);
+        }
+    },
+
+    quoteInfo: async function (quoteNum) {
+        try {
+            var res = await this.db.collection("quotes").findOne({ "_id": quoteNum});
+            //console.log(res.steamID);
+            return res.SteamID64;
         } catch (e) {
             console.error(e);
         }

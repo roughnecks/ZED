@@ -20,7 +20,7 @@
     "mongodb": "^3.1.13",
     "steam-totp": "^2.1.0",
     "steam-tradeoffer-manager": "^2.9.5",
-    "steam-user": "^4.2.0",
+    "steam-user": "^4.8.0",
     "steamcommunity": "^3.38.0"
   }
 }

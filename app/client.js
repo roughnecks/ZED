@@ -222,8 +222,8 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!help") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a Steam CHAT and Trading BoT; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!quote add <text> | del <number>" + "\n" + "!tf2 <class>" +
-        "\n" + "!weather <city> <metric || imperial>");
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!quote add <text> | del <number> | info <number>" 
+        + "\n" + "!tf2 <class>" + "\n" + "!weather <city> <metric || imperial>");
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
         var res = str.split(" ");
@@ -255,8 +255,9 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             else {
                 var date = new Date();
                 var seconds = Math.round(date.getTime() / 1000);
+                let senderID64 = senderID.getSteamID64();
                 var sequenceID = await db.getNextSequenceValue("quoteID");
-                var insertion = await db.insertQuote(sequenceID, sender, senderID, quote, seconds, groupID, chatID);
+                var insertion = await db.insertQuote(sequenceID, sender, senderID64, quote, seconds, groupID, chatID);
                 if (insertion) {
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + sequenceID + " added.");
                 } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't added :("); }
@@ -270,9 +271,10 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
                 return;
             }
-            var mod = await isMod(senderID, groupID);
-            console.log("mod = " + mod);
-            if ((mod === 30) || (mod === 40) || (mod === 50)) {
+            let author = await db.quoteInfo(quoteNum);
+            let senderID64 = senderID.getSteamID64();
+            let ismod = await isMod(senderID, groupID);
+            if ((ismod === 30) || (ismod === 40) || (ismod === 50) || (senderID64 === author)) {
                 var deletion = await db.deleteQuote(quoteNum);
                 if (typeof deletion !== 'undefined') {
                     if (deletion === 1) {
@@ -298,9 +300,13 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
                 return;
             }
-            var quoteinfo = await db.quoteInfo(quoteNum);
-
-
+            let author = await db.quoteInfo(quoteNum);
+            let ismod = await isMod(senderID, groupID);
+            if ((ismod === 30) || (ismod === 40) || (ismod === 50)) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Author's SteamID64 is: " + author);
+            } else { 
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You need to be a mod for such request.") 
+            }
         } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Not a valid sub-command or quote number."); }
     }
 }
@@ -360,6 +366,7 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
 
     if (apikey) {
         var playerID64 = senderID.getSteamID64();
+        console.log(senderID);
         var player = sender;
         var tf2classLower = tf2class.toLowerCase();
         var tf2classCapitalized = tf2classLower.charAt(0).toUpperCase() + tf2classLower.slice(1);
@@ -404,11 +411,10 @@ async function isMod(member, groupID) {
     var memberID64 = member.getSteamID64();
     var groupInfo = Object.values(response.chat_room_groups);
     var members = groupInfo[0].members;
-    members.forEach(function (element) {
+    for(let element of members) {
         var elementID64 = element.steamid.getSteamID64();
         if (elementID64 === memberID64) {
-            console.log(element.rank);
             return (element.rank);
         }
-    });
+    }
 }
