@@ -222,7 +222,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!help") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a Steam CHAT and Trading BoT; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!quote add <text> | del <number> | info <number>" 
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!quote add <text> | del <number> | info <number> | rand [nickname]" 
         + "\n" + "!tf2 <class>" + "\n" + "!weather <city> <metric || imperial>");
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
@@ -307,7 +307,24 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             } else { 
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You need to be a mod for such request.") 
             }
-        } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Not a valid sub-command or quote number."); }
+        
+        } else if (res[0] === 'rand') {
+            res.shift();
+            var match = res.join(' ');
+            console.log("match is = " + match);
+            if (match) {
+                let rand = await db.randQuote(match);
+                if (rand) {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, rand);
+                } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No Match."); }
+            } else {
+                let rand = await db.randQuote();
+                if (rand) {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, rand);
+                } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No Match."); }
+            }
+        
+         } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Not a valid sub-command or quote number."); }
     }
 }
 

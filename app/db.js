@@ -254,16 +254,17 @@ const _db = {
 
     findQuote: async function (quoteNum) {
         try {
-            var res = await this.db.collection("quotes").findOne({ "_id": quoteNum});
-            
+            var res = await this.db.collection('quotes').findOne({ "_id": quoteNum });
+
             //var d = new Date(0); //The 0 there is the key, which sets the date to the epoch
             //d.setUTCSeconds(res.time); //this returns something like Mon Apr 29 2019 18:13:36 GMT+0200 (GMT+02:00)
-            
-            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-            var d = new Date(res.time * 1000);
-            d = d.toLocaleDateString("en-US", options); //this returns something like Monday, April 29, 2019, 6:13 PM
-            
-            return "[" + quoteNum + "] " + "\"" + res.quote + "\"" + " (added by " + res.author + " on " + d + ")";
+            if (res) {
+                var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                var d = new Date(res.time * 1000);
+                d = d.toLocaleDateString("en-US", options); //this returns something like Monday, April 29, 2019, 6:13 PM
+
+                return "[" + quoteNum + "] " + "\"" + res.quote + "\"" + " (added by " + res.author + " on " + d + ")";
+            } else { return false; }
         } catch (e) {
             console.error(e);
         }
@@ -271,9 +272,32 @@ const _db = {
 
     quoteInfo: async function (quoteNum) {
         try {
-            var res = await this.db.collection("quotes").findOne({ "_id": quoteNum});
-            //console.log(res.steamID);
+            var res = await this.db.collection('quotes').findOne({ "_id": quoteNum});
             return res.SteamID64;
+        } catch (e) {
+            console.error(e);
+        }
+    },
+
+    randQuote: async function (match) {
+        try {
+            if (match) {
+                var res = await this.db.collection('quotes').aggregate([
+                    { $match: { author: match } },
+                    { $sample: { size: 1 } }
+                ]).toArray();
+
+                if (res.length > 0) {
+                    return "[" + res[0]._id + "] " + "\"" + res[0].quote + "\"" + " (added by " + res[0].author + ")";
+                }
+            } else {
+                var res = await this.db.collection('quotes').aggregate([
+                    { $sample: { size: 1 } }
+                ]).toArray();
+                if (res.length > 0) {
+                    return "[" + res[0]._id + "] " + "\"" + res[0].quote + "\"" + " (added by " + res[0].author + ")";
+                }
+            }
         } catch (e) {
             console.error(e);
         }
