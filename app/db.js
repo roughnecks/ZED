@@ -301,6 +301,55 @@ const _db = {
         } catch (e) {
             console.error(e);
         }
+    },
+
+    matchQuote: async function (query) {
+        try {
+            var docs = await this.db.collection('quotes').find({ quote: { $regex: query, $options: "$i" } }).toArray();
+            var list = [];
+
+            for (let ì = 0; i < docs.length; i++) {
+                list.push("\[" + docs[i]._id + "\]");
+            }
+            if (typeof list !== 'undefined' && list.length > 0) {
+                // the array is defined and has at least one element
+                let res = list.join(' ');
+                res = "Matching Quote(s): " + res;
+                return res;
+            } else {
+                return "No Match.";
+            }
+
+        } catch (e) {
+            console.error(e);
+        }
+    },
+
+
+    lastQuote: async function (match) {
+        try {
+            if (match) {
+                let res = await this.db.collection('quotes').find({"author": match}).limit(1).sort({$natural:-1}).toArray();
+                if (typeof res !== 'undefined' && res.length > 0) {
+                    // the array is defined and has at least one element 
+                    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    var d = new Date(res[0].time * 1000);
+                    d = d.toLocaleDateString("en-US", options); //this returns something like Monday, April 29, 2019, 6:13 PM
+                    return "\["+ res[0]._id + "\] " + "\"" + res[0].quote + "\"" + " stored on " + d;
+                } else {return false;}
+            } else {
+                let res = await this.db.collection('quotes').find().limit(1).sort({$natural:-1}).toArray();
+                if (typeof res !== 'undefined' && res.length > 0) {
+                    // the array is defined and has at least one element 
+                    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    var d = new Date(res[0].time * 1000);
+                    d = d.toLocaleDateString("en-US", options); //this returns something like Monday, April 29, 2019, 6:13 PM
+                    return "\["+ res[0]._id + "\] " + "\"" + res[0].quote + "\"" + " stored on " + d;
+                } else {return false;}
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
 
 };
