@@ -280,7 +280,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             let author = await db.quoteInfo(quoteNum);
             let senderID64 = senderID.getSteamID64();
             let ismod = await isMod(senderID, groupID);
-            if ((ismod === 30) || (ismod === 40) || (ismod === 50) || (senderID64 === author)) {
+            if ((ismod === 30) || (ismod === 40) || (ismod === 50) || (senderID64 === author) || (senderID64 === zed.config.ownerSteamID64)) {
                 var deletion = await db.deleteQuote(quoteNum);
                 if (typeof deletion !== 'undefined') {
                     if (deletion === 1) {
