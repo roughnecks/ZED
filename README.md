@@ -113,3 +113,4 @@ you're actually using: iPhone - Android - 3rd Party Desktop App like WinAuth etc
 
 `!quote ...`: Manages CHAT Group quotes - Read in-line command help.
 
+`!csgo`: Get personal CS:GO Stats.

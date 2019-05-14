@@ -7,6 +7,7 @@ const db = require('./db');
 const chalk = require('chalk');
 const axios = require('axios');
 const Tf2Stats = require('./models/Tf2Stats');
+const CSGOStats = require('./models/CSGOStats');
 
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
@@ -222,9 +223,9 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!help") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a Steam CHAT and Trading BoT; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" 
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!csgo - Retrieve CS:GO User Stats" + "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" 
         + "!quote add <text> | del <number> | <number> | info <number> | rand [nickname] | match <string> | last [nickname] - Group Quotes Management" 
-        + "\n" + "!tf2 <class> - Retrieve TF2 user stats for selected class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location");
+        + "\n" + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location");
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
         var res = str.split(" ");
@@ -244,6 +245,10 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You must specify a class."); }
     
     
+    } else if (message === "!csgo") {
+        csgoStats(groupID, chatID, sender, senderID);
+
+
     } else if (message.startsWith('!quote')) {
         var str = message.substr(7);
         var res = str.split(" ");
@@ -416,7 +421,6 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
 
     if (apikey) {
         var playerID64 = senderID.getSteamID64();
-        console.log(senderID);
         var player = sender;
         var tf2classLower = tf2class.toLowerCase();
         var tf2classCapitalized = tf2classLower.charAt(0).toUpperCase() + tf2classLower.slice(1);
@@ -452,9 +456,42 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
     }
 }
 
+async function csgoStats(groupID, chatID, sender, senderID) {
 
+    var apikey = zed.config.steamAPI;
 
-//functions
+    if (apikey) {
+        var playerID64 = senderID.getSteamID64();
+        var player = sender;
+
+        var url = `http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=${apikey}&steamid=${playerID64}`;
+
+        try {
+            var response = await axios.get(url);
+            var output = response.data;
+            var csgoStats = new CSGOStats();
+            
+            csgoStats.setStatsValues(output.playerstats.stats);
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, csgoStats.getStatSummary(player));
+
+        } catch (e) {
+            //console.error(e);
+            if (e.response.status === 500) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
+                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                return;
+            } else {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem! Check console.");
+                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                return;
+            }
+        }
+
+    } else {
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No API Key defined in config file, aborting.");
+        return;
+    }
+}
 
 async function isMod(member, groupID) {
     var response = await zed.manager._steam.chat.setSessionActiveGroups(groupID);
@@ -468,3 +505,4 @@ async function isMod(member, groupID) {
         }
     }
 }
+
