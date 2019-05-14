@@ -62,7 +62,7 @@ class Tf2Stats {
 
     // returns summary stats chat message
     getStatSummary(tf2classCapitalized, player) {
-        let result = ":sticky:" + `${tf2classCapitalized} Stats for Player "${player}":` + "\n" + "\n"
+        let result = ":sticky: " + `${tf2classCapitalized} Stats for Player "${player}":` + "\n" + "\n"
             + "Total Playtime / Longest Life: " + `${this.accHours}hrs` + " / " + `${this.maxMins}:${this.maxSecs}mins` + "\n"
             + "Total / Most Points: " + this.accumPoints + " / " + this.maxPoints + "\n"
             + "Total / Most Kills: " + this.accumKills + " / " + this.maxKills + "\n"

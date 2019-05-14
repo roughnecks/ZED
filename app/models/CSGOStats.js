@@ -17,7 +17,12 @@ class CSGOStats {
         this.totshothit = '-';
         this.totshotfired = '-';
         this.totrounds = '-';
-        this.totmvps = '-';
+        this.lmwins = '-';
+        this.lmkills = '-';
+        this.lmdeaths = '-';
+        this.lmdam = '-';
+        this.lmdom = '-';
+        this.lmreven = '-';
     }
 
     setStatsValues(stats) {
@@ -37,7 +42,7 @@ class CSGOStats {
         if (this.totHours == null) {
             this.totHours = 0;
         }
-           let result = "CS:GO Stats for Player " + "\"" + player + "\":" + "\n" + "\n"
+           let result = ":csgob: CS:GO Stats for Player " + "\"" + player + "\":" + "\n" + "\n"
             + "Total Playtime: " + `${this.totHours}hrs` + "\n"
             + "Total Kills: " + this.totkills + "\n"
             + "Total Deaths: " + this.totdeaths + "\n"
@@ -52,8 +57,14 @@ class CSGOStats {
             + "Total Revenges: " + this.totreven + "\n"
             + "Total Shots Hit: " + this.totshothit + "\n"
             + "Total Shots Fired: " + this.totshotfired + "\n"
-            + "Total Rounds Played: " + this.totrounds + "\n"
-            + "Total MVPS: " + this.totmvps + "\n";
+            + "Total Rounds Played: " + this.totrounds + "\n" + "\n"
+            + "Last Match Stats:" + "\n"
+            + "L.M. Wins: " + this.lmwins + "\n"
+            + "L.M. Kills: " + this.lmkills + "\n"
+            + "L.M. Deaths: " + this.lmdeaths + "\n"
+            + "L.M. Damage: " + this.lmdam + "\n"
+            + "L.M. Dominations: " + this.lmdom + "\n"
+            + "L.M. Revenges: " + this.lmreven + "\n";
 
         return result;
     }
@@ -75,7 +86,12 @@ class CSGOStats {
         'total_shots_hit': 'totshothit',
         'total_shots_fired': 'totshotfired',
         'total_rounds_played': 'totrounds',
-        'total_mvps': 'totmvps'
+        'last_match_wins': 'lmwins',
+        'last_match_kills': 'lmkills',
+        'last_match_deaths': 'lmdeaths',
+        'last_match_damage': 'lmdam',
+        'last_match_dominations': 'lmdom',
+        'last_match_revenges': 'lmreven'
     };
     
     module.exports = CSGOStats;
