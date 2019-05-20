@@ -7,6 +7,11 @@
     "name": "roughnecks",
     "url": "http://steamcommunity.com/id/starshiptrooper/"
   },
+  "license" : "(GPL-3.0)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/roughnecks/ZED.git"
+  },
   "contributors": [
     "andrei-kom (https://steamcommunity.com/id/andrei-kom/)"
   ],
