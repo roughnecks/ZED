@@ -27,8 +27,5 @@
     "steam-tradeoffer-manager": "^2.9.5",
     "steam-user": "^4.8.0",
     "steamcommunity": "^3.40.0"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0"
   }
 }
