@@ -31,11 +31,11 @@
 
 "overrides": {
 	"steamcommunity": {
-		"nth-check": "2.1.1"
+		"nth-check": "2.1.1",
 		"css-select": "5.1.0"
 	},
 	"steam-tradeoffer-manager": {
-		"nth-check": "2.1.1"
+		"nth-check": "2.1.1",
 		"css-select": "5.1.0"
 	}
 }
