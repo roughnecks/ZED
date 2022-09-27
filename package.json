@@ -21,7 +21,7 @@
   "dependencies": {
     "axios": "^0.21.2",
     "chalk": "^2.4.2",
-    "console-stamp": "^0.2.7",
+    "console-stamp": "^0.2.10",
     "mongodb": "^3.2.7",
     "steam-totp": "^2.1.0",
     "steam-tradeoffer-manager": "^2.10.5",
