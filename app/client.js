@@ -152,9 +152,6 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
             }
         });
     }
-    else if (message === "!lottery") {
-        zed.manager._steam.chatMessage(steamID, 'Lottery RULES:' + "\n" + '1) Send any 1 "Trading Card - Background - Emoticon - Booster Pack" to me and write "lottery" (without the quotes) in the comment section of the trading offer window. I\'ll send back a random item of the same type.' + "\n" + '2) You have to be friend with me.' + "\n" + '3) You must not be in Trading Escrow.');
-    }
     else {
         zed.manager._steam.chatMessage(steamID, 'I don\'t understand any other command but "!help", "!sign" and "!lottery" (so far).');
     }
