@@ -30,6 +30,26 @@ const utils = {
         }
     },
 
+    getCardBorderType: function (item) {
+        let tag = item.getTag('cardborder');
+
+        if (typeof tag === undefined) {
+            return enums.getCardBorderType.Unknown;
+        }
+
+        try {
+            if (tag.internal_name === 'cardborder_0') {
+                return enums.getCardBorderType.Normal;
+            } else if (tag.internal_name === 'cardborder_1') {
+                return enums.getCardBorderType.Foil;
+            } else {
+                return enums.getCardBorderType.Unknown;
+            }
+        } catch {
+            return enums.getCardBorderType.Unknown;
+        }   
+    },
+
     loadInventory: async function (userId64, appId, contextId, tradableOnly) {
         var pos = 1;
         var start = '';

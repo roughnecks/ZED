@@ -45,7 +45,9 @@ async function processOffer(offer, them) {
 
     var itemToReceiveType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
     var itemToGiveType = helpers.getInventoryItemType(offer.itemsToGive[0]);
-    
+    var cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemToReceiveType[0]);
+    var cardBorderTypeToGive = helpers.getCardBorderType(offer.itemToGiveType[0]);
+
     if (offer.partner.getSteamID64() === config.ownerSteamID64) {
 
         offer.accept(async (err, status) => {
@@ -68,8 +70,7 @@ async function processOffer(offer, them) {
         });
 
     } else if (offer.itemsToGive.length === 0) {
-
-        console.log('Checking if it\'s a donation');
+        // donation
         offer.accept((err, status) => {
             if (err) {
                 console.log(err);
@@ -94,55 +95,54 @@ async function processOffer(offer, them) {
                 }
             });
 
-        }
+        } else {
+
+            if (itemToReceiveType !== enums.InventoryItemType.Unknown && itemToReceiveType === itemToGiveType) {
+
+                if (itemToReceiveType === 2 && itemToGiveType === 2 && cardBorderTypeToGive !== cardBorderTypeToReceive) {
 
 
-    } else if (itemToReceiveType !== enums.InventoryItemType.Unknown && itemToReceiveType === itemToGiveType) {
+                    offer.decline(err => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for cards with different borders (normal-foil).'));
+                        }
+                    });
 
-            if (itemToReceiveType === 2 && itemToGiveType === 2 && offer.itemsToGive.getTag("cardborder").internal_name !== offer.itemsToReceive.getTag("cardborder").internal_name) {
+                } else {
 
+                    offer.accept(async (err, status) => {
+
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(chalk.green(`Accepted offer ${offer.id} from ${them.personaName}. Status: ${status}.`));
+
+                            setTimeout(() => {
+                                manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
+                                    if (err) {
+                                        console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
+                                    } else {
+                                        console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
+                                    }
+                                });
+                            }, 2000);
+                        }
+                    });
+                }
+
+            } else {
 
                 offer.decline(err => {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for cards with different borders (normal-foil).'));
+                        console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for mismatched type of items.'));
                     }
                 });
-                return;
-
-            } else {
-
-            offer.accept(async (err, status) => {
-                
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(chalk.green(`Accepted offer ${offer.id} from ${them.personaName}. Status: ${status}.`));
-
-                    setTimeout(() => {
-                        manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
-                            if (err) {
-                                console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
-                            } else {
-                                console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
-                            }
-                        });
-                    }, 2000);
-                }
-            });
-        }
-
-    } else {
-
-        offer.decline(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for mismatched type of items.'));
             }
-        });
-        return;
+        }
     }
 }
 
