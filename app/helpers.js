@@ -22,8 +22,6 @@ const utils = {
                 return enums.InventoryItemType.Background;
             } else if (tag.internal_name === 'item_class_4') {
                 return enums.InventoryItemType.Emote;
-            } else if (tag.internal_name === 'item_class_5') {
-                return enums.InventoryItemType.Booster;
             } else {
                 return enums.InventoryItemType.Unknown;
             }
