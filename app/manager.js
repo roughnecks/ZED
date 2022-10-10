@@ -135,7 +135,7 @@ async function processOffer(offer, them) {
     }
 
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
-        if (offer.itemsToGive[0].classId !== offer.itemsToReceive[0].classId) {
+        if (offer.itemsToGive[0].classid !== offer.itemsToReceive[0].classid) {
             offer.decline(err => {
                 if (err) {
                     console.log(err);
