@@ -32,21 +32,21 @@ const utils = {
 
     getCardBorderType: function (item) {
         let tag = item.getTag('cardborder');
-
+ 
         if (typeof tag === undefined) {
-            return enums.getCardBorderType.Unknown;
+            return enums.CardBorderType.Unknown;
         }
-
+ 
         try {
             if (tag.internal_name === 'cardborder_0') {
-                return enums.getCardBorderType.Normal;
+                return enums.CardBorderType.Normal;
             } else if (tag.internal_name === 'cardborder_1') {
-                return enums.getCardBorderType.Foil;
+                return enums.CardBorderType.Foil;
             } else {
-                return enums.getCardBorderType.Unknown;
+                return enums.CardBorderType.Unknown;
             }
         } catch {
-            return enums.getCardBorderType.Unknown;
+            return enums.CardBorderType.Unknown;
         }   
     },
 

@@ -14,6 +14,19 @@ const enums = {
             4: { name: 'Emote', value: 4 },
             99999999: { name: 'Unknown', value: 99999999 }
         }
+    },
+
+    CardBorderType:
+        {
+            Normal: 0,
+            Foil: 1,
+            Unknown: 99999999,
+            properties:
+        {
+            1: { name: 'Normal', value: 0 },
+            2: { name: 'Foil', value: 1 },
+            99999999: { name: 'Unknown', value: 99999999 }
+        }
     }
 }
 
