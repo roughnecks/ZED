@@ -47,7 +47,7 @@ async function processOffer(offer, them) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(chalk.green('Donation accepted from ' + them.personaName ));
+                console.log(chalk.green('Donation accepted from ' + them.personaName));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
 
                 if (offer.itemsToReceive.length > 4) {
@@ -62,7 +62,7 @@ async function processOffer(offer, them) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(chalk.red('Offer declined (wanted our items).'));
+                console.log(chalk.red('Offer declined, ' + them.personaName +  ' wanted our items.'));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'I\'m only accepting donations. Sorry');
             }
         });
