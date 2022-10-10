@@ -43,10 +43,28 @@ async function postComment(donator, donationnum) {
 
 async function processOffer(offer, them) {
 
-    var itemToReceiveType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
-    var itemToGiveType = helpers.getInventoryItemType(offer.itemsToGive[0]);
-    var cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemToReceiveType[0]);
-    var cardBorderTypeToGive = helpers.getCardBorderType(offer.itemToGiveType[0]);
+    var itemToReceiveType = typeof(undefined);
+        if (offer.itemsToReceive.length == 1) {
+            itemToReceiveType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
+        }
+    
+    var itemToGiveType = typeof(undefined);
+        if (offer.itemsToGive.length == 1) {
+            itemToGiveType = helpers.getInventoryItemType(offer.itemsToGive[0]);
+        }
+    
+
+    if (itemToReceiveType === 2 && itemToGiveType === 2) {
+        var cardBorderTypeToReceive = typeof(undefined);
+        if (offer.itemsToReceive.length == 1) {
+            cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemToReceiveType[0]);
+        }
+        var cardBorderTypeToGive = typeof(undefined);
+        if (offer.itemsToGive.length == 1) {
+            cardBorderTypeToGive = helpers.getCardBorderType(offer.itemToGiveType[0]);
+        }
+        }
+
 
     if (offer.partner.getSteamID64() === config.ownerSteamID64) {
 
