@@ -147,6 +147,18 @@ async function processOffer(offer, them) {
         return;
     }
 
+    if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length < 1) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' didn\'t offer any item.'));
+            }
+        });
+        return;
+    }
+
+
     offer.accept(async (err, status) => {
 
         if (err) {
