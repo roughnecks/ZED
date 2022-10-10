@@ -108,8 +108,8 @@ async function processOffer(offer, them) {
     var cardBorderTypeToReceive = typeof (undefined);
     var cardBorderTypeToGive = typeof (undefined);
     if (itemToReceiveType === enums.InventoryItemType.Card) {
-        cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemToReceiveType[0]);
-        cardBorderTypeToGive = helpers.getCardBorderType(offer.itemToGiveType[0]);
+        cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemToReceive[0]);
+        cardBorderTypeToGive = helpers.getCardBorderType(offer.itemToGive[0]);
 
         if (offer.itemsToReceive.length === 1 && cardBorderTypeToReceive !== cardBorderTypeToGive) {
             offer.decline(err => {
