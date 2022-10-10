@@ -138,7 +138,7 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
     }
 
     if (message === "!help") {
-        zed.manager._steam.chatMessage(steamID, 'Hello, if you want me to sign your profile, type "!sign" without the quotes. For info about bot\'s lottery, type "!lottery". Have a nice day!');
+        zed.manager._steam.chatMessage(steamID, 'Hello, if you want me to sign your profile, type "!sign" without the quotes.');
     }
     else if (message === "!sign") {
         zed.manager._community.postUserComment(steamID, 'ZED was here. :meltdownzed:');
