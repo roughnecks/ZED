@@ -43,28 +43,32 @@ async function postComment(donator, donationnum) {
 
 async function processOffer(offer, them) {
 
-    var itemToReceiveType = typeof(undefined);
-        if (offer.itemsToReceive.length == 1) {
-            itemToReceiveType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
-        }
-    
-    var itemToGiveType = typeof(undefined);
-        if (offer.itemsToGive.length == 1) {
-            itemToGiveType = helpers.getInventoryItemType(offer.itemsToGive[0]);
-        }
-    
+    var itemToReceiveType = typeof (undefined);
+    var itemToGiveType = typeof (undefined);
+    if (offer.itemsToReceive.length === 1) {
+        itemToReceiveType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
+    }
+    if (offer.itemsToGive.length === 1) {
+        itemToGiveType = helpers.getInventoryItemType(offer.itemsToGive[0]);
+    }
 
-    if (itemToReceiveType === 2 && itemToGiveType === 2) {
-        var cardBorderTypeToReceive = typeof(undefined);
-        if (offer.itemsToReceive.length == 1) {
-            cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemToReceiveType[0]);
-        }
-        var cardBorderTypeToGive = typeof(undefined);
-        if (offer.itemsToGive.length == 1) {
-            cardBorderTypeToGive = helpers.getCardBorderType(offer.itemToGiveType[0]);
-        }
-        }
 
+    if (offer.itemsToGive.length === 0) {
+        // donation
+        offer.accept((err, status) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.green(`Donation accepted. Status: ${status}.`));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
+
+                if (offer.itemsToReceive.length > 4) {
+                    postComment(them.personaName, offer.itemsToReceive.length);
+                }
+            }
+        });
+        return;
+    }
 
     if (offer.partner.getSteamID64() === config.ownerSteamID64) {
 
@@ -86,24 +90,39 @@ async function processOffer(offer, them) {
                 } else { console.log(chalk.yellow('No confirmation needed (donation)')); }
             }
         });
+        return;
+    }
 
-    } else if (offer.itemsToGive.length === 0) {
-        // donation
-        offer.accept((err, status) => {
+    if (offer.itemsToReceive.length === 1 && itemToReceiveType !== itemToGiveType) {
+        offer.decline(err => {
             if (err) {
                 console.log(err);
             } else {
-                console.log(chalk.green(`Donation accepted. Status: ${status}.`));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
-
-                if (offer.itemsToReceive.length > 4) {
-                    postComment(them.personaName, offer.itemsToReceive.length);
-                }
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for mismatched items, like emote for card etc...'));
             }
         });
+        return;
+    }
 
+    var cardBorderTypeToReceive = typeof (undefined);
+    var cardBorderTypeToGive = typeof (undefined);
+    if (itemToReceiveType === enums.InventoryItemType.Card) {
+        cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemToReceiveType[0]);
+        cardBorderTypeToGive = helpers.getCardBorderType(offer.itemToGiveType[0]);
 
-    } else if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
+        if (offer.itemsToReceive.length === 1 && cardBorderTypeToReceive !== cardBorderTypeToGive) {
+            offer.decline(err => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for cards with different border.'));
+                }
+            });
+            return;
+        }
+    }
+
+    if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].appId !== offer.itemsToReceive[0].appId) {
             offer.decline(err => {
                 if (err) {
@@ -112,57 +131,30 @@ async function processOffer(offer, them) {
                     console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different appID.'));
                 }
             });
-
-        } else {
-
-            if (itemToReceiveType !== enums.InventoryItemType.Unknown && itemToReceiveType === itemToGiveType) {
-
-                if (itemToReceiveType === 2 && itemToGiveType === 2 && cardBorderTypeToGive !== cardBorderTypeToReceive) {
-
-
-                    offer.decline(err => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for cards with different borders (normal-foil).'));
-                        }
-                    });
-
-                } else {
-
-                    offer.accept(async (err, status) => {
-
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log(chalk.green(`Accepted offer ${offer.id} from ${them.personaName}. Status: ${status}.`));
-
-                            setTimeout(() => {
-                                manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
-                                    if (err) {
-                                        console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
-                                    } else {
-                                        console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
-                                    }
-                                });
-                            }, 2000);
-                        }
-                    });
-                }
-
-            } else {
-
-                offer.decline(err => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for mismatched type of items.'));
-                    }
-                });
-            }
+            return;
         }
     }
+
+    offer.accept(async (err, status) => {
+
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(chalk.green(`Accepted offer ${offer.id} from ${them.personaName}. Status: ${status}.`));
+
+            setTimeout(() => {
+                manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
+                    if (err) {
+                        console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
+                    } else {
+                        console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
+                    }
+                });
+            }, 2000);
+        }
+    });
 }
+
 
 
 module.exports = manager;
