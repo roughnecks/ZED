@@ -48,10 +48,11 @@ async function processOffer(offer, them) {
     if (offer.itemsToReceive.length === 1) {
         itemToReceiveType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
     }
+    console.log(itemToReceiveType);
     if (offer.itemsToGive.length === 1) {
         itemToGiveType = helpers.getInventoryItemType(offer.itemsToGive[0]);
     }
-
+    console.log(itemToGiveType);
 
     if (offer.itemsToGive.length === 0) {
         // donation
@@ -133,6 +134,17 @@ async function processOffer(offer, them) {
             });
             return;
         }
+    }
+
+    if (offer.itemsToGive.length > 1) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for more than 1 item.'));
+            }
+        });
+        return;
     }
 
     offer.accept(async (err, status) => {
