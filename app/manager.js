@@ -56,8 +56,8 @@ async function processOffer(offer, them) {
 
 
 
-    console.log(offer.itemsToGive[0]);
-    console.log(offer.itemsToReceive[0]);
+    //console.log(offer.itemsToGive[0]);
+    //console.log(offer.itemsToReceive[0]);
 
 
 
@@ -101,6 +101,19 @@ async function processOffer(offer, them) {
         });
         return;
     }
+
+
+    if (config.lockedItems.some(x => x === offer.itemsToGive[0].name)) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for locked items in our Inventory.'));
+            }
+        });
+        return;
+    }
+
 
     if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && itemToReceiveType !== itemToGiveType) {
         offer.decline(err => {
