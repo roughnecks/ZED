@@ -109,6 +109,7 @@ async function processOffer(offer, them) {
                 console.log(err);
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for locked items in our Inventory.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for locked items in our Inventory.');
             }
         });
         return;
@@ -120,7 +121,8 @@ async function processOffer(offer, them) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for mismatched items, like emote for card etc...'));
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for mismatched items, like emote for card, etc..'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for mismatched items, like emote for card, etc..');
             }
         });
         return;
@@ -141,6 +143,7 @@ async function processOffer(offer, them) {
                     console.log(err);
                 } else {
                     console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for cards with different border.'));
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for cards with different border type, like Normal for Foil.');
                 }
             });
             return;
@@ -153,7 +156,8 @@ async function processOffer(offer, them) {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different appID.'));
+                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different sets.'));
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different sets.');
                 }
             });
             return;
@@ -166,6 +170,7 @@ async function processOffer(offer, them) {
                 console.log(err);
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for more than 1 item.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; we\'re only trading 1 item at time.');
             }
         });
         return;
@@ -177,6 +182,8 @@ async function processOffer(offer, them) {
                 console.log(err);
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' didn\'t offer any item.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined: you didn\'t offer any item.');
+
             }
         });
         return;
