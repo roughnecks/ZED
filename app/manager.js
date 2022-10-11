@@ -36,7 +36,7 @@ manager.on('newOffer', offer => {
 //Functions
 async function postComment(donator, donationnum) {
 
-    manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Item(s)! :steamhappy:');
+    manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Items! :steamhappy:');
     console.log(chalk.green('Comment Posted on Bot\'s Profile'));
 
 }
@@ -54,13 +54,8 @@ async function processOffer(offer, them) {
     }
     //console.log(itemToGiveType);
 
-
-
     //console.log(offer.itemsToGive[0]);
     //console.log(offer.itemsToReceive[0]);
-
-
-
 
     if (offer.itemsToGive.length === 0) {
         // donation
@@ -68,7 +63,7 @@ async function processOffer(offer, them) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(chalk.green(`Donation accepted. Status: ${status}.`));
+                console.log(chalk.green(`Donation accepted from ${them.personaName}. Status: ${status}.`));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
 
                 if (offer.itemsToReceive.length > 4) {
