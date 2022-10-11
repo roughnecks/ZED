@@ -64,6 +64,7 @@ async function processOffer(offer, them) {
                 console.log(err);
             } else {
                 console.log(chalk.green(`Donation accepted from ${them.personaName}. Status: ${status}.`));
+                console.log(chalk.magenta("=========================="));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
 
                 if (offer.itemsToReceive.length > 4) {
@@ -86,8 +87,10 @@ async function processOffer(offer, them) {
                         manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
                             if (err) {
                                 console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
+                                console.log(chalk.magenta("=========================="));
                             } else {
                                 console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
+                                console.log(chalk.magenta("=========================="));
                             }
                         });
                     }, 2000);
@@ -196,8 +199,10 @@ async function processOffer(offer, them) {
                 manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
                     if (err) {
                         console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
+                        console.log(chalk.magenta("=========================="));
                     } else {
                         console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
+                        console.log(chalk.magenta("=========================="));
                     }
                 });
             }, 2000);
