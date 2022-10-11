@@ -7,6 +7,7 @@
 * nodb: this bot instance doesn't use Mongo DB so it doesn't do price checking for lotteries.
 * donation-only: this bot instance only accepts all donations and all kind of offers from bot's owner (doesn't use Mongo DB and doesn't do lotteries).
 * donation-only-without-2FA: this bot instance only accepts donations (no item loss) and doesn't use Mobile Auth (doesn't use Mongo DB and doesn't do lotteries).
+* 1to1: this bot instance accepts 1:1 Trading offers from same set for cards, emotes and BGs. It also accept donations and all kind of offers from owner (doesn't use Mongo DB and doesn't do lotteries).
 
 ***
 
