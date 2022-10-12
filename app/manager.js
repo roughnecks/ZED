@@ -138,7 +138,7 @@ async function processOffer(offer, them) {
     }
 
 
-    if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && itemToReceiveType !== itemToGiveType) {
+    if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && itemToReceiveType !== itemToGiveType) {
         offer.decline(err => {
             if (err) {
                 console.log(err);
@@ -150,9 +150,8 @@ async function processOffer(offer, them) {
         return;
     }
 
-    /*
 
-    if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
+    if (offer.itemsToGive[0].appid !== 753 && offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
             offer.decline(err => {
                 if (err) {
@@ -166,7 +165,6 @@ async function processOffer(offer, them) {
         }
     }
 
-    */
 
     var cardBorderTypeToReceive = typeof (undefined);
     var cardBorderTypeToGive = typeof (undefined);
