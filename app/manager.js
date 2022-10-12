@@ -150,13 +150,30 @@ async function processOffer(offer, them) {
         return;
     }
 
+/*
+
+    if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
+        if (offer.itemsToReceive.length <= offer.itemsToGive.length)
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different sets and didn\'t offer 2 or more items.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different sets and didn\'t offer 2 or more items.');
+            }
+        });
+        return;
+    }
+
+*/
+
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].appid !== offer.itemsToReceive[0].appid) {
             offer.decline(err => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different sets.'));
+                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different inventories.'));
                     manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different Inventories.');
                 }
             });
@@ -164,24 +181,6 @@ async function processOffer(offer, them) {
         }
     }
 
-
-    /*
-
-    if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
-        if (offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
-            offer.decline(err => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different sets.'));
-                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different sets.');
-                }
-            });
-            return;
-        }
-    }
-
-    */
 
     var cardBorderTypeToReceive = typeof (undefined);
     var cardBorderTypeToGive = typeof (undefined);
