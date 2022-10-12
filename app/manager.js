@@ -55,7 +55,7 @@ async function processOffer(offer, them) {
     //console.log(itemToGiveType);
 
     console.log(offer.itemsToGive[0]);
-    //console.log(offer.itemsToReceive[0]);
+    console.log(offer.itemsToReceive[0]);
 
     if (offer.itemsToGive.length === 0) {
         // donation
@@ -138,7 +138,7 @@ async function processOffer(offer, them) {
     }
 
 
-    if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && itemToReceiveType !== itemToGiveType) {
+    if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && itemToReceiveType !== itemToGiveType) {
         offer.decline(err => {
             if (err) {
                 console.log(err);
@@ -150,8 +150,24 @@ async function processOffer(offer, them) {
         return;
     }
 
+    if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
+        if (offer.itemsToGive[0].appid !== offer.itemsToReceive[0].appid) {
+            offer.decline(err => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different sets.'));
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different sets.');
+                }
+            });
+            return;
+        }
+    }
 
-    if (offer.itemsToGive[0].appid !== 753 && offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
+
+    /*
+
+    if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
             offer.decline(err => {
                 if (err) {
@@ -165,6 +181,7 @@ async function processOffer(offer, them) {
         }
     }
 
+    */
 
     var cardBorderTypeToReceive = typeof (undefined);
     var cardBorderTypeToGive = typeof (undefined);
