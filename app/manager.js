@@ -54,8 +54,8 @@ async function processOffer(offer, them) {
     }
     //console.log(itemToGiveType);
 
-    console.log(offer.itemsToGive[0]);
-    console.log(offer.itemsToReceive[0]);
+    //console.log(offer.itemsToGive[0]);
+    //console.log(offer.itemsToReceive[0]);
 
     if (offer.itemsToGive.length === 0) {
         // donation
@@ -157,7 +157,7 @@ async function processOffer(offer, them) {
                     console.log(err);
                 } else {
                     console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different sets.'));
-                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different sets.');
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different Inventories.');
                 }
             });
             return;
