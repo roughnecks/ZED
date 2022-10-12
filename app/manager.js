@@ -150,6 +150,8 @@ async function processOffer(offer, them) {
         return;
     }
 
+    /*
+
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
             offer.decline(err => {
@@ -163,6 +165,8 @@ async function processOffer(offer, them) {
             return;
         }
     }
+
+    */
 
     var cardBorderTypeToReceive = typeof (undefined);
     var cardBorderTypeToGive = typeof (undefined);
