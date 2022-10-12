@@ -54,7 +54,7 @@ async function processOffer(offer, them) {
     }
     //console.log(itemToGiveType);
 
-    //console.log(offer.itemsToGive[0]);
+    console.log(offer.itemsToGive[0]);
     //console.log(offer.itemsToReceive[0]);
 
     if (offer.itemsToGive.length === 0) {
