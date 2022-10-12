@@ -100,6 +100,30 @@ async function processOffer(offer, them) {
         return;
     }
 
+    if (offer.itemsToGive.length > 1) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for more than 1 item.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; we\'re only trading 1 item at time.');
+            }
+        });
+        return;
+    }
+
+    if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length < 1) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' didn\'t offer any item.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined: you didn\'t offer any item.');
+
+            }
+        });
+        return;
+    }
 
     if (config.lockedItems.some(x => x === offer.itemsToGive[0].name)) {
         offer.decline(err => {
@@ -126,28 +150,6 @@ async function processOffer(offer, them) {
         return;
     }
 
-    var cardBorderTypeToReceive = typeof (undefined);
-    var cardBorderTypeToGive = typeof (undefined);
-    if (itemToReceiveType === enums.InventoryItemType.Card) {
-
-        cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemsToReceive[0]);
-        //console.log(cardBorderTypeToReceive);
-        cardBorderTypeToGive = helpers.getCardBorderType(offer.itemsToGive[0]);
-        //console.log(cardBorderTypeToGive);
-
-        if (offer.itemsToReceive.length === 1 && cardBorderTypeToReceive !== cardBorderTypeToGive) {
-            offer.decline(err => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for cards with different border.'));
-                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for cards with different border type, like Normal for Foil.');
-                }
-            });
-            return;
-        }
-    }
-
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
             offer.decline(err => {
@@ -162,29 +164,27 @@ async function processOffer(offer, them) {
         }
     }
 
-    if (offer.itemsToGive.length > 1) {
-        offer.decline(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for more than 1 item.'));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; we\'re only trading 1 item at time.');
-            }
-        });
-        return;
-    }
+    var cardBorderTypeToReceive = typeof (undefined);
+    var cardBorderTypeToGive = typeof (undefined);
 
-    if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length < 1) {
-        offer.decline(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(chalk.red('Offer declined, ' + them.personaName + ' didn\'t offer any item.'));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined: you didn\'t offer any item.');
+    if (itemToReceiveType === enums.InventoryItemType.Card && itemToGiveType === enums.InventoryItemType.Card) {
 
-            }
-        });
-        return;
+        cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemsToReceive[0]);
+        //console.log(cardBorderTypeToReceive);
+        cardBorderTypeToGive = helpers.getCardBorderType(offer.itemsToGive[0]);
+        //console.log(cardBorderTypeToGive);
+
+        if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && cardBorderTypeToReceive !== cardBorderTypeToGive) {
+            offer.decline(err => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for cards with different border.'));
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for cards with different border type, like Normal for Foil.');
+                }
+            });
+            return;
+        }
     }
 
 
