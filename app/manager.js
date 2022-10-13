@@ -63,7 +63,7 @@ async function processOffer(offer, them) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(chalk.green(`Donation accepted from ${them.personaName}. Status: ${status}.`));
+                console.log(chalk.green(`Donation accepted from ${them.personaName}: ${offer.itemsToReceive.length} Item(s). Status: ${status}.`));
                 console.log(chalk.magenta("=========================="));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
 
