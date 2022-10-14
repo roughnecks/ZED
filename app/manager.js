@@ -64,6 +64,9 @@ async function processOffer(offer, them) {
     //console.log(offer.itemsToGive[0]);
     //console.log(offer.itemsToReceive[0]);
 
+    console.log(offer.itemsToGive[0].market_fee_app);
+    console.log(offer.itemsToReceive[0].market_fee_app);
+
     if (offer.itemsToGive.length === 0) {
         // donation
         offer.accept((err, status) => {
@@ -172,8 +175,6 @@ async function processOffer(offer, them) {
         }
     }
 
-    console.log(offer.itemsToGive[0].market_fee_app);
-    console.log(offer.itemsToReceive[0].market_fee_app);
 
 /*
 
