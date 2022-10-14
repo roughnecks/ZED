@@ -150,6 +150,21 @@ async function processOffer(offer, them) {
         return;
     }
 
+
+    if (itemToReceiveType === enums.InventoryItemType.Gems && itemToGiveType === enums.InventoryItemType.Gems) {
+        if (offer.itemsToReceive.length < offer.itemsToGive.length) {
+            offer.decline(err => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for more gems than they offered.'));
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for more Gems than you offered :steamsad:');
+                }
+            });
+            return;
+        }
+    }
+
 /*
 
     if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
