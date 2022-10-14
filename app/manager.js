@@ -243,6 +243,7 @@ async function processOffer(offer, them) {
                     } else {
                         console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
                         console.log(chalk.magenta("=========================="));
+                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for trading with me!');
                     }
                 });
             }, 2000);
