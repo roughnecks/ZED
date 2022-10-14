@@ -48,13 +48,16 @@ async function processOffer(offer, them) {
     if (offer.itemsToReceive.length === 1) {
         itemToReceiveType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
     }
-    //console.log(itemToReceiveType);
+    console.log(itemToReceiveType);
+    console.log(offer.itemsToReceive.length);
+
     if (offer.itemsToGive.length === 1) {
         itemToGiveType = helpers.getInventoryItemType(offer.itemsToGive[0]);
     }
     console.log(itemToGiveType);
+    console.log(offer.itemsToGive.length);
 
-    console.log(offer.itemsToGive[0]);
+    //console.log(offer.itemsToGive[0]);
     //console.log(offer.itemsToReceive[0]);
 
     if (offer.itemsToGive.length === 0) {
