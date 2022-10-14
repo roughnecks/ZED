@@ -36,9 +36,13 @@ manager.on('newOffer', offer => {
 //Functions
 async function postComment(donator, donationnum) {
 
-    manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Items! :steamhappy:');
-    console.log(chalk.green('Comment Posted on Bot\'s Profile'));
-
+    if (donationnum < 50) {
+        manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Items! :steamhappy:');
+        console.log(chalk.green('Comment Posted on Bot\'s Profile'));
+    } else {
+        manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your massive contribution of ' + donationnum + ' Items! :steamthumbsup:');
+        console.log(chalk.green('Comment Posted on Bot\'s Profile'));
+    }
 }
 
 async function processOffer(offer, them) {
