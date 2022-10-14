@@ -52,9 +52,9 @@ async function processOffer(offer, them) {
     if (offer.itemsToGive.length === 1) {
         itemToGiveType = helpers.getInventoryItemType(offer.itemsToGive[0]);
     }
-    //console.log(itemToGiveType);
+    console.log(itemToGiveType);
 
-    //console.log(offer.itemsToGive[0]);
+    console.log(offer.itemsToGive[0]);
     //console.log(offer.itemsToReceive[0]);
 
     if (offer.itemsToGive.length === 0) {
