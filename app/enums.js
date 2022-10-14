@@ -7,13 +7,15 @@ const enums = {
         Background: 3,
         Emote: 4,
         Gems: 7,
+        Gifts: 888,
         Unknown: 99999999,
         properties:
         {
             2: { name: 'Card', value: 2 },
             3: { name: 'Background', value: 3 },
             4: { name: 'Emote', value: 4 },
-            7: { name: 'Gems', value: 7 },
+            888: { name: 'Gifts', value: 888 },
+
             99999999: { name: 'Unknown', value: 99999999 }
         }
     },

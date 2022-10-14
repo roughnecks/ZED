@@ -152,9 +152,7 @@ async function processOffer(offer, them) {
         });
         return;
     }
-
-    itemToReceiveType = helpers.getInventoryItemType(offer.itemsToGive[0]);
-    itemToReceiveType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
+    
 
     if (itemToReceiveType === enums.InventoryItemType.Gems && itemToGiveType === enums.InventoryItemType.Gems) {
         if (offer.itemsToReceive[0].amount < offer.itemsToGive[0].amount) {

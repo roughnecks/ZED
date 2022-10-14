@@ -12,6 +12,9 @@ const utils = {
         let tag = item.getTag('item_class');
 
         if (typeof tag === undefined) {
+            if (item.type === 'Gift') {
+                return enums.InventoryItemType.Gift;
+            }
             return enums.InventoryItemType.Unknown;
         }
 
