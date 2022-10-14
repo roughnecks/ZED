@@ -175,6 +175,8 @@ async function processOffer(offer, them) {
     console.log(offer.itemsToGive[0].market_fee_app);
     console.log(offer.itemsToReceive[0].market_fee_app);
 
+/*
+
     if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
         if (offer.itemsToReceive.length <= offer.itemsToGive.length)
         offer.decline(err => {
@@ -187,6 +189,8 @@ async function processOffer(offer, them) {
         });
         return;
     }
+
+*/
 
 
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
