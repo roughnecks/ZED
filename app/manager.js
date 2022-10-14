@@ -172,7 +172,6 @@ async function processOffer(offer, them) {
         }
     }
 
-/*
 
     if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
         if (offer.itemsToReceive.length <= offer.itemsToGive.length)
@@ -187,7 +186,6 @@ async function processOffer(offer, them) {
         return;
     }
 
-*/
 
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].appid !== offer.itemsToReceive[0].appid) {
