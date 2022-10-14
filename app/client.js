@@ -153,6 +153,6 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
         });
     }
     else {
-        zed.manager._steam.chatMessage(steamID, 'I don\'t understand any other command but "!help", "!sign" and "!lottery" (so far).');
+        zed.manager._steam.chatMessage(steamID, 'I don\'t understand any other command but "!help" and "!sign" (so far).');
     }
 });
