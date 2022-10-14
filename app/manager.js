@@ -157,7 +157,7 @@ async function processOffer(offer, them) {
     itemToReceiveType = helpers.getInventoryItemType(offer.itemsToReceive[0]);
 
     if (itemToReceiveType === enums.InventoryItemType.Gems && itemToGiveType === enums.InventoryItemType.Gems) {
-        if (offer.itemsToReceive.length < offer.itemsToGive.length) {
+        if (offer.itemsToReceive[0].amount < offer.itemsToGive[0].amount) {
             offer.decline(err => {
                 if (err) {
                     console.log(err);
