@@ -175,11 +175,10 @@ async function processOffer(offer, them) {
         }
     }
 
-
 /*
 
     if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
-        if (offer.itemsToReceive.length <= offer.itemsToGive.length)
+        if (offer.itemsToReceive.length <= offer.itemsToGive.length) {
         offer.decline(err => {
             if (err) {
                 console.log(err);
@@ -188,11 +187,11 @@ async function processOffer(offer, them) {
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different sets and didn\'t offer 2 or more items :steamsad:');
             }
         });
-        return;
+            return;
+        }
     }
 
 */
-
 
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].appid !== offer.itemsToReceive[0].appid) {
