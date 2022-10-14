@@ -14,8 +14,8 @@ const enums = {
             2: { name: 'Card', value: 2 },
             3: { name: 'Background', value: 3 },
             4: { name: 'Emote', value: 4 },
+            7: { name: 'Gems', value: 7 },
             888: { name: 'Gift', value: 888 },
-
             99999999: { name: 'Unknown', value: 99999999 }
         }
     },
