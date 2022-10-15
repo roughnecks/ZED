@@ -85,18 +85,25 @@ async function processOffer(offer, them) {
 
 
     const path = __dirname;
-    var goodtogo = typeof (undefined);
+    var goodtogo = 0;
 
     
     fs.readFile(`${path}/cooldown/${them.personaName}`, 'utf8', function (err, data) {
         if (err) {
-            goodtogo = 0;
+            //goodtogo = 0;
             //return console.log(err);
             console.log("No file found for " + them.personaName + " ;" + "goodtogo = " + goodtogo);
         }
+        
         console.log("data = " + data);
-        goodtogo = data;
-        console.log("goodtogo = " + goodtogo);
+
+        if (data === 'undefined') {
+            goodtogo = 0;
+            console.log("goodtogo = " + goodtogo);
+        } else {
+            goodtogo = data;
+            console.log("goodtogo = " + goodtogo);
+        }
     });
 
     if (goodtogo === 0) {
