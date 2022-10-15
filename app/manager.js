@@ -120,8 +120,7 @@ async function processOffer(offer, them) {
             console.log("1. goodtogo = " + goodtogo);
         } else {
             goodtogo = data;
-            parseInt(goodtogo);
-            //Number(goodtogo);
+            Number(goodtogo);
             console.log("2. goodtogo = " + goodtogo);
         }
 
@@ -135,21 +134,23 @@ async function processOffer(offer, them) {
 
     if (goodtogo === 0) {
 
-        /*
         fs.writeFile(`${path}/cooldown/${them.personaName}`, '1', function (err) {
-            console.log("3. goodtogo = 0");
+            console.log("3. goodtogo = " + goodtogo);
             if (err) return console.log(err);
         });
 
     } else {
         console.log("4. goodtogo non = 0");
+        Number(goodtogo);
         goodtogo += 1;
         fs.writeFile(`${path}/cooldown/${them.personaName}`, `${goodtogo}`, function (err) {
             if (err) return console.log(err);
         });
+    }
 
-        */
-
+    
+    
+    /*
         try {
             data = await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, '1');
             // file written successfully
@@ -179,7 +180,7 @@ async function processOffer(offer, them) {
             console.error(err);
         }
     }
-
+*/
 
     if (goodtogo === 5) {
         offer.decline(err => {
