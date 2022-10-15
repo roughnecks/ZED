@@ -120,7 +120,8 @@ async function processOffer(offer, them) {
             console.log("1. goodtogo = " + goodtogo);
         } else {
             goodtogo = data;
-            Number(goodtogo);
+            parseInt(goodtogo);
+            //Number(goodtogo);
             console.log("2. goodtogo = " + goodtogo);
         }
 
@@ -154,7 +155,8 @@ async function processOffer(offer, them) {
             // file written successfully
             console.log("3. data = " + data);
             goodtogo = data;
-            Number(goodtogo);
+            parseInt(goodtogo);
+            //Number(goodtogo);
             console.log("3. goodtogo = " + goodtogo);
         } catch (err) {
             console.error(err);
@@ -162,14 +164,16 @@ async function processOffer(offer, them) {
 
     } else {
         console.log("4. goodtogo = " + goodtogo);
-        Number(goodtogo);
+        parseInt(goodtogo);
+        //Number(goodtogo);
         goodtogo += 1;
 
         try {
             data = await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, `${goodtogo}`);
             // file written successfully
             goodtogo = data;
-            Number(goodtogo);
+            parseInt(goodtogo);
+            //Number(goodtogo);
             console.log("5. goodtogo = " + goodtogo);
         } catch (err) {
             console.error(err);
