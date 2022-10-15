@@ -110,7 +110,7 @@ async function processOffer(offer, them) {
 
 
     try {
-        const data = fs.readFileSync(`${path}/cooldown/${them.personaName}`, 'utf8');
+        const data = await fs.readFileSync(`${path}/cooldown/${them.personaName}`, 'utf8');
         
         console.log("data = " + data);
 
@@ -148,7 +148,7 @@ async function processOffer(offer, them) {
         */
 
         try {
-            fs.writeFileSync(`${path}/cooldown/${them.personaName}`, '1');
+            await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, '1');
             // file written successfully
             console.log("3. goodtogo = 0");
         } catch (err) {
@@ -158,9 +158,9 @@ async function processOffer(offer, them) {
     } else {
         console.log("4. goodtogo non = 0");
         goodtogo += 1;
-        
+
         try {
-            fs.writeFileSync(`${path}/cooldown/${them.personaName}`, `${goodtogo}`);
+            await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, `${goodtogo}`);
             // file written successfully
             console.log("3. goodtogo = 0");
         } catch (err) {
