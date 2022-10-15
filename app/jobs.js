@@ -26,15 +26,13 @@ setInterval(function() {
 
 //Delete all cooldowns at Midnight
 
-schedule.scheduleJob('06 18 * * *', () => {
+schedule.scheduleJob('09 18 * * *', () => {
 
-    const directory = "cooldown";
+    const directory = "/cooldown";
     console.log(path);
 
-    /*
     fs.readdir(directory, (err, files) => {
         if (err) throw err;
-
 
         for (const file of files) {
             fs.unlink(path.join(directory, file), (err) => {
@@ -43,5 +41,4 @@ schedule.scheduleJob('06 18 * * *', () => {
             });
         }
     });
-    */
 });
