@@ -26,7 +26,7 @@ setInterval(function() {
 
 //Delete all cooldowns at Midnight
 
-schedule.scheduleJob('13 18 * * *', () => {
+schedule.scheduleJob('0 0 * * *', () => {
 
     const directory = "app/cooldown";
     //console.log(path);
