@@ -92,12 +92,12 @@ async function processOffer(offer, them) {
         if (err) {
             //goodtogo = 0;
             //return console.log(err);
-            console.log("No file found for " + them.personaName + " ;" + "goodtogo = " + goodtogo);
+            console.log("No file found for " + them.personaName + "; " + "goodtogo = " + goodtogo);
         }
         
         console.log("data = " + data);
 
-        if (data === 'undefined') {
+        if (data === typeof (undefined)) {
             goodtogo = 0;
             console.log("goodtogo = " + goodtogo);
         } else {
