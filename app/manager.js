@@ -131,6 +131,7 @@ async function processOffer(offer, them) {
             //console.log("1. goodtogo = " + goodtogo);
         } else {
             goodtogo = data;
+            goodtogo = Number(goodtogo);
             //console.log("2. goodtogo = " + goodtogo);
         }
 
