@@ -87,7 +87,7 @@ async function processOffer(offer, them) {
     const path = __dirname;
     var goodtogo = 0;
 
-    
+ /*   
     fs.readFile(`${path}/cooldown/${them.personaName}`, 'utf8', function (err, data) {
         if (err) {
             //goodtogo = 0;
@@ -106,8 +106,33 @@ async function processOffer(offer, them) {
         }
     });
 
+*/
+
+
+    try {
+        const data = fs.readFileSync(`${path}/cooldown/${them.personaName}`, 'utf8');
+        
+        console.log("data = " + data);
+
+        if (data == null) {
+            goodtogo = 0;
+            console.log("1. goodtogo = " + goodtogo);
+        } else {
+            goodtogo = data;
+            console.log("2. goodtogo = " + goodtogo);
+        }
+
+    } catch (err) {
+        console.log("No file found for " + them.personaName + "; " + "goodtogo = " + goodtogo);
+    }
+
+
+
+
+
     if (goodtogo === 0) {
 
+        /*
         fs.writeFile(`${path}/cooldown/${them.personaName}`, '1', function (err) {
             console.log("3. goodtogo = 0");
             if (err) return console.log(err);
@@ -120,6 +145,27 @@ async function processOffer(offer, them) {
             if (err) return console.log(err);
         });
 
+        */
+
+        try {
+            fs.writeFileSync(`${path}/cooldown/${them.personaName}`, '1');
+            // file written successfully
+            console.log("3. goodtogo = 0");
+        } catch (err) {
+            console.error(err);
+        }
+
+    } else {
+        console.log("4. goodtogo non = 0");
+        goodtogo += 1;
+        
+        try {
+            fs.writeFileSync(`${path}/cooldown/${them.personaName}`, `${goodtogo}`);
+            // file written successfully
+            console.log("3. goodtogo = 0");
+        } catch (err) {
+            console.error(err);
+        }
     }
 
 
