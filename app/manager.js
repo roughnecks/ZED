@@ -157,7 +157,7 @@ async function processOffer(offer, them) {
         });
     }
 
-    if (goodtogo === 5) {
+    if (goodtogo >= 5) {
         offer.decline(err => {
             if (err) {
                 console.log(err);
