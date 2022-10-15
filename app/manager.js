@@ -97,7 +97,7 @@ async function processOffer(offer, them) {
         
         console.log("data = " + data);
 
-        if (data === typeof (undefined)) {
+        if (data == null) {
             goodtogo = 0;
             console.log("goodtogo = " + goodtogo);
         } else {
