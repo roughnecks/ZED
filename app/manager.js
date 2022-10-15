@@ -99,21 +99,22 @@ async function processOffer(offer, them) {
 
         if (data == null) {
             goodtogo = 0;
-            console.log("goodtogo = " + goodtogo);
+            console.log("1. goodtogo = " + goodtogo);
         } else {
             goodtogo = data;
-            console.log("goodtogo = " + goodtogo);
+            console.log("2. goodtogo = " + goodtogo);
         }
     });
 
     if (goodtogo === 0) {
 
         fs.writeFile(`${path}/cooldown/${them.personaName}`, '1', function (err) {
+            console.log("3. goodtogo = 0");
             if (err) return console.log(err);
         });
 
     } else {
-
+        console.log("4. goodtogo non = 0");
         goodtogo += 1;
         fs.writeFile(`${path}/cooldown/${them.personaName}`, `${goodtogo}`, function (err) {
             if (err) return console.log(err);
