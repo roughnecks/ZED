@@ -125,19 +125,17 @@ async function processOffer(offer, them) {
 
     try {
         data = await fs.readFileSync(`${path}/cooldown/${offer.partner.getSteamID64()}`, 'utf8');
-        
-        console.log("data = " + data);
-
+        //console.log("data = " + data);
         if (data == null) {
             goodtogo = 0;
-            console.log("1. goodtogo = " + goodtogo);
+            //console.log("1. goodtogo = " + goodtogo);
         } else {
             goodtogo = data;
-            console.log("2. goodtogo = " + goodtogo);
+            //console.log("2. goodtogo = " + goodtogo);
         }
 
     } catch (err) {
-        console.log("No file found for " + them.personaName + "; " + "goodtogo = " + goodtogo);
+        console.log("No cooldown file found for " + them.personaName);
     }
 
 /*
@@ -161,7 +159,7 @@ async function processOffer(offer, them) {
 
 */
 
-    if (goodtogo >= 5) {
+    if (goodtogo === 5) {
         offer.decline(err => {
             if (err) {
                 console.log(err);
@@ -309,17 +307,15 @@ async function processOffer(offer, them) {
 
 
             if (goodtogo === 0) {
-
                 fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, '1', function (err) {
-                    console.log("3. goodtogo = " + goodtogo);
+                    console.log("goodtogo for " + them.personaName + " = " + goodtogo);
                     if (err) return console.log(err);
                 });
         
             } else {
-                console.log("4. goodtogo = " + goodtogo);
-                
+                //console.log("4. goodtogo = " + goodtogo);
                 goodtogo = Number(goodtogo) + 1;
-                
+                console.log("goodtogo for " + them.personaName + " = " + goodtogo);
                 fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, `${goodtogo}`, function (err) {
                     if (err) return console.log(err);
                 });
