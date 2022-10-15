@@ -7,7 +7,9 @@ const chalk = require('chalk');
 const schedule = require('node-schedule');
 
 const fs = require("fs");
-const path = require("path");
+//const path = require("path");
+const path = __dirname;
+
 
 //Session refresh every 30 minutes
 setInterval(function() {
@@ -24,7 +26,7 @@ setInterval(function() {
 
 //Delete all cooldowns at Midnight
 
-schedule.scheduleJob('01 18 * * *', () => {
+schedule.scheduleJob('06 18 * * *', () => {
 
     const directory = "cooldown";
     console.log(path);
@@ -33,13 +35,13 @@ schedule.scheduleJob('01 18 * * *', () => {
     fs.readdir(directory, (err, files) => {
         if (err) throw err;
 
-            
-            for (const file of files) {
-              fs.unlink(path.join(directory, file), (err) => {
+
+        for (const file of files) {
+            fs.unlink(path.join(directory, file), (err) => {
                 console.log(file + " deleted");
                 if (err) throw err;
-              });
-            }
+            });
+        }
     });
     */
 });
