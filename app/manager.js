@@ -309,7 +309,7 @@ async function processOffer(offer, them) {
 
             if (goodtogo === 0) {
                 fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, '1', function (err) {
-                    console.log("goodtogo for " + them.personaName + " = " + goodtogo);
+                    console.log("goodtogo for " + them.personaName + " = 1");
                     if (err) return console.log(err);
                 });
         
