@@ -69,152 +69,6 @@ async function processOffer(offer, them) {
     //console.log(offer.itemsToReceive[0].market_fee_app);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    const path = __dirname;
-    var goodtogo = 0;
-    var data = 0;
-
- /*   
-    fs.readFile(`${path}/cooldown/${them.personaName}`, 'utf8', function (err, data) {
-        if (err) {
-            //goodtogo = 0;
-            //return console.log(err);
-            console.log("No file found for " + them.personaName + "; " + "goodtogo = " + goodtogo);
-        }
-        
-        console.log("data = " + data);
-
-        if (data == null) {
-            goodtogo = 0;
-            console.log("1. goodtogo = " + goodtogo);
-        } else {
-            goodtogo = data;
-            console.log("2. goodtogo = " + goodtogo);
-        }
-    });
-
-*/
-
-
-    try {
-        data = await fs.readFileSync(`${path}/cooldown/${them.personaName}`, 'utf8');
-        
-        console.log("data = " + data);
-
-        if (data == null) {
-            goodtogo = 0;
-            console.log("1. goodtogo = " + goodtogo);
-        } else {
-            goodtogo = data;
-            console.log("2. goodtogo = " + goodtogo);
-        }
-
-    } catch (err) {
-        console.log("No file found for " + them.personaName + "; " + "goodtogo = " + goodtogo);
-    }
-
-
-
-
-
-    if (goodtogo === 0) {
-
-        fs.writeFile(`${path}/cooldown/${them.personaName}`, '1', function (err) {
-            console.log("3. goodtogo = " + goodtogo);
-            if (err) return console.log(err);
-        });
-
-    } else {
-        console.log("4. goodtogo = " + goodtogo);
-        
-        goodtogo = Number(goodtogo) + 1;
-        
-        fs.writeFile(`${path}/cooldown/${them.personaName}`, `${goodtogo}`, function (err) {
-            if (err) return console.log(err);
-        });
-    }
-
-    
-    
-    /*
-        try {
-            data = await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, '1');
-            // file written successfully
-            console.log("3. data = " + data);
-            goodtogo = data;
-            parseInt(goodtogo);
-            //Number(goodtogo);
-            console.log("3. goodtogo = " + goodtogo);
-        } catch (err) {
-            console.error(err);
-        }
-
-    } else {
-        console.log("4. goodtogo = " + goodtogo);
-        parseInt(goodtogo);
-        //Number(goodtogo);
-        goodtogo += 1;
-
-        try {
-            data = await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, `${goodtogo}`);
-            // file written successfully
-            goodtogo = data;
-            parseInt(goodtogo);
-            //Number(goodtogo);
-            console.log("5. goodtogo = " + goodtogo);
-        } catch (err) {
-            console.error(err);
-        }
-    }
-*/
-
-    if (goodtogo === 5) {
-        offer.decline(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade more than 5 times in a day.'));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you can only trade 5 times per day :steamsad:');
-            }
-        });
-        return;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     if (offer.itemsToGive.length === 0) {
         // donation
         offer.accept((err, status) => {
@@ -257,6 +111,67 @@ async function processOffer(offer, them) {
         });
         return;
     }
+
+
+
+/*
+
+    // Check how many offers we got from a single user
+
+
+    const path = __dirname;
+    var goodtogo = 0;
+    var data = 0;
+
+    try {
+        data = await fs.readFileSync(`${path}/cooldown/${them.personaName}`, 'utf8');
+        
+        console.log("data = " + data);
+
+        if (data == null) {
+            goodtogo = 0;
+            console.log("1. goodtogo = " + goodtogo);
+        } else {
+            goodtogo = data;
+            console.log("2. goodtogo = " + goodtogo);
+        }
+
+    } catch (err) {
+        console.log("No file found for " + them.personaName + "; " + "goodtogo = " + goodtogo);
+    }
+
+    if (goodtogo === 0) {
+
+        fs.writeFile(`${path}/cooldown/${them.personaName}`, '1', function (err) {
+            console.log("3. goodtogo = " + goodtogo);
+            if (err) return console.log(err);
+        });
+
+    } else {
+        console.log("4. goodtogo = " + goodtogo);
+        
+        goodtogo = Number(goodtogo) + 1;
+        
+        fs.writeFile(`${path}/cooldown/${them.personaName}`, `${goodtogo}`, function (err) {
+            if (err) return console.log(err);
+        });
+    }
+
+    if (goodtogo === 5) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade more than 5 times in a day.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you can only trade 5 times per day :steamsad:');
+            }
+        });
+        return;
+    }
+
+
+*/
+
 
     if (offer.itemsToGive.length > 1) {
         offer.decline(err => {
