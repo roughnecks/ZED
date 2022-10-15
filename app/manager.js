@@ -120,7 +120,6 @@ async function processOffer(offer, them) {
             console.log("1. goodtogo = " + goodtogo);
         } else {
             goodtogo = data;
-            Number(goodtogo);
             console.log("2. goodtogo = " + goodtogo);
         }
 
@@ -140,9 +139,10 @@ async function processOffer(offer, them) {
         });
 
     } else {
-        console.log("4. goodtogo non = 0");
-        Number(goodtogo);
-        goodtogo += 1;
+        console.log("4. goodtogo = " + goodtogo);
+        
+        goodtogo = Number(goodtogo) + 1;
+        
         fs.writeFile(`${path}/cooldown/${them.personaName}`, `${goodtogo}`, function (err) {
             if (err) return console.log(err);
         });
