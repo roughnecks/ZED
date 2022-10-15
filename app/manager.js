@@ -152,6 +152,7 @@ async function processOffer(offer, them) {
         try {
             data = await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, '1');
             // file written successfully
+            console.log("3. data = " + data);
             goodtogo = data;
             Number(goodtogo);
             console.log("3. goodtogo = " + goodtogo);
@@ -160,7 +161,8 @@ async function processOffer(offer, them) {
         }
 
     } else {
-        console.log("4. goodtogo non = " + goodtogo);
+        console.log("4. goodtogo = " + goodtogo);
+        Number(goodtogo);
         goodtogo += 1;
 
         try {
