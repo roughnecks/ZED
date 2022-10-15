@@ -3,6 +3,7 @@
 const TradeOfferManager = require('steam-tradeoffer-manager');
 const SteamUser = require('steam-user');
 const SteamCommunity = require('steamcommunity');
+fs = require('fs');
 
 //console colors
 const chalk = require('chalk');
@@ -66,6 +67,86 @@ async function processOffer(offer, them) {
 
     //console.log(offer.itemsToGive[0].market_fee_app);
     //console.log(offer.itemsToReceive[0].market_fee_app);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    const path = __dirname;
+    var goodtogo = typeof (undefined);
+
+    
+    fs.readFile(`${path}/cooldown/${them.personaName}`, 'utf8', function (err, data) {
+        if (err) {
+            goodtogo = 0;
+            //return console.log(err);
+            console.log("No file found for " + them.personaName + " ;" + "goodtogo = " + goodtogo);
+        }
+        console.log("data = " + data);
+        goodtogo = data;
+        console.log("goodtogo = " + goodtogo);
+    });
+
+    if (goodtogo === 0) {
+
+        fs.writeFile(`${path}/cooldown/${them.personaName}`, '1', function (err) {
+            if (err) return console.log(err);
+        });
+
+    } else {
+
+        goodtogo += 1;
+        fs.writeFile(`${path}/cooldown/${them.personaName}`, `${goodtogo}`, function (err) {
+            if (err) return console.log(err);
+        });
+
+    }
+
+
+    if (goodtogo === 5) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade more than 5 times in a day.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you can only trade 5 times per day :steamsad:');
+            }
+        });
+        return;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     if (offer.itemsToGive.length === 0) {
         // donation
