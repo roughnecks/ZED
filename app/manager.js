@@ -140,6 +140,8 @@ async function processOffer(offer, them) {
         console.log("No file found for " + them.personaName + "; " + "goodtogo = " + goodtogo);
     }
 
+/*
+
     if (goodtogo === 0) {
 
         fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, '1', function (err) {
@@ -156,6 +158,8 @@ async function processOffer(offer, them) {
             if (err) return console.log(err);
         });
     }
+
+*/
 
     if (goodtogo >= 5) {
         offer.decline(err => {
@@ -299,6 +303,33 @@ async function processOffer(offer, them) {
             console.log(err);
         } else {
             console.log(chalk.green(`Accepted offer ${offer.id} from ${them.personaName}. Status: ${status}.`));
+
+
+
+
+
+            if (goodtogo === 0) {
+
+                fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, '1', function (err) {
+                    console.log("3. goodtogo = " + goodtogo);
+                    if (err) return console.log(err);
+                });
+        
+            } else {
+                console.log("4. goodtogo = " + goodtogo);
+                
+                goodtogo = Number(goodtogo) + 1;
+                
+                fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, `${goodtogo}`, function (err) {
+                    if (err) return console.log(err);
+                });
+            }
+
+
+
+
+
+
 
             setTimeout(() => {
                 manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
