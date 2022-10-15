@@ -86,6 +86,7 @@ async function processOffer(offer, them) {
 
     const path = __dirname;
     var goodtogo = 0;
+    var data = 0;
 
  /*   
     fs.readFile(`${path}/cooldown/${them.personaName}`, 'utf8', function (err, data) {
@@ -110,7 +111,7 @@ async function processOffer(offer, them) {
 
 
     try {
-        const data = await fs.readFileSync(`${path}/cooldown/${them.personaName}`, 'utf8');
+        data = await fs.readFileSync(`${path}/cooldown/${them.personaName}`, 'utf8');
         
         console.log("data = " + data);
 
@@ -119,6 +120,7 @@ async function processOffer(offer, them) {
             console.log("1. goodtogo = " + goodtogo);
         } else {
             goodtogo = data;
+            Number(goodtogo);
             console.log("2. goodtogo = " + goodtogo);
         }
 
@@ -148,21 +150,25 @@ async function processOffer(offer, them) {
         */
 
         try {
-            await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, '1');
+            data = await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, '1');
             // file written successfully
-            console.log("3. goodtogo = 0");
+            goodtogo = data;
+            Number(goodtogo);
+            console.log("3. goodtogo = " + goodtogo);
         } catch (err) {
             console.error(err);
         }
 
     } else {
-        console.log("4. goodtogo non = 0");
+        console.log("4. goodtogo non = " + goodtogo);
         goodtogo += 1;
 
         try {
-            await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, `${goodtogo}`);
+            data = await fs.writeFileSync(`${path}/cooldown/${them.personaName}`, `${goodtogo}`);
             // file written successfully
-            console.log("3. goodtogo = 0");
+            goodtogo = data;
+            Number(goodtogo);
+            console.log("5. goodtogo = " + goodtogo);
         } catch (err) {
             console.error(err);
         }
