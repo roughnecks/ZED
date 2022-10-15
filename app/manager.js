@@ -3,7 +3,7 @@
 const TradeOfferManager = require('steam-tradeoffer-manager');
 const SteamUser = require('steam-user');
 const SteamCommunity = require('steamcommunity');
-fs = require('fs');
+const fs = require('fs');
 
 //console colors
 const chalk = require('chalk');
@@ -83,7 +83,7 @@ async function processOffer(offer, them) {
 
 
 
-    
+
     const path = __dirname;
     var goodtogo = typeof (undefined);
 
