@@ -77,7 +77,7 @@ async function processOffer(offer, them) {
             } else {
                 console.log(chalk.green(`Donation accepted from ${them.personaName}: ${offer.itemsToReceive.length} Item(s). Status: ${status}.`));
                 console.log(chalk.magenta("=========================="));
-                console.log(offer.partner.getSteamID64());
+                //console.log(offer.partner.getSteamID64());
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
 
                 if (offer.itemsToReceive.length > 4) {
@@ -115,7 +115,6 @@ async function processOffer(offer, them) {
 
 
 
-/*
 
     // Check how many offers we got from a single user
 
@@ -125,7 +124,7 @@ async function processOffer(offer, them) {
     var data = 0;
 
     try {
-        data = await fs.readFileSync(`${path}/cooldown/${them.personaName}`, 'utf8');
+        data = await fs.readFileSync(`${path}/cooldown/${offer.partner.getSteamID64()}`, 'utf8');
         
         console.log("data = " + data);
 
@@ -143,7 +142,7 @@ async function processOffer(offer, them) {
 
     if (goodtogo === 0) {
 
-        fs.writeFile(`${path}/cooldown/${them.personaName}`, '1', function (err) {
+        fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, '1', function (err) {
             console.log("3. goodtogo = " + goodtogo);
             if (err) return console.log(err);
         });
@@ -153,7 +152,7 @@ async function processOffer(offer, them) {
         
         goodtogo = Number(goodtogo) + 1;
         
-        fs.writeFile(`${path}/cooldown/${them.personaName}`, `${goodtogo}`, function (err) {
+        fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, `${goodtogo}`, function (err) {
             if (err) return console.log(err);
         });
     }
@@ -170,9 +169,7 @@ async function processOffer(offer, them) {
         return;
     }
 
-
-*/
-
+    // Do other checks on Offers
 
     if (offer.itemsToGive.length > 1) {
         offer.decline(err => {
