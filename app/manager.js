@@ -88,13 +88,16 @@ async function processOffer(offer, them) {
                             }
                         });
                     }, 2000);
-                } else { console.log(chalk.yellow('No confirmation needed (donation)')); }
+                } else {
+                    console.log(chalk.yellow('No confirmation needed (donation)'));
+                    console.log(chalk.magenta("=========================="));
+                }
             }
         });
         return;
     }
 
-    
+
     if (offer.itemsToGive.length === 0) {
         // donation
         offer.accept((err, status) => {
