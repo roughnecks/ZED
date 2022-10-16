@@ -89,7 +89,7 @@ async function processOffer(offer, them) {
     }
 
     if (offer.partner.getSteamID64() === config.ownerSteamID64) {
-
+        // Accept everything from bot's owner
         offer.accept(async (err, status) => {
             if (err) {
                 console.log(err);
@@ -113,11 +113,7 @@ async function processOffer(offer, them) {
         return;
     }
 
-
-
-
     // Check how many offers we got from a single user
-
 
     const path = __dirname;
     var goodtogo = 0;
@@ -125,40 +121,17 @@ async function processOffer(offer, them) {
 
     try {
         data = await fs.readFileSync(`${path}/cooldown/${offer.partner.getSteamID64()}`, 'utf8');
-        //console.log("data = " + data);
         if (data == null) {
             goodtogo = 0;
-            //console.log("1. goodtogo = " + goodtogo);
         } else {
             goodtogo = data;
             goodtogo = Number(goodtogo);
-            //console.log("2. goodtogo = " + goodtogo);
         }
 
     } catch (err) {
         console.log("No cooldown file found for " + them.personaName);
     }
 
-/*
-
-    if (goodtogo === 0) {
-
-        fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, '1', function (err) {
-            console.log("3. goodtogo = " + goodtogo);
-            if (err) return console.log(err);
-        });
-
-    } else {
-        console.log("4. goodtogo = " + goodtogo);
-        
-        goodtogo = Number(goodtogo) + 1;
-        
-        fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, `${goodtogo}`, function (err) {
-            if (err) return console.log(err);
-        });
-    }
-
-*/
 
     if (goodtogo === 5) {
         offer.decline(err => {
@@ -303,9 +276,7 @@ async function processOffer(offer, them) {
         } else {
             console.log(chalk.green(`Accepted offer ${offer.id} from ${them.personaName}. Status: ${status}.`));
 
-
-
-
+            // Count how many trade a user has successfully created
 
             if (goodtogo === 0) {
                 fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, '1', function (err) {
@@ -314,7 +285,6 @@ async function processOffer(offer, them) {
                 });
         
             } else {
-                //console.log("4. goodtogo = " + goodtogo);
                 goodtogo = Number(goodtogo) + 1;
                 console.log("goodtogo for " + them.personaName + " = " + goodtogo);
                 fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, `${goodtogo}`, function (err) {
@@ -322,11 +292,7 @@ async function processOffer(offer, them) {
                 });
             }
 
-
-
-
-
-
+            // Confirm offer
 
             setTimeout(() => {
                 manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
@@ -336,7 +302,6 @@ async function processOffer(offer, them) {
                     } else {
                         console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
                         console.log(chalk.magenta("=========================="));
-                        //manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for trading with me! Leave a message on my profile if you wish so and let your friends know about me ^^');
                     }
                 });
             }, 2000);
