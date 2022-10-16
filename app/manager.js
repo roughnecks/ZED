@@ -69,25 +69,6 @@ async function processOffer(offer, them) {
     //console.log(offer.itemsToReceive[0].market_fee_app);
 
 
-    if (offer.itemsToGive.length === 0) {
-        // donation
-        offer.accept((err, status) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(chalk.green(`Donation accepted from ${them.personaName}: ${offer.itemsToReceive.length} Item(s). Status: ${status}.`));
-                console.log(chalk.magenta("=========================="));
-                //console.log(offer.partner.getSteamID64());
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
-
-                if (offer.itemsToReceive.length > 4) {
-                    postComment(them.personaName, offer.itemsToReceive.length);
-                }
-            }
-        });
-        return;
-    }
-
     if (offer.partner.getSteamID64() === config.ownerSteamID64) {
         // Accept everything from bot's owner
         offer.accept(async (err, status) => {
@@ -112,6 +93,27 @@ async function processOffer(offer, them) {
         });
         return;
     }
+
+    
+    if (offer.itemsToGive.length === 0) {
+        // donation
+        offer.accept((err, status) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.green(`Donation accepted from ${them.personaName}: ${offer.itemsToReceive.length} Item(s). Status: ${status}.`));
+                console.log(chalk.magenta("=========================="));
+                //console.log(offer.partner.getSteamID64());
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
+
+                if (offer.itemsToReceive.length > 4) {
+                    postComment(them.personaName, offer.itemsToReceive.length);
+                }
+            }
+        });
+        return;
+    }
+
 
     // Check how many offers we got from a single user
 
