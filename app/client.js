@@ -128,6 +128,8 @@ zed.manager._steam.on('friendRelationship', (steamID, relationship) => {
         });
         zed.manager._steam.addFriend(steamID);
         console.log(chalk.green('Friend Request Accepted.'));
+        zed.manager._steam.chatMessage(steamID, 'Hello :lunar2019wavingpig: and thanks for adding me. Please leave a message in my profile if you think I\'m useful and let your friends know about me!');
+
     }
 });
 
