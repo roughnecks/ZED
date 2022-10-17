@@ -34,7 +34,7 @@ manager.on('newOffer', offer => {
 
     console.log(offer);
     var timestamp = (new Date()).getTime();
-    manager._steam.ackFriendMessage(offer.partner.getSteamID64(), timestamp);
+    manager._steam.chat.ackFriendMessage(offer.partner.getSteamID64(), timestamp);
 
 });
 
