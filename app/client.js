@@ -3,9 +3,10 @@
 const zed = require('./main');
 const config = require('../config.json');
 const SteamUser = require('steam-user');
-
-//console colors
 const chalk = require('chalk');
+const axios = require('axios');
+const Tf2Stats = require('./models/Tf2Stats');
+const CSGOStats = require('./models/CSGOStats');
 
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
