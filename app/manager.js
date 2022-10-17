@@ -148,7 +148,7 @@ async function processOffer(offer, them) {
                 console.log(err);
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade more than 5 times in a day.'));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you can only trade 5 times per day :steamsad:');
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you can only trade 5 times per day. Resets at 00:00 CET');
             }
         });
         return;
