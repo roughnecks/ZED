@@ -194,7 +194,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!help") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a Steam CHAT and Trading BoT; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + !"csgo - Retrieve CS:GO User Stats" + "\n" 
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!csgo - Retrieve CS:GO User Stats" + "\n" 
         + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location");
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
