@@ -282,13 +282,15 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 var data = fs.readFileSync(filename, 'utf8');
                 var lines = data.split("\n");
 
-                if (+line_no > lines.length) {
+                if (line_no >= lines.length) {
                     throw new Error('File end reached without finding line');
                 }
-
-                callback(null, lines[+line_no]);
+                console,log(lines);
+                console.log(lines[line_no]);
+                callback(null, lines[line_no - 1]);
             }
             console.log("quotenum = " + quoteNum);
+            
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
                 console.log('The line: ' + line);
                 if (err) return console.log("No matching lines");
