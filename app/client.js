@@ -249,7 +249,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
 
                         var fields = lastLine.split(' ');
                         sequenceID = fields[0];
-                        sequenceID = Number(sequenceID);
+                        sequenceID = Number(sequenceID) +1;
                         console.log("2. sequenceID = " + sequenceID);
                     }
 
