@@ -253,7 +253,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                     }
 
                 } catch (err) {
-                    console.log("No cooldown file found for " + them.personaName);
+                    console.log(err);
                 }
 
                 await fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + sender + " " + quote, function (err) {
