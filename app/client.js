@@ -285,7 +285,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             let ismod = await isMod(senderID, groupID);
 
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
-                //console.log('The line: ' + line);
+                console.log('The line: ' + line);
                 if (err) return console.log("No matching lines");
                 //if (line == "Not Found") {
                     if (!(line)) {
