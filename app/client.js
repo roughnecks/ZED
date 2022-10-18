@@ -455,6 +455,7 @@ function get_line(filename, line_no, callback) {
         console.log('File end reached without finding line');
         var line = "Not Found";
         callback(null, line);
+        return;
     }
     //console.log(lines);
     //console.log(lines[line_no]);
