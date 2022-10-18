@@ -9,7 +9,7 @@ const Tf2Stats = require('./models/Tf2Stats');
 const CSGOStats = require('./models/CSGOStats');
 
 const fs = require('fs');
-const FileSniffer = require('FileSniffer');
+const FileSniffer = require('filesniffer');
 
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
