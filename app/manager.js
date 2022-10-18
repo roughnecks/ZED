@@ -270,7 +270,7 @@ async function processOffer(offer, them) {
                     console.log(err);
                 } else {
                     console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for cards with different border.'));
-                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for cards with different border type, like Normal for Foil :steamsad:');
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for cards with different border type, like Foil for Normal :steamsad:');
                 }
             });
             return;
