@@ -280,8 +280,9 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             
             await fs.readFile(`${path}/quotes/quotedb`, function (err, data) {
                 if (err) throw err;
-                if(data.includes(quoteNum, 0)){
-                 console.log(data)
+                console.log(data);
+                if (data.includes(quoteNum)) {
+                console.log(data);
                 }
               });
         }
