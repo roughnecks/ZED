@@ -8,6 +8,8 @@ const axios = require('axios');
 const Tf2Stats = require('./models/Tf2Stats');
 const CSGOStats = require('./models/CSGOStats');
 
+const fs = require('fs');
+
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
         zed.manager._steam.getPersonas([zed.manager._steam.steamID], function (err, personas) {
@@ -183,6 +185,8 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
 
 
 async function parseMessage(groupID, chatID, message, senderID, senderAccountID, sender) {
+    const path = __dirname;
+
     if (!message || !message.startsWith('!')) {
         return;
     }
@@ -217,8 +221,49 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     
     } else if (message === "!csgo") {
         csgoStats(groupID, chatID, sender, senderID);
+
+    } else if (message.startsWith('!quote')) {
+        var str = message.substr(7);
+        var res = str.split(" ");
+        if (res[0] === 'add') {
+            res.shift();
+            var quote = res.join(' ');
+            if (quote === "") {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Where's my quote!?");
+            }
+            else {
+                //let senderID64 = senderID.getSteamID64();
+                var sequenceID;
+                await fs.readFile(`${path}/quotes/quote.db`, 'utf-8', function (err, data) {
+                    if (err) {
+
+                        sequenceID = 1;
+                        sequenceID = Number(sequenceID);
+
+                    } else {
+
+                        var lines = data.trim().split('\n');
+                        var lastLine = lines.slice(-1)[0];
+
+                        var fields = lastLine.split(' ');
+                        sequenceID = fields[0];
+                        sequenceID = Number(sequenceID);
+                        console.log("sequenceID = " + sequenceID);
+                    }
+                });
+                fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + sender + " " + quote, function (err) {
+                    if (err) {
+                        console.log(err);
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't added :(");
+                    } else {
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + sequenceID + " added.");
+                    }
+                });
+            }
+        }
     }
 }
+
 
 async function checkWeather(city, units, groupID, chatID) {
 
