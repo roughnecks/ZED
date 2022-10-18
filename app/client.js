@@ -238,11 +238,11 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 try {
 
                     data = await fs.readFileSync(`${path}/quotes/quotedb`, 'utf8');
-                    console.log("data = " + data);
+                    //console.log("data = " + data);
                     if (!data) {
                         sequenceID = 1;
                         sequenceID = Number(sequenceID);
-                        console.log("1. sequenceID = " + sequenceID)
+                        //console.log("1. sequenceID = " + sequenceID)
                     } else {
                         var lines = data.trim().split('\n');
                         var lastLine = lines.slice(-1)[0];
@@ -250,7 +250,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                         var fields = lastLine.split(' ');
                         sequenceID = fields[0];
                         sequenceID = Number(sequenceID) +1;
-                        console.log("2. sequenceID = " + sequenceID);
+                        //console.log("2. sequenceID = " + sequenceID);
                     }
 
                 } catch (err) {
