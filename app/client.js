@@ -285,7 +285,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 if (line_no >= lines.length) {
                     throw new Error('File end reached without finding line');
                 }
-                console,log(lines);
+                console.log(lines);
                 console.log(lines[line_no]);
                 callback(null, lines[line_no - 1]);
             }
