@@ -277,9 +277,10 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 return;
             }
 
-            const filename = 'quotedb';
             const searchFull = (filename, quoteNum) => {
-
+                console.log(filename);
+                console.log(quoteNum);
+                
                 return new Promise((resolve) => {
                     
                     const regEx = new RegExp(quoteNum, "i")
