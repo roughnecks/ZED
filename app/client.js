@@ -278,29 +278,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 return;
             }
 
-            const searchFull = (filename, quoteNum) => {
-                console.log(filename);
-                console.log(quoteNum);
 
-                return new Promise((resolve) => {
-                    
-                    const regEx = new RegExp(quoteNum, "i")
-                    const result = [];
-            
-                    fs.readFile(`${path}/quotes/` + filename, 'utf8', function (err, contents) {
-                        console.log(err)
-                        let lines = contents.toString().split("\n");
-                        lines.forEach(line => {
-                            if (line && line.search(regEx) >= 0) {
-                                console.log('found in file ', filename)
-                                result.push(line)
-                            }
-                        })
-                        resolve(result);
-                        console.log("result = " + result);
-                    })
-                });
-            }
         }
     }
 }
