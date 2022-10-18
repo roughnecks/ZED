@@ -284,11 +284,10 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             let senderID64 = senderID.getSteamID64();
             let ismod = await isMod(senderID, groupID);
 
-
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
                 //console.log('The line: ' + line);
                 if (err) return console.log("No matching lines");
-
+                if (line == "Line not found") {return zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")}
                 var res = line.split(" ");
                 let author = res[1];
 
@@ -451,6 +450,8 @@ function get_line(filename, line_no, callback) {
 
     if (line_no >= lines.length) {
         console.log('File end reached without finding line');
+        var not_found = "Line not found";
+        return not_found;
     }
     //console.log(lines);
     //console.log(lines[line_no]);
