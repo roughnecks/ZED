@@ -277,17 +277,15 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
                 return;
             }
-            
-            await fs.readFile(`${path}/quotes/quotedb`, function (err, data) {
-                if (err) throw err;
-                console.log(data);
-                if (data.includes(quoteNum)) {
-                console.log(data);
-                }
-              });
-        }
+
+            data = await fs.readFileSync(`${path}/quotes/quotedb`, 'utf8');
+            console.log(data);
+            const result = data.includes(quoteNum);
+            console.log(result);
+        };
     }
 }
+
 
 async function checkWeather(city, units, groupID, chatID) {
 
