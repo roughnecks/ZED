@@ -258,7 +258,9 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                     console.log(err);
                 }
 
-                await fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + sender + " " + quote + "\n", function (err) {
+                let senderID64 = senderID.getSteamID64();
+
+                await fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + senderID64 + " " + sender + " " + quote + "\n", function (err) {
                     if (err) {
                         console.log(err);
                         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't added :(");
@@ -273,31 +275,31 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             res.shift();
             var quoteNum = res.join(' ');
             quoteNum = Number(quoteNum);
-            
+
             if (isNaN(quoteNum) || (quoteNum === 0)) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
                 return;
             }
 
-            function get_line(filename, line_no, callback) {
-                var data = fs.readFileSync(filename, 'utf8');
-                var lines = data.split("\n");
+            let senderID64 = senderID.getSteamID64();
+            let ismod = await isMod(senderID, groupID);
 
-                if (line_no >= lines.length) {
-                    throw new Error('File end reached without finding line');
-                }
-                //console.log(lines);
-                //console.log(lines[line_no]);
-                callback(null, lines[line_no - 1]);
-            }
-            
+
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
                 //console.log('The line: ' + line);
                 if (err) return console.log("No matching lines");
 
-                var replacement = quoteNum + " Quote deleted.";
-                shell(`sed -i "s@${line}@${replacement}@" ${path}/quotes/quotedb`);
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote 3 deleted.");
+                var res = line.split(" ");
+                let author = res[1];
+
+                if ((ismod === 30) || (ismod === 40) || (ismod === 50) || (senderID64 === author) || (senderID64 === zed.config.ownerSteamID64)) {
+
+                    var replacement = quoteNum + " Quote deleted.";
+                    if (line != replacement) {
+                        shell(`sed -i "s@${line}@${replacement}@" ${path}/quotes/quotedb`);
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote 3 deleted.");
+                    } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote already deleted.")}
+                } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You don\'t have permissions to delete that quote.")}
             });
         }
     }
@@ -441,4 +443,16 @@ async function isMod(member, groupID) {
             return (element.rank);
         }
     }
+}
+
+function get_line(filename, line_no, callback) {
+    var data = fs.readFileSync(filename, 'utf8');
+    var lines = data.split("\n");
+
+    if (line_no >= lines.length) {
+        throw new Error('File end reached without finding line');
+    }
+    //console.log(lines);
+    //console.log(lines[line_no]);
+    callback(null, lines[line_no - 1]);
 }
