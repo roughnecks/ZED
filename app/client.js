@@ -296,7 +296,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 if (err) return console.log("No matching lines");
 
                 var replacement = `${quoteNum} + ": Quote deleted."`;
-                shell(`sed -i "s!${line}!${replacement}!" ${path}/quotes/quotedb`);
+                shell(`sed -i "s@${line}@${replacement}@" ${path}/quotes/quotedb`);
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote 3 deleted.");
             });
         }
