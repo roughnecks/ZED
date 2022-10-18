@@ -272,7 +272,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             res.shift();
             var quoteNum = res.join(' ');
             quoteNum = Number(quoteNum);
-            console.log("quotenum = " + quoteNum);
+            
             if (isNaN(quoteNum) || (quoteNum === 0)) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
                 return;
@@ -288,7 +288,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
 
                 callback(null, lines[+line_no]);
             }
-
+            console.log("quotenum = " + quoteNum);
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
                 console.log('The line: ' + line);
                 if (err) return console.log("No matching lines");
