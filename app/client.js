@@ -234,24 +234,29 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             else {
                 //let senderID64 = senderID.getSteamID64();
                 var sequenceID;
-                await fs.readFile(`${path}/quotes/quote.db`, 'utf-8', function (err, data) {
-                    if (err) {
 
+                try {
+
+                    data = await fs.readFileSync(`${path}/quotes/quotedb`, 'utf8');
+                    if (data == null) {
                         sequenceID = 1;
                         sequenceID = Number(sequenceID);
-
+                        console.log("1. sequenceID = " + sequenceID)
                     } else {
-
                         var lines = data.trim().split('\n');
                         var lastLine = lines.slice(-1)[0];
 
                         var fields = lastLine.split(' ');
                         sequenceID = fields[0];
                         sequenceID = Number(sequenceID);
-                        console.log("sequenceID = " + sequenceID);
+                        console.log("2. sequenceID = " + sequenceID);
                     }
-                });
-                fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + sender + " " + quote, function (err) {
+
+                } catch (err) {
+                    console.log("No cooldown file found for " + them.personaName);
+                }
+
+                await fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + sender + " " + quote, function (err) {
                     if (err) {
                         console.log(err);
                         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't added :(");
