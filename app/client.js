@@ -272,6 +272,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             res.shift();
             var quoteNum = res.join(' ');
             quoteNum = Number(quoteNum);
+            console.log("quotenum = " + quoteNum);
             if (isNaN(quoteNum) || (quoteNum === 0)) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
                 return;
@@ -280,7 +281,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             const searchFull = (filename, quoteNum) => {
                 console.log(filename);
                 console.log(quoteNum);
-                
+
                 return new Promise((resolve) => {
                     
                     const regEx = new RegExp(quoteNum, "i")
