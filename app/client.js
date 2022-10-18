@@ -9,6 +9,7 @@ const Tf2Stats = require('./models/Tf2Stats');
 const CSGOStats = require('./models/CSGOStats');
 
 const fs = require('fs');
+const shell = require('child_process').execSync;
 
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
@@ -285,15 +286,17 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 if (line_no >= lines.length) {
                     throw new Error('File end reached without finding line');
                 }
-                console.log(lines);
-                console.log(lines[line_no]);
+                //console.log(lines);
+                //console.log(lines[line_no]);
                 callback(null, lines[line_no - 1]);
             }
-            console.log("quotenum = " + quoteNum);
             
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
-                console.log('The line: ' + line);
+                //console.log('The line: ' + line);
                 if (err) return console.log("No matching lines");
+
+                shell(`sed -i "s!${line}!${quoteNum} + ": Quote deleted."!" ${path}/quotes/quotedb`);
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote 3 deleted.");
             });
         }
     }
