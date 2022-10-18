@@ -9,7 +9,7 @@ const Tf2Stats = require('./models/Tf2Stats');
 const CSGOStats = require('./models/CSGOStats');
 
 const fs = require('fs');
-const filesniffer = require('filesniffer');
+const FileSniffer = require('FileSniffer');
 
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
@@ -280,7 +280,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             }
 
             // Searches for `someString` in `path`, returning all matches as an array 
-            const matches = await filesniffer.create()
+            const matches = await FileSniffer.create()
                 .path(`${path}/quotes/quote.db`)
                 .depth(1)
                 .collect(asArray())
