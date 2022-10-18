@@ -234,7 +234,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             else {
                 //let senderID64 = senderID.getSteamID64();
                 var sequenceID;
-
+                var data;
                 try {
 
                     data = await fs.readFileSync(`${path}/quotes/quotedb`, 'utf8');
