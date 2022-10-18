@@ -285,11 +285,12 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             let ismod = await isMod(senderID, groupID);
 
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
-                console.log('The line: ' + line);
+                //console.log('The line: ' + line);
                 if (err) return console.log("No matching lines");
-                if (line == "Not Found") {
-                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
-                    return;
+                //if (line == "Not Found") {
+                    if (!(line)) {
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
+                        return;
                 }
                 var res = line.split(" ");
                 let author = res[1];
@@ -452,10 +453,10 @@ function get_line(filename, line_no, callback) {
     var lines = data.split("\n");
 
     if (line_no >= lines.length) {
-        console.log('File end reached without finding line');
-        var line = "Not Found";
-        callback(null, line);
-        return;
+        //console.log('File end reached without finding line');
+        //var line = "Not Found";
+        //callback(null, line);
+        //return;
     }
     //console.log(lines);
     //console.log(lines[line_no]);
