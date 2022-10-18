@@ -266,10 +266,42 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                     }
                 });
             }
+
+
+        } else if (res[0] === 'del') {
+            res.shift();
+            var quoteNum = res.join(' ');
+            quoteNum = Number(quoteNum);
+            if (isNaN(quoteNum) || (quoteNum === 0)) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
+                return;
+            }
+
+            const filename = 'quotedb';
+            const searchFull = (filename, quoteNum) => {
+
+                return new Promise((resolve) => {
+                    
+                    const regEx = new RegExp(quoteNum, "i")
+                    const result = [];
+            
+                    fs.readFile(`${path}/quotes/` + filename, 'utf8', function (err, contents) {
+                        console.log(err)
+                        let lines = contents.toString().split("\n");
+                        lines.forEach(line => {
+                            if (line && line.search(regEx) >= 0) {
+                                console.log('found in file ', filename)
+                                result.push(line)
+                            }
+                        })
+                        resolve(result);
+                        console.log("result = " + result);
+                    })
+                });
+            }
         }
     }
 }
-
 
 async function checkWeather(city, units, groupID, chatID) {
 
