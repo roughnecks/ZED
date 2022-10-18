@@ -17,7 +17,6 @@
     "axios": "^0.21.2",
     "chalk": "^2.4.2",
     "console-stamp": "^3.0.6",
-    "filesniffer": "^1.0.3",
     "node-schedule": "^2.1.0",
     "steam-totp": "^2.1.2",
     "steam-tradeoffer-manager": "^2.10.5",
