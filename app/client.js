@@ -287,7 +287,10 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
                 console.log('The line: ' + line);
                 if (err) return console.log("No matching lines");
-                if (line == "Not Found") {return zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")}
+                if (line == "Not Found") {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
+                    return;
+                }
                 var res = line.split(" ");
                 let author = res[1];
 
