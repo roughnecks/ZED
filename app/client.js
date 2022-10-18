@@ -277,7 +277,13 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
                 return;
             }
-
+            
+            await fs.readFile(`${path}/quotes/quotedb`, function (err, data) {
+                if (err) throw err;
+                if(data.includes(quoteNum, 0)){
+                 console.log(data)
+                }
+              });
         }
     }
 }
