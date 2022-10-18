@@ -239,7 +239,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
 
                     data = await fs.readFileSync(`${path}/quotes/quotedb`, 'utf8');
                     console.log("data = " + data);
-                    if (data == null) {
+                    if (!data) {
                         sequenceID = 1;
                         sequenceID = Number(sequenceID);
                         console.log("1. sequenceID = " + sequenceID)
