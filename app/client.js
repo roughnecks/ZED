@@ -309,6 +309,11 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             console.log("quotenum = " + quoteNum)
             quoteNum = Number(quoteNum);
 
+            if (isNaN(quoteNum) || (quoteNum === 0)) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I need a quote's number, starting from '1'.");
+                return;
+            }
+
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
                 console.log('Quote to show: ' + line);
                 if (!(line)) {
