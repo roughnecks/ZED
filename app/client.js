@@ -260,7 +260,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
 
                 let senderID64 = senderID.getSteamID64();
 
-                await fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + senderID64 + " " + sender + " " + quote + "\n", function (err) {
+                await fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + senderID64 + " " + "<" + sender + "> " + quote + "\n", function (err) {
                     if (err) {
                         console.log(err);
                         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't added :(");
@@ -304,9 +304,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You don\'t have permissions to delete that quote.")}
             });
         } else if (res[0] === 'info'){
-            console.log("res = " + res);
             var quoteNum = res[res.length - 1];
-            console.log("quotenum = " + quoteNum)
             quoteNum = Number(quoteNum);
 
             if (isNaN(quoteNum) || (quoteNum === 0)) {
@@ -315,7 +313,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             }
 
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
-                //console.log('Quote to show: ' + line);
+                console.log('Quote to show: ' + line);
                 if (!(line)) {
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
                     return;
@@ -325,7 +323,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 result.shift();
                 line = result.join(' ');
                 
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is " + line);
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is: " + line);
             });
         }
     }
