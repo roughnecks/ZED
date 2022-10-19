@@ -315,20 +315,17 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             }
 
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
-                console.log('Quote to show: ' + line);
+                //console.log('Quote to show: ' + line);
                 if (!(line)) {
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
                     return;
                 }
                 var result = line.split(" ");
-                let author = result[2];
                 result.shift();
                 result.shift();
                 line = result.join(' ');
-                console.log ("newline = " + line);
-                console.log ("author = " + author);
-
-                //zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is from " + author + ": " + line);
+                
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is " + line);
             });
         }
     }
