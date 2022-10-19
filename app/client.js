@@ -297,8 +297,8 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
 
                     var replacement = quoteNum + " Quote deleted.";
                     if (line != replacement) {
-                        shell(`sed -i "s@${line}@${replacement}@" ${path}/quotes/quotedb`);
-                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote " + quoteNum + " deleted.");
+                        shell(`sed -i "s§${line}§${replacement}§" ${path}/quotes/quotedb`);
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " deleted.");
                     } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote already deleted.")}
                 } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You don\'t have permissions to delete that quote.")}
             });
