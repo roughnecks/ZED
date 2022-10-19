@@ -321,8 +321,14 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                     return;
                 }
                 var result = line.split(" ");
-                let author = result[1];
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is from " + author + ": " + line);
+                let author = result[2];
+                result.shift();
+                result.shift();
+                line = result.join(' ');
+                console.log ("newline = " + line);
+                console.log ("author = " + author);
+
+                //zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is from " + author + ": " + line);
             });
         }
     }
