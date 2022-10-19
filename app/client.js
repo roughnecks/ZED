@@ -285,13 +285,13 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             let ismod = await isMod(senderID, groupID);
 
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
-                console.log('The line: ' + line);
+                console.log('Quote to delete: ' + line);
                 if (!(line)) {
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
                     return;
                 }
-                var res = line.split(" ");
-                let author = res[1];
+                var result = line.split(" ");
+                let author = result[1];
 
                 if ((ismod === 30) || (ismod === 40) || (ismod === 50) || (senderID64 === author) || (senderID64 === zed.config.ownerSteamID64)) {
 
@@ -302,6 +302,22 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " deleted.");
                     } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote already deleted.")}
                 } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You don\'t have permissions to delete that quote.")}
+            });
+        } else if (res[0] === 'info'){
+            console.log("res = " + res);
+            var quoteNum = res[res.length - 1];
+            console.log("quotenum = " + quoteNum)
+            quoteNum = Number(quoteNum);
+
+            get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
+                console.log('Quote to show: ' + line);
+                if (!(line)) {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
+                    return;
+                }
+                var result = line.split(" ");
+                let author = result[1];
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is from " + author + ": " + line);
             });
         }
     }
