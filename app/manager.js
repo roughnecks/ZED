@@ -148,7 +148,7 @@ async function processOffer(offer, them) {
                 console.log(err);
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade more than 5 times in a day.'));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you can only trade 5 times per day. Resets at 00:00 CET');
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you can only trade 5 times per day. Resets at 00:00 CET. Thanks for trading :deal_done:');
             }
         });
         return;
@@ -210,7 +210,7 @@ async function processOffer(offer, them) {
     if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToReceive.length > 1 && offer.itemsToGive.length === 1 && itemToReceiveType !== itemToGiveType) {
  
                 console.log(chalk.red('Offer in review, ' + them.personaName + ' offered multiple items but mismatched, like emote for card, etc..'));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer in review because you offered multiple items but asked for mismatched ones, like emote for card, etc..');
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer in review because you sent multiple items but asked for mismatched ones, like emote for card, etc.. Give my owner up to 10hrs to accept or decline.');
                 manager._steam.chatMessage(config.ownerSteamID3, 'Offer in progress, needs manual review!');
                 return;
     }
