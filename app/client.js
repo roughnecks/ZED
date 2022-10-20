@@ -322,7 +322,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 }
                 var result = line.split(" ");
                 result.shift();
-                authorID = result.shift();
+                var authorID = result.shift();
                 line = result.join(' ');
 
                 zed.manager._steam.getPersonas([authorID], function (err, personas) {
