@@ -200,7 +200,8 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a Steam CHAT and Trading BoT; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
     } else if (message === "!commands") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!csgo - Retrieve CS:GO User Stats" + "\n" 
-        + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location");
+        + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" + 
+        "!quote <add text> | <del number> | <info number> | <rand> - Quotes Management");
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
         var res = str.split(" ");
@@ -347,15 +348,11 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 var lastLine = lines.slice(-1)[0];
             
                 var fields = lastLine.split(' ');
-                console.log("fields = " + fields)
                 var lastQuoteNum = fields[0];
-                console.log("lastquotenum = " + lastQuoteNum);
 
                 var randomnumber = Math.floor(Math.random() * (lastQuoteNum)) + 1;
-                console.log("randomnum = " + randomnumber);
 
                 get_line(`${path}/quotes/quotedb`, randomnumber, function (err, line) {
-                    console.log('Quote to show: ' + line);
                     if (!(line)) {
                         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "err, couldn't select a random quote..")
                         return;
@@ -372,14 +369,10 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                         var fullnick = "<" + nickname + ">";
                         line = line.replace(fullnick, '');
                         line = line.trim();
-                        console.log("2. line = " + line);
                         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Random Quote #" + randomnumber + " from " + nickname + " is: " + line);
-                    } else {
-                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Random Quote #" + randomnumber + " is deleted.");
-                    }
+                    } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Random Quote #" + randomnumber + " is deleted.");}
                 });
             });
-
         }
     }
 }
