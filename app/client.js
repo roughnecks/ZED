@@ -303,6 +303,8 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                     } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote already deleted.")}
                 } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You don\'t have permissions to delete that quote.")}
             });
+        
+        
         } else if (res[0] === 'info'){
             var quoteNum = res[res.length - 1];
             quoteNum = Number(quoteNum);
@@ -313,15 +315,23 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             }
 
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
-                console.log('Quote to show: ' + line);
+                //console.log('Quote to show: ' + line);
                 if (!(line)) {
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
                     return;
                 }
                 var result = line.split(" ");
                 result.shift();
-                result.shift();
+                authorID = result.shift();
                 line = result.join(' ');
+
+                zed.manager._steam.getPersonas([authorID], function (err, personas) {
+                    if (!err) {
+                        author = personas[authorID]["player_name"];
+                    }
+                });
+                
+                console.log("author = " + author);
                 
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is: " + line);
             });
