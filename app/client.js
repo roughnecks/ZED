@@ -322,27 +322,8 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 }
                 var result = line.split(" ");
                 result.shift();
-                var authorID = result.shift();
-                console.log("authorID = " + authorID);
-                var author;
+                var author = result.shift();
                 line = result.join(' ');
-
-                zed.manager._steam.getPersonas([authorID], function (err, personas) {
-                    //    if (!err) {
-                    //        author = personas[authorID]["player_name"];
-                    //        console.log("1. author = " + author);
-                    //    }
-                    //});
-
-
-                    if (err) { console.log('error.') }
-                    else {
-                        var persona = personas[authorID];
-                        author = persona ? persona.player_name : ("[" + authorID + "]");
-                    }
-                });
-
-                console.log("2. author = " + author);
 
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is: " + line);
             });
