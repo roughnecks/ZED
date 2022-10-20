@@ -336,6 +336,51 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is deleted.");}
             });
         }
+
+
+        else if (res[0] === 'rand') {
+
+            fs.readFile(`${path}/quotes/quotedb`, 'utf-8', function(err, data) {
+                if (err) throw err;
+            
+                var lines = data.trim().split('\n');
+                var lastLine = lines.slice(-1)[0];
+            
+                var fields = lastLine.split(' ');
+                console.log("fields = " + fields)
+                var lastQuoteNum = fields[0];
+                console.log("lastquotenum = " + lastQuoteNum);
+
+                var randomnumber = Math.floor(Math.random() * (lastQuoteNum)) + 1;
+                console.log("randomnum = " + randomnumber);
+
+                get_line(`${path}/quotes/quotedb`, randomnumber, function (err, line) {
+                    console.log('Quote to show: ' + line);
+                    if (!(line)) {
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "err, couldn't select a random quote..")
+                        return;
+                    }
+    
+                    var replacement = randomnumber + " Quote deleted.";
+                    
+                    if (line != replacement) {
+                        var result = line.split(" ");
+                        result.shift();
+                        result.shift();
+                        line = result.join(' ');
+                        var nickname = line.split('<').pop().split('>')[0];
+                        var fullnick = "<" + nickname + ">";
+                        line = line.replace(fullnick, '');
+                        line = line.trim();
+                        console.log("2. line = " + line);
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Random Quote #" + randomnumber + " from " + nickname + " is: " + line);
+                    } else {
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Random Quote #" + randomnumber + " is deleted.");
+                    }
+                });
+            });
+
+        }
     }
 }
 
