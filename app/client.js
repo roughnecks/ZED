@@ -320,12 +320,20 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
                     return;
                 }
-                var result = line.split(" ");
-                result.shift();
-                var author = result.shift();
-                line = result.join(' ');
 
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is: " + line);
+                var replacement = quoteNum + " Quote deleted.";
+                if (line != replacement) {
+                    var result = line.split(" ");
+                    result.shift();
+                    result.shift();
+                    line = result.join(' ');
+                    var nickname = line.split('<').pop().split('>')[0];
+                    var fullnick = "<" + nickname + ">";
+                    line = line.replace(fullnick, '');
+                    line = line.trim();
+
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " from " + nickname + " is: " + line);
+                } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is deleted.");}
             });
         }
     }
