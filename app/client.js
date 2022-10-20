@@ -323,16 +323,18 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 var result = line.split(" ");
                 result.shift();
                 var authorID = result.shift();
+                console.log("authorID = " + authorID);
                 var author;
                 line = result.join(' ');
 
                 zed.manager._steam.getPersonas([authorID], function (err, personas) {
                     if (!err) {
                         author = personas[authorID]["player_name"];
+                        console.log("1. author = " + author);
                     }
                 });
                 
-                console.log("author = " + author);
+                console.log("2. author = " + author);
                 
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote #" + quoteNum + " is: " + line);
             });
