@@ -110,7 +110,6 @@ async function processOffer(offer, them) {
             } else {
                 console.log(chalk.green(`Donation accepted from ${them.personaName}: ${offer.itemsToReceive.length} Item(s). Status: ${status}.`));
                 console.log(chalk.magenta("=========================="));
-                //console.log(offer.partner.getSteamID64());
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation!');
 
                 if (offer.itemsToReceive.length > 4) {
@@ -230,23 +229,6 @@ async function processOffer(offer, them) {
         }
     }
 
-/*
-
-    if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToGive[0].market_fee_app !== offer.itemsToReceive[0].market_fee_app) {
-        if (offer.itemsToReceive.length <= offer.itemsToGive.length) {
-        offer.decline(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different sets and didn\'t offer 2 or more items.'));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different sets and didn\'t offer 2 or more items :steamsad:');
-            }
-        });
-            return;
-        }
-    }
-
-*/
 
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].appid !== offer.itemsToReceive[0].appid) {
