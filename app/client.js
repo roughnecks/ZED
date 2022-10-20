@@ -374,6 +374,30 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 });
             });
         }
+
+        else if (res[0] === 'search') {
+            res.shift();
+            var search = res.join(' ');
+            if (search === "") {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "A search term is needed!");
+            }
+            else {
+                let file = fs.readFileSync(`${path}/quotes/quotedb`, "utf8");
+                let arr = file.split(/\r?\n/);
+                var idxfull = [];
+                arr.forEach((line, idx) => {
+                    line = line.toLowerCase();
+                    if (line.includes(search)) {
+                        //console.log((idx+1)+':'+ line);
+                        idxfull.push(idx+1);
+                    }
+                });
+                //console.log(idxfull);
+                if (idxfull.length === 0) {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No match found for " + search);
+                } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Found the following quote(s) number: " + idxfull);}
+            }
+        }
     }
 }
 
