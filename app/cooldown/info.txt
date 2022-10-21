@@ -1,0 +1,1 @@
+This dir is holding steamid64 of users trading with the bot.
