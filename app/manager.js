@@ -180,6 +180,20 @@ async function processOffer(offer, them) {
         return;
     }
 
+
+    if (itemToGiveType === enums.InventoryItemType.Gems) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for gems.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for Gems, which I don\'t currently trade :steamsad:');
+            }
+        });
+        return;
+    }
+
+
     if (config.lockedItems.some(x => x === offer.itemsToGive[0].name)) {
         offer.decline(err => {
             if (err) {
@@ -212,21 +226,6 @@ async function processOffer(offer, them) {
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer in review because you sent multiple items but asked for mismatched ones, like emote for card, etc.. Give my owner up to 10hrs to accept or decline.');
                 manager._steam.chatMessage(config.ownerSteamID3, 'Offer in progress, needs manual review!');
                 return;
-    }
-
-
-    if (itemToReceiveType === enums.InventoryItemType.Gems && itemToGiveType === enums.InventoryItemType.Gems) {
-        if (offer.itemsToReceive[0].amount < offer.itemsToGive[0].amount) {
-            offer.decline(err => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for more gems than they offered.'));
-                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for more Gems than you offered :steamsad:');
-                }
-            });
-            return;
-        }
     }
 
 
