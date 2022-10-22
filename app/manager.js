@@ -200,7 +200,7 @@ async function processOffer(offer, them) {
                 console.log(err);
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for locked items in our Inventory.'));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for locked items in our Inventory :steamsad:');
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for locked items in our Inventory: read my profile to know which they are..');
             }
         });
         return;
