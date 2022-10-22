@@ -286,7 +286,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             let ismod = await isMod(senderID, groupID);
 
             get_line(`${path}/quotes/quotedb`, quoteNum, function (err, line) {
-                console.log('Quote to delete: ' + line);
+                //console.log('Quote to delete: ' + line);
                 if (!(line)) {
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Quote not in DB.")
                     return;
