@@ -369,7 +369,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                         var fullnick = "<" + nickname + ">";
                         line = line.replace(fullnick, '');
                         line = line.trim();
-                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Random Quote #" + randomnumber + " from " + nickname + " is: " + line);
+                        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Random Quote #" + randomnumber + " from " + fullnick + " is: " + line);
                     } else {zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Random Quote #" + randomnumber + " is deleted.");}
                 });
             });
