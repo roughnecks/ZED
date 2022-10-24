@@ -125,15 +125,16 @@ zed.manager._steam.on('friendRelationship', (steamID, relationship) => {
         zed.manager._steam.getPersonas([steamID], function (err, personas) {
             if (!err) {
                 console.log(chalk.yellow('Adding New Friend: ' + personas[steamID]["player_name"]));
+                console.log(chalk.magenta("=========================="));
             }
             else {
                 console.log(chalk.yellow('Adding New Friend: ' + steamID.getSteamID64()));
+                console.log(chalk.magenta("=========================="));
             }
         });
         zed.manager._steam.addFriend(steamID);
         console.log(chalk.green('Friend Request Accepted.'));
         zed.manager._steam.chatMessage(steamID, 'Hello :lunar2019wavingpig: and thanks for adding me. Please leave a message in my profile if you think I\'m useful and let your friends know about me!');
-        console.log(chalk.magenta("=========================="));
     }
 });
 
