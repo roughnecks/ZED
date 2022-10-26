@@ -85,16 +85,16 @@ async function processOffer(offer, them) {
                         manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
                             if (err) {
                                 console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
-                                console.log(chalk.bgCyan("=========================="));
+                                console.log(chalk.cyan("=========================="));
                             } else {
                                 console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
-                                console.log(chalk.bgCyan("=========================="));
+                                console.log(chalk.cyan("=========================="));
                             }
                         });
                     }, 2000);
                 } else {
                     console.log(chalk.yellow('No confirmation needed (donation)'));
-                    console.log(chalk.bgCyan("=========================="));
+                    console.log(chalk.cyan("=========================="));
                 }
             }
         });
@@ -109,7 +109,7 @@ async function processOffer(offer, them) {
                 console.log(err);
             } else {
                 console.log(chalk.green(`Donation accepted from ${them.personaName}: ${offer.itemsToReceive.length} Item(s). Status: ${status}.`));
-                console.log(chalk.bgCyan("=========================="));
+                console.log(chalk.cyan("=========================="));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation! :pleased:');
 
                 if (offer.itemsToReceive.length > 4) {
@@ -297,10 +297,10 @@ async function processOffer(offer, them) {
                 manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
                     if (err) {
                         console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
-                        console.log(chalk.bgCyan("=========================="));
+                        console.log(chalk.cyan("=========================="));
                     } else {
                         console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
-                        console.log(chalk.bgCyan("=========================="));
+                        console.log(chalk.cyan("=========================="));
                     }
                 });
             }, 2000);
