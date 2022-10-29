@@ -21,6 +21,7 @@
     "steam-totp": "^2.1.2",
     "steam-tradeoffer-manager": "^2.10.5",
     "steam-user": "^4.11.0",
-    "steamcommunity": "^3.44.2"
+    "steamcommunity": "^3.44.2",
+    "stream-title": "^1.0.7"
   }
 }

@@ -10,6 +10,7 @@ const CSGOStats = require('./models/CSGOStats');
 
 const fs = require('fs');
 const shell = require('child_process').execSync;
+const streamTitle = require('stream-title');
 
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
@@ -202,8 +203,10 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!radio") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Listen to our StillStream Radio using you favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
         "Server Status: https://woodpeckersnest.space:8090/status.xsl");
+    } else if (message === "!np") {
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: " + song);
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!csgo - Retrieve CS:GO User Stats" + "\n" 
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!np - Now Playing on StillStream" + "\n" + "!csgo - Retrieve CS:GO User Stats" + "\n" 
         + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" + 
         "!quote <add text> | <del number> | <info number> | <rand> - Quotes Management");
     } else if (message.startsWith('!weather')) {
@@ -556,3 +559,22 @@ function get_line(filename, line_no, callback) {
     //console.log(lines[line_no]);
     callback(null, lines[line_no - 1]);
 }
+
+var song;
+
+
+// Title refresh every 10 seconds
+setInterval(function () {
+    streamTitle({
+        url: 'https://woodpeckersnest.space:8090',
+        type: 'icecast',
+        mount: '/live'
+    }).then(function (title) {
+        //console.log(title);
+        song = title;
+    }).catch(function (err) {
+        //console.log(err);
+        return;
+    });
+}, 10 * 1000);
+
