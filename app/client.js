@@ -571,7 +571,9 @@ setInterval(function () {
         mount: '/live'
     }).then(function (title) {
         //console.log(title);
-        song = title;
+        if (title == null){
+          song = "Not playing right now or no one's listening :("  
+        } else {song = title}
     }).catch(function (err) {
         //console.log(err);
         return;
