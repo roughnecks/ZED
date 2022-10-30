@@ -204,7 +204,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Listen to our StillStream Radio - Only Game OSTs 24/24h - using you favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
         "Server Status: https://woodpeckersnest.space:8090/status.xsl");
     } else if (message === "!np") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: " + song);
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);
     } else if (message === "!commands") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!np - Now Playing on StillStream" + "\n" + "!csgo - Retrieve CS:GO User Stats" + "\n" 
         + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" + 
