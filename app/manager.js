@@ -148,6 +148,7 @@ async function processOffer(offer, them) {
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade more than 5 times in a day.'));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you can only trade 5 times per day. Resets at 00:00 CET. Thanks for trading :deal_done:');
+                console.log(chalk.cyan("=========================="));
             }
         });
         return;
@@ -162,6 +163,7 @@ async function processOffer(offer, them) {
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for more than 1 item.'));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; we\'re only trading 1 item at time :steamsad:');
+                console.log(chalk.cyan("=========================="));
             }
         });
         return;
@@ -174,6 +176,7 @@ async function processOffer(offer, them) {
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' didn\'t offer any item.'));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined: you didn\'t offer any item :steamsad:');
+                console.log(chalk.cyan("=========================="));
 
             }
         });
@@ -188,6 +191,7 @@ async function processOffer(offer, them) {
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for gems.'));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for :Gems:, which I don\'t currently trade :steamsad:');
+                console.log(chalk.cyan("=========================="));
             }
         });
         return;
@@ -201,6 +205,7 @@ async function processOffer(offer, them) {
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for locked items in our Inventory.'));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for locked items in our Inventory: read my profile to know which they are..');
+                console.log(chalk.cyan("=========================="));
             }
         });
         return;
@@ -214,6 +219,7 @@ async function processOffer(offer, them) {
             } else {
                 console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for mismatched items, like emote for card, etc..'));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for mismatched items, like emote for card, etc.. :steamsad:');
+                console.log(chalk.cyan("=========================="));
             }
         });
         return;
@@ -225,6 +231,7 @@ async function processOffer(offer, them) {
                 console.log(chalk.red('Offer in review, ' + them.personaName + ' offered multiple items but mismatched, like emote for card, etc..'));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer in review because you sent multiple items but asked for mismatched ones, like emote for card, etc.. Give my owner up to 10hrs to accept or decline.');
                 manager._steam.chatMessage(config.ownerSteamID3, 'Offer in progress, needs manual review!');
+                console.log(chalk.cyan("=========================="));
                 return;
     }
 
@@ -237,6 +244,7 @@ async function processOffer(offer, them) {
                 } else {
                     console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for items from different inventories.'));
                     manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked to trade items from different Inventories :steamsad:');
+                    console.log(chalk.cyan("=========================="));
                 }
             });
             return;
@@ -261,6 +269,7 @@ async function processOffer(offer, them) {
                 } else {
                     console.log(chalk.red('Offer declined, ' + them.personaName + ' asked for cards with different border.'));
                     manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for :tradingcard: with different border type, like Foil for Normal :steamsad:');
+                    console.log(chalk.cyan("=========================="));
                 }
             });
             return;
