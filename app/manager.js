@@ -355,8 +355,48 @@ async function processOffer(offer, them) {
 
                 
             });
+            return;
         }
     }
+
+    offer.accept(async (err, status) => {
+
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(chalk.green(`Accepted offer ${offer.id} from ${them.personaName}. Status: ${status}.`));
+
+            // Count how many trade a user has successfully created
+
+            if (goodtogo === 0) {
+                fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, '1', function (err) {
+                    console.log("goodtogo for " + them.personaName + " = 1");
+                    if (err) return console.log(err);
+                });
+        
+            } else {
+                goodtogo = Number(goodtogo) + 1;
+                console.log("goodtogo for " + them.personaName + " = " + goodtogo);
+                fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, `${goodtogo}`, function (err) {
+                    if (err) return console.log(err);
+                });
+            }
+
+            // Confirm offer
+
+            setTimeout(() => {
+                manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
+                    if (err) {
+                        console.log(chalk.red("Confirmation Failed for  " + offer.id + ": " + err));
+                        console.log(chalk.cyan("=========================="));
+                    } else {
+                        console.log(chalk.green("Offer " + offer.id + ": Confirmed!"));
+                        console.log(chalk.cyan("=========================="));
+                    }
+                });
+            }, 2000);
+        }
+    });
 
 
 
