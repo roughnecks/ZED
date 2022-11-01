@@ -11,6 +11,7 @@ const chalk = require('chalk');
 const helpers = require('./helpers');
 const enums = require('./enums');
 const config = require('../config.json');
+const { CannotUseOldPassword } = require('steam-tradeoffer-manager/resources/EResult');
 
 const manager = new TradeOfferManager({
     steam: new SteamUser(),
@@ -71,7 +72,7 @@ async function processOffer(offer, them) {
 
     //console.log(offer.itemsToGive[0].market_fee_app);
     //console.log(offer.itemsToReceive[0].market_fee_app);
-
+    //console.log("offer hash = " + offer.itemsToReceive[0].market_hash_name);
 
     if (offer.partner.getSteamID64() === config.ownerSteamID64) {
         // Accept everything from bot's owner
@@ -262,7 +263,7 @@ async function processOffer(offer, them) {
         cardBorderTypeToGive = helpers.getCardBorderType(offer.itemsToGive[0]);
         //console.log(cardBorderTypeToGive);
 
-        if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && cardBorderTypeToReceive != 1 && cardBorderTypeToGive == 1) {
+        if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && cardBorderTypeToReceive != cardBorderTypeToGive) {
             offer.decline(err => {
                 if (err) {
                     console.log(err);
@@ -273,6 +274,35 @@ async function processOffer(offer, them) {
                 }
             });
             return;
+        }
+
+        if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && cardBorderTypeToReceive === cardBorderTypeToGive) {
+            manager._community.getUserInventoryContents(config.botSteamID3, 753, 6, true, (err, inventory) => {
+                if (err) {
+                    console.log(chalk.red('An error occurred while getting my Inventory'));
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'An error occurred while getting my Inventory, please try again later');
+                    throw err;
+                }
+                var items = [];
+                for (let i = 0; i < inventory.length; i++) {
+                    if (inventory[i].market_hash_name === offer.itemsToReceive[0].market_hash_name) {
+                        items.push(i);
+                        //console.log("inventory hash = " + inventory[i].market_hash_name);
+                    }
+                }
+                if (items.length >= 5) {
+                    offer.decline(err => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a card which we have in a number greater or equal than 5.'));
+                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you offered :tradingcard: which we already have in a number greater or equal to 5 :steamsad:');
+                            console.log(chalk.cyan("=========================="));
+                        }
+                    });
+                    return;
+                }
+            });
         }
     }
 
