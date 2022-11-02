@@ -191,8 +191,8 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
 async function parseMessage(groupID, chatID, message, senderID, senderAccountID, sender) {
     const path = __dirname;
 
-console.log("groupid = " + groupID);
-console.log("chatid = " + chatID);
+//console.log("groupid = " + groupID);
+//console.log("chatid = " + chatID);
 
     if (!message || !message.startsWith('!')) {
         return;
