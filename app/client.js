@@ -191,6 +191,9 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
 async function parseMessage(groupID, chatID, message, senderID, senderAccountID, sender) {
     const path = __dirname;
 
+console.log("groupid = " + groupID);
+console.log("chatid = " + chatID);
+
     if (!message || !message.startsWith('!')) {
         return;
     }
@@ -592,6 +595,7 @@ function get_line(filename, line_no, callback) {
 }
 
 var song;
+var np;
 
 // Title refresh every 10 seconds
 setInterval(function () {
@@ -608,5 +612,14 @@ setInterval(function () {
         //console.log(err);
         return;
     });
+}, 10 * 1000);
+
+
+
+setInterval(function () {
+    if (np !== song) {
+    zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Now Playing: :PlayMusic: " + song);
+    np = song;
+    }
 }, 10 * 1000);
 
