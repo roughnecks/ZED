@@ -263,7 +263,7 @@ async function processOffer(offer, them) {
         cardBorderTypeToGive = helpers.getCardBorderType(offer.itemsToGive[0]);
         //console.log(cardBorderTypeToGive);
 
-        if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && cardBorderTypeToReceive != cardBorderTypeToGive) {
+        if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && cardBorderTypeToReceive != 1 && cardBorderTypeToGive == 1) {
             offer.decline(err => {
                 if (err) {
                     console.log(err);
