@@ -55,68 +55,6 @@ const utils = {
         }   
     },
 
-    loadInventory: async function (userId64, appId, contextId, tradableOnly) {
-        var pos = 1;
-        var start = '';
-        var inventory = [];
-
-        do {
-            console.log(chalk.yellow('Loading Inventory - Sending request...'));
-            try {
-                var response = await axios.get('https://steamcommunity.com/inventory/' + userId64 + '/' + appId + '/' + contextId + '?l=english&count=5000&start_assetid=' + start, {
-                    method: 'get',
-                    headers: {
-                        'Referer': 'https://steamcommunity.com/profiles/' + userId64 + '/inventory'
-                    }
-                });
-
-                var data = response.data;
-
-                if (data && data.success && data.total_inventory_count === 0) {
-                    // Empty inventory
-                    return [];
-                }
-
-                if (!data || !data.success || !data.assets || !data.descriptions) {
-                    if (data) {
-                        // Dunno if the error/Error property even exists on this new endpoint
-                        console.log(chalk.red('Malformed response'));
-                    } else {
-                        console.log(chalk.red('Malformed response'));
-                    }
-
-                    return [];
-                }
-
-                for (var i = 0; i < data.assets.length; i++) {
-                    var description = this.getDescription(data.descriptions, data.assets[i].classid, data.assets[i].instanceid);
-
-                    if (!tradableOnly || (description && description.tradable)) {
-                        data.assets[i].pos = pos++;
-                        if (!data.assets[i].currencyid) {
-                            inventory.push(new CEconItem(data.assets[i], description, contextId));
-                        }
-                    }
-                }
-
-                if (data.more_items === 1) {
-                    start = data.last_assetid;
-                }
-                else {
-                    start = '';
-                }
-            }
-            catch (error) {
-                //console.log(error);
-                console.log(chalk.red('Failed to load inventory.'));
-                return [];
-            }
-        }
-        while (start !== '');
-
-        return inventory;
-    },
-
     sleep: function (ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
