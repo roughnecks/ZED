@@ -1,11 +1,6 @@
 'use strict';
 
-const axios = require('axios');
 const enums = require('./enums');
-
-const CEconItem = require('../node_modules/steamcommunity/classes/CEconItem.js');
-
-const chalk = require('chalk');
 
 const utils = {
     getInventoryItemType: function (item) {
