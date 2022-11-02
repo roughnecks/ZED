@@ -3,6 +3,7 @@
 const zed = require('./main');
 const config = require('../config.json');
 const SteamUser = require('steam-user');
+const NodeSteamID = require('steamid');
 const chalk = require('chalk');
 const axios = require('axios');
 const Tf2Stats = require('./models/Tf2Stats');
@@ -206,7 +207,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!np") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!np - Now Playing on StillStream" + "\n" + "!csgo - Retrieve CS:GO User Stats" + "\n" 
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!np - Now Playing on StillStream" + "\n" + "!csgo [SteamID64] - Retrieve CS:GO User Stats for yourself or optional given SteamID64" + "\n" 
         + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" + 
         "!quote <add text> | <del number> | <info number> | <rand> - Quotes Management");
     } else if (message.startsWith('!weather')) {
@@ -228,8 +229,35 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You must specify a class."); }
     
     
-    } else if (message === "!csgo") {
-        csgoStats(groupID, chatID, sender, senderID);
+    } else if (message.startsWith('!csgo')) {
+        var str = (message.substr(6));
+        var res = str.split(" ");
+        var playerID = res[0];
+
+
+        if (playerID) {
+
+            try {
+                let sid = new NodeSteamID(playerID);
+                if (sid.universe != NodeSteamID.Universe.PUBLIC || sid.type != NodeSteamID.Type.INDIVIDUAL) {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Probably that's not a valid SteamID64");
+                    return;
+                }
+                // SteamID is valid
+                zed.manager._steam.getPersonas([playerID], function (err, personas) {
+                    if (!err) {
+                        var player_name = personas[playerID]["player_name"];
+                        csgoStats(groupID, chatID, player_name, playerID);
+                    } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Cannot get player's name") }
+                });
+            }
+            catch (ex) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "SteamID is not valid");
+            }
+
+        } else { csgoStats(groupID, chatID, sender, senderID); }
+
+        
 
     } else if (message.startsWith('!quote')) {
         var str = message.substr(7);
@@ -503,7 +531,7 @@ async function csgoStats(groupID, chatID, sender, senderID) {
     var apikey = zed.config.steamAPI;
 
     if (apikey) {
-        var playerID64 = senderID.getSteamID64();
+        var playerID64 = senderID;
         var player = sender;
 
         var url = `http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=${apikey}&steamid=${playerID64}`;
@@ -518,7 +546,9 @@ async function csgoStats(groupID, chatID, sender, senderID) {
 
         } catch (e) {
             //console.error(e);
-            if (e.response.status === 500) {
+            if (typeof e.response === "undefined") {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Cannot get data, did you/them ever play CSGO?");
+            } else if (e.response.status === 500) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
                 console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
@@ -548,6 +578,7 @@ async function isMod(member, groupID) {
     }
 }
 
+// Search for quotes
 function get_line(filename, line_no, callback) {
     var data = fs.readFileSync(filename, 'utf8');
     var lines = data.split("\n");
@@ -561,7 +592,6 @@ function get_line(filename, line_no, callback) {
 }
 
 var song;
-
 
 // Title refresh every 10 seconds
 setInterval(function () {
