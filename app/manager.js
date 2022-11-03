@@ -80,7 +80,7 @@ async function processOffer(offer, them) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(chalk.green(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
+                console.log(chalk.yellow(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
                 if (offer.itemsToGive.length > 0) {
                     setTimeout(() => {
                         manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
@@ -321,7 +321,7 @@ async function acceptOffer(offer, them, goodtogo, path) {
         if (err) {
             console.log(err);
         } else {
-            console.log(chalk.green(`Accepted offer ${offer.id} from ${them.personaName}. Status: ${status}.`));
+            console.log(chalk.yellow(`Accepted offer ${offer.id} from ${them.personaName}. Status: ${status}.`));
 
             // Count how many trade a user has successfully created
 
