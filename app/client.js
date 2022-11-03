@@ -633,6 +633,6 @@ setInterval(function () {
     if (np !== song) {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Now Playing: :PlayMusic: " + song);
     np = song;
-    }
+    } else {return;}
 }, 10 * 1000);
 
