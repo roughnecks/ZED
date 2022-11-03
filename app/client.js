@@ -610,7 +610,7 @@ function get_line(filename, line_no, callback) {
 var song;
 var np;
 
-// Title refresh every 10 seconds
+// Title refresh every 15 seconds
 setInterval(function () {
     streamTitle({
         url: 'https://woodpeckersnest.space:8090',
@@ -625,10 +625,10 @@ setInterval(function () {
         //console.log(err);
         return;
     });
-}, 10 * 1000);
+}, 15 * 1000);
 
 
-
+// Send radio title updates to chat - check every 10 seconds
 setInterval(function () {
     if (np !== song) {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Now Playing: :PlayMusic: " + song);
