@@ -80,7 +80,7 @@ async function processOffer(offer, them) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(chalk.yellow(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
+                console.log(chalk.green(`Accepted offer ${offer.id} from owner. Status: ${status}.`));
                 if (offer.itemsToGive.length > 0) {
                     setTimeout(() => {
                         manager._community.acceptConfirmationForObject(config.identitySecret, offer.id, function (err) {
@@ -94,7 +94,7 @@ async function processOffer(offer, them) {
                         });
                     }, 2000);
                 } else {
-                    console.log(chalk.yellow('No confirmation needed (donation)'));
+                    console.log(chalk.green('No confirmation needed (donation)'));
                     console.log(chalk.cyan("=========================="));
                 }
             }
