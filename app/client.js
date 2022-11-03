@@ -12,6 +12,7 @@ const CSGOStats = require('./models/CSGOStats');
 const fs = require('fs');
 const shell = require('child_process').execSync;
 const streamTitle = require('stream-title');
+const { exec } = require('child_process');
 
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
@@ -210,9 +211,21 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!np") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!np - Now Playing on StillStream" + "\n" + "!csgo [SteamID64] - Retrieve CS:GO User Stats for yourself or optional given SteamID64" + "\n" 
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!fortune - Biscottino in Italiano" + "\n" + "!np - Now Playing on StillStream" + "\n" + 
+        "!csgo [SteamID64] - Retrieve CS:GO User Stats for yourself or optional given SteamID64" + "\n" 
         + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" + 
-        "!quote <add text> | <del number> | <info number> | <rand> - Quotes Management");
+        "!quote <add text> | <del number> | <info number> | <rand> - Quotes Management");    
+    } else if (message === "!fortune") {
+        exec('fortune', (err, stdout, stderr) => {
+            if (err) {
+              console.log("node couldn't execute the command");
+              return;
+            }
+            // the *entire* stdout and stderr (buffered)
+            //console.log(`stdout: ${stdout}`);
+            //console.log(`stderr: ${stderr}`);
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
+        });
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
         var res = str.split(" ");
