@@ -40,14 +40,20 @@ manager.on('newOffer', offer => {
 });
 
 //Functions
-async function postComment(donator, donationnum) {
+async function postComment(donator, donationnum, donatorID3) {
 
     if (donationnum < 50) {
         manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Items! :steamhappy:');
         console.log(chalk.green('Comment Posted on Bot\'s Profile'));
+
+        manager._community.postUserComment(donatorID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Items! :steamhappy:');
+        console.log(chalk.green('Comment Posted on Donator\'s Profile'));
     } else {
         manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your massive contribution of ' + donationnum + ' Items! :awesome:');
         console.log(chalk.green('Comment Posted on Bot\'s Profile'));
+
+        manager._community.postUserComment(donatorID3, 'Thanks ' + donator + ' for your massive contribution of ' + donationnum + ' Items! :awesome:');
+        console.log(chalk.green('Comment Posted on Donator\'s Profile'));
     }
 }
 
@@ -114,7 +120,7 @@ async function processOffer(offer, them) {
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation! :pleased:');
 
                 if (offer.itemsToReceive.length > 4) {
-                    postComment(them.personaName, offer.itemsToReceive.length);
+                    postComment(them.personaName, offer.itemsToReceive.length, offer.partner.getSteam3RenderedID());
                 }
             }
         });
