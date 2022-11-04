@@ -518,12 +518,15 @@ async function chooseGame(groupID, chatID, sender, senderID) {
             let gamecount = output.response.game_count;
             var chosen = Math.floor(Math.random() * (gamecount + 1));
             var gamename = output.response.games[chosen].name;
+            var appid = output.response.games[chosen].appid;
+            var hash = output.response.games[chosen].img_icon_url;
 
             //console.log(gamecount);
             //console.log(chosen);
             //console.log(gamename);
 
-            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games; why don't you try \"" + gamename + "\"?");
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games; why don't you try \"" + gamename + "\"?" + "\n" 
+            + `http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${hash}.jpg`);
         } catch (e) {
             //console.error(e);
             if (e.response.status === 500) {
