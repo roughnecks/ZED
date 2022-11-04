@@ -211,7 +211,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!np") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!fortune - Biscottino in Italiano" + "\n" + "!np - Now Playing on StillStream" + "\n" + 
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!choose - Suggests you a game to play next" + "\n" + "!fortune - Biscottino in Italiano" + "\n" + "!np - Now Playing on StillStream" + "\n" + 
         "!csgo [SteamID64] - Retrieve CS:GO User Stats for yourself or optional given SteamID64" + "\n" 
         + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" + 
         "!quote <add text> | <del number> | <info number> | <rand> - Quotes Management");    
@@ -237,6 +237,20 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             checkWeather(city, units, groupID, chatID);
         } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You must specify a city and a unit of measure, either 'metric' or 'imperial'."); }
     
+
+
+
+
+
+    } else if (message === "!choose") {
+        chooseGame(groupID, chatID, sender, senderID);
+
+
+
+
+
+
+
     
     } else if (message.startsWith('!tf2')) {
         var tf2class = message.substr(5);
@@ -501,6 +515,46 @@ async function checkWeather(city, units, groupID, chatID) {
     }
 }
 
+async function chooseGame(groupID, chatID, sender, senderID) {
+    var apikey = zed.config.steamAPI;
+
+    if (apikey) {
+
+        var player = sender;
+        var url = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apikey}&steamid=${senderID}&include_appinfo=1&format=json`;
+
+        try {
+            var response = await axios.get(url);
+            var output = response.data;
+            //console.log(JSON.stringify(output))
+            let gamecount = output.response.game_count;
+            var chosen = Math.floor(Math.random() * (gamecount + 1));
+            var gamename = output.response.games[chosen].name;
+
+            //console.log(gamecount);
+            //console.log(chosen);
+            //console.log(gamename);
+
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games; why don't you try \"" + gamename + "\"?");
+        } catch (e) {
+            //console.error(e);
+            if (e.response.status === 500) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
+                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                return;
+            } else {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem! Check console.");
+                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                return;
+            }
+        }
+
+
+    } else {
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "No API Key defined in config file, aborting.");
+        return;
+    }
+}
 
 async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
     var apikey = zed.config.steamAPI;
