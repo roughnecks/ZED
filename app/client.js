@@ -528,14 +528,14 @@ async function chooseGame(groupID, chatID, sender, senderID) {
             zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games; why don't you try \"" + gamename + "\"?" + "\n" 
             + `http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${hash}.jpg`);
         } catch (e) {
-            //console.error(e);
-            if (e.response.status === 500) {
+            console.error(e);
+            if (typeof e.response === 'undefined') {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
-                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                //console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             } else {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem! Check console.");
-                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                //console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             }
         }
@@ -570,13 +570,13 @@ async function tf2Stats(tf2class, groupID, chatID, sender, senderID) {
 
         } catch (e) {
             //console.error(e);
-            if (e.response.status === 500) {
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
-                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+            if (typeof e.response === 'undefined') {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public or you never played TF2.");
+                //console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             } else {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem! Check console.");
-                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                //console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             }
         }
@@ -607,15 +607,13 @@ async function csgoStats(groupID, chatID, sender, senderID) {
 
         } catch (e) {
             //console.error(e);
-            if (typeof e.response === "undefined") {
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Cannot get data, did you/them ever play CSGO?");
-            } else if (e.response.status === 500) {
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
-                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+            if (typeof e.response === 'undefined') {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public or you never played CSGO.");
+                //console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             } else {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Houston, we have a problem! Check console.");
-                console.log('Response Data = ' + (JSON.stringify(e.response.data)));
+                //console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             }
         }
