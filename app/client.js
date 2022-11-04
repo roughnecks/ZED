@@ -236,22 +236,10 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             var city = res.join(' ');
             checkWeather(city, units, groupID, chatID);
         } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You must specify a city and a unit of measure, either 'metric' or 'imperial'."); }
-    
-
-
-
-
 
     } else if (message === "!choose") {
         chooseGame(groupID, chatID, sender, senderID);
 
-
-
-
-
-
-
-    
     } else if (message.startsWith('!tf2')) {
         var tf2class = message.substr(5);
         if (tf2class) {
@@ -689,4 +677,12 @@ setInterval(function () {
     np = song;
     } else {return;}
 }, 10 * 1000);
+
+// Send radio announcement every 120 minutes
+setInterval(function () {
+    if (np !== song) {
+    zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Listen to our StillStream Radio using you favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
+    "Server Status: https://woodpeckersnest.space:8090/status.xsl");
+    } else {return;}
+}, 120 * 60 * 1000);
 
