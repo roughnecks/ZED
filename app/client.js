@@ -651,7 +651,7 @@ function get_line(filename, line_no, callback) {
 }
 
 var song;
-var np;
+var np = "Not playing right now or no one's listening :(";
 
 // Title refresh every 15 seconds
 setInterval(function () {
