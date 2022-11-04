@@ -48,12 +48,16 @@ async function postComment(donator, donationnum, donatorID3) {
 
         manager._community.postUserComment(donatorID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Items! :steamhappy:');
         console.log(chalk.green('Comment Posted on Donator\'s Profile'));
+
+        console.log(chalk.cyan("=========================="));
     } else {
         manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your massive contribution of ' + donationnum + ' Items! :awesome:');
         console.log(chalk.green('Comment Posted on Bot\'s Profile'));
 
         manager._community.postUserComment(donatorID3, 'Thanks ' + donator + ' for your massive contribution of ' + donationnum + ' Items! :awesome:');
         console.log(chalk.green('Comment Posted on Donator\'s Profile'));
+
+        console.log(chalk.cyan("=========================="));
     }
 }
 
