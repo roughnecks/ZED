@@ -206,7 +206,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!help") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a Steam CHAT and Trading BoT; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
     } else if (message === "!radio") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, ":cassette: Listen to our StillStream Radio using you favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
         "Server Status: https://woodpeckersnest.space:8090/status.xsl");
     } else if (message === "!np") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);
@@ -682,7 +682,7 @@ setInterval(function () {
 // Send radio announcement every 90 minutes
 setInterval(function () {
     if (np != "Not playing right now or no one's listening :(") {
-    zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using you favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
+    zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
     "Server Status: https://woodpeckersnest.space:8090/status.xsl");
     } else {return;}
 }, 90 * 60 * 1000);
