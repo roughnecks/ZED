@@ -668,7 +668,7 @@ setInterval(function () {
         //console.log(err);
         return;
     });
-}, 15 * 1000);
+}, 10 * 1000);
 
 
 // Send radio title updates to chat - check every 10 seconds
@@ -677,7 +677,7 @@ setInterval(function () {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Now Playing: :PlayMusic: " + song);
     np = song;
     } else {return;}
-}, 10 * 1000);
+}, 15 * 1000);
 
 // Send radio announcement every 120 minutes
 setInterval(function () {
