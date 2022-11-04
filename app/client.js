@@ -681,7 +681,7 @@ setInterval(function () {
 
 // Send radio announcement every 120 minutes
 setInterval(function () {
-    zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Listen to our StillStream Radio using you favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
+    zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using you favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
     "Server Status: https://woodpeckersnest.space:8090/status.xsl");
 }, 120 * 60 * 1000);
 
