@@ -528,7 +528,7 @@ async function chooseGame(groupID, chatID, sender, senderID) {
             zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games; why don't you try \"" + gamename + "\"?" + "\n" 
             + `http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${hash}.jpg`);
         } catch (e) {
-            console.error(e);
+            //console.error(e);
             if (typeof e.response === 'undefined') {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public.");
                 //console.log('Response Data = ' + (JSON.stringify(e.response.data)));
