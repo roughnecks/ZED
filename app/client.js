@@ -685,5 +685,5 @@ setInterval(function () {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using you favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
     "Server Status: https://woodpeckersnest.space:8090/status.xsl");
     } else {return;}
-}, 120 * 60 * 1000);
+}, 90 * 60 * 1000);
 
