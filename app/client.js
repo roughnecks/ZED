@@ -608,7 +608,7 @@ async function csgoStats(groupID, chatID, sender, senderID) {
         } catch (e) {
             //console.error(e);
             if (typeof e.response === 'undefined') {
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your Game Details are not Public or you never played CSGO.");
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Game Details are not Public or you/them never played CSGO.");
                 //console.log('Response Data = ' + (JSON.stringify(e.response.data)));
                 return;
             } else {
@@ -679,7 +679,7 @@ setInterval(function () {
     } else {return;}
 }, 15 * 1000);
 
-// Send radio announcement every 120 minutes
+// Send radio announcement every 90 minutes
 setInterval(function () {
     if (np != "Not playing right now or no one's listening :(") {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using you favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
