@@ -673,6 +673,9 @@ setInterval(function () {
 
 // Send radio title updates to chat - check every 10 seconds
 setInterval(function () {
+    if (song == '') {
+        return;
+    }
     if (np !== song) {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Now Playing: :PlayMusic: " + song);
     np = song;
