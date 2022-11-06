@@ -651,7 +651,7 @@ function get_line(filename, line_no, callback) {
 }
 
 var song;
-var np = "Not playing right now or no one's listening :(";
+var np;
 
 // Title refresh every 15 seconds
 setInterval(function () {
@@ -661,7 +661,7 @@ setInterval(function () {
         mount: '/live'
     }).then(function (title) {
         //console.log(title);
-        if (title == null){
+        if (title == null || title == ''){
           song = "Not playing right now or no one's listening :("  
         } else {song = title}
     }).catch(function (err) {
@@ -673,6 +673,8 @@ setInterval(function () {
 
 // Send radio title updates to chat - check every 10 seconds
 setInterval(function () {
+    console.log(np);
+    console.log(song);
     if (np !== song) {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Now Playing: :PlayMusic: " + song);
     np = song;
