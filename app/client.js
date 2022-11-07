@@ -257,7 +257,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 }
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
             });
-        }
+        } else {return;}
 
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
