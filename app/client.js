@@ -211,21 +211,54 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!np") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!choose - Suggests you a game to play next" + "\n" + "!fortune - Biscottino in Italiano" + "\n" + "!np - Now Playing on StillStream" + "\n" + 
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!choose - Suggests you a game to play next" + "\n" + "!fortune [it | de | fr | es] - Fortunes in a few languages (EN without argument)" + "\n" + "!np - Now Playing on StillStream" + "\n" + 
         "!csgo [SteamID64] - Retrieve CS:GO User Stats for yourself or optional given SteamID64" + "\n" 
         + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" + 
         "!quote <add text> | <del number> | <info number> | <rand> - Quotes Management");    
-    } else if (message === "!fortune") {
-        exec('fortune', (err, stdout, stderr) => {
-            if (err) {
-              console.log("node couldn't execute the command");
-              return;
-            }
-            // the *entire* stdout and stderr (buffered)
-            //console.log(`stdout: ${stdout}`);
-            //console.log(`stderr: ${stderr}`);
-            zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
-        });
+    } else if (message.startsWith('!fortune')) {
+        var lang = message.substr(9);
+        if (lang == '') {
+            exec('fortune', (err, stdout, stderr) => {
+                if (err) {
+                    console.log("node couldn't execute the command");
+                    return;
+                }
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
+            });
+        } else if (lang == 'it') {
+            exec('fortune it', (err, stdout, stderr) => {
+                if (err) {
+                    console.log("node couldn't execute the command");
+                    return;
+                }
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
+            });
+        } else if (lang == 'de') {
+            exec('fortune de', (err, stdout, stderr) => {
+                if (err) {
+                    console.log("node couldn't execute the command");
+                    return;
+                }
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
+            });
+        } else if (lang == 'fr') {
+            exec('fortune fr', (err, stdout, stderr) => {
+                if (err) {
+                    console.log("node couldn't execute the command");
+                    return;
+                }
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
+            });
+        } else if (lang == 'es') {
+            exec('fortune es', (err, stdout, stderr) => {
+                if (err) {
+                  console.log("node couldn't execute the command");
+                  return;
+                }
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
+            });
+        }
+
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
         var res = str.split(" ");
