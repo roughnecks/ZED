@@ -292,6 +292,7 @@ async function processOffer(offer, them) {
                     console.log(chalk.red('An error occurred while getting my Inventory'));
                     manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'An error occurred while getting my Inventory, please try again later');
                     //throw err;
+                    return;
                 }
                 var items = [];
                 for (let i = 0; i < inventory.length; i++) {
