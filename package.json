@@ -23,6 +23,7 @@
     "steam-user": "^4.11.0",
     "steamcommunity": "^3.44.2",
     "steamid": "^2.0.0",
-    "stream-title": "^1.0.7"
+    "stream-title": "^1.0.7",
+    "urban-dictionary": "^3.0.2"
   }
 }
