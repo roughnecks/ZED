@@ -225,7 +225,8 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         } else {
             ud.define(term, (error, results) => {
                 if (error) {
-                    console.error(`define (callback) error - ${error.message}`);
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, error.message);
+                    //console.error(`define (callback) error - ${error.message}`);
                     return;
                 }
 
