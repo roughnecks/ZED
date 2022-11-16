@@ -338,13 +338,13 @@ async function acceptOffer(offer, them, goodtogo, path) {
 
             if (goodtogo === 0) {
                 fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, '1', function (err) {
-                    console.log("goodtogo for " + them.personaName + " = 1");
+                    console.log("goodtogo for " + them.personaName + " = 1/5");
                     if (err) return console.log(err);
                 });
 
             } else {
                 goodtogo = Number(goodtogo) + 1;
-                console.log("goodtogo for " + them.personaName + " = " + goodtogo);
+                console.log("goodtogo for " + them.personaName + " = " + goodtogo + "/5");
                 fs.writeFile(`${path}/cooldown/${offer.partner.getSteamID64()}`, `${goodtogo}`, function (err) {
                     if (err) return console.log(err);
                 });
