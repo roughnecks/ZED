@@ -561,7 +561,7 @@ async function chooseGame(groupID, chatID, sender, senderID) {
             //console.log(gamename);
 
             zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games and haven\'t ever run " + 
-            notplayedgames.length + " Why don't you try \"" + gamename + "\"?" + "\n" 
+            notplayedgames.length + ". Why don't you try \"" + gamename + "\"?" + "\n" 
             + `http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${hash}.jpg`);
         } catch (e) {
             //console.error(e);
