@@ -16,6 +16,8 @@ const { exec } = require('child_process');
 
 const ud = require('urban-dictionary')
 
+const path = __dirname;
+
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
         zed.manager._steam.getPersonas([zed.manager._steam.steamID], function (err, personas) {
@@ -192,7 +194,6 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
 
 
 async function parseMessage(groupID, chatID, message, senderID, senderAccountID, sender) {
-    const path = __dirname;
 
 //console.log("groupid = " + groupID);
 //console.log("chatid = " + chatID);
@@ -674,7 +675,7 @@ function get_line(filename, line_no, callback) {
 }
 
 var song;
-var np;
+var np = np = fs.readFileSync(`${path}/miscellaneous/songtitle`, 'utf8');
 
 // Title refresh every 10 seconds
 setInterval(function () {
@@ -684,9 +685,15 @@ setInterval(function () {
         mount: '/live'
     }).then(function (title) {
         //console.log(title);
-        if (title == null || title == ''){
-          song = "Not playing right now or no one's listening :("  
-        } else {song = title}
+        if (title == null || title == '') {
+            song = "Not playing right now or no one's listening :("
+        } else {
+            song = title 
+        }
+        fs.writeFile(`${path}/miscellaneous/songtitle`, song, function (err) {
+            if (err) return console.log(err);
+        });
+
     }).catch(function (err) {
         //console.log(err);
         return;
@@ -696,8 +703,9 @@ setInterval(function () {
 
 // Send radio title updates to chat - check every 15 seconds
 setInterval(function () {
-    //console.log(np);
     //console.log(song);
+    //console.log(np);
+
     if (np !== song) {
         if (song == "Not playing right now or no one's listening :(") {
             zed.manager._steam.chat.sendChatMessage('24488495', '87920756', song);
