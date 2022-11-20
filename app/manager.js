@@ -139,7 +139,7 @@ async function processOffer(offer, them) {
     var data = 0;
 
     try {
-        data = await fs.readFileSync(`${path}/cooldown/${offer.partner.getSteamID64()}`, 'utf8');
+        data = fs.readFileSync(`${path}/cooldown/${offer.partner.getSteamID64()}`, 'utf8');
         if (data == null) {
             goodtogo = 0;
         } else {

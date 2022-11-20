@@ -316,7 +316,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 var data;
                 try {
 
-                    data = await fs.readFileSync(`${path}/quotes/quotedb`, 'utf8');
+                    data = fs.readFileSync(`${path}/quotes/quotedb`, 'utf8');
                     //console.log("data = " + data);
                     if (!data) {
                         sequenceID = 1;
@@ -338,7 +338,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
 
                 let senderID64 = senderID.getSteamID64();
 
-                await fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + senderID64 + " " + "<" + sender + "> " + quote + "\n", function (err) {
+                fs.appendFile(`${path}/quotes/quotedb`, sequenceID + " " + senderID64 + " " + "<" + sender + "> " + quote + "\n", function (err) {
                     if (err) {
                         console.log(err);
                         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Some kind of error occurred. Quote wasn't added :(");
