@@ -539,17 +539,29 @@ async function chooseGame(groupID, chatID, sender, senderID) {
             var response = await axios.get(url);
             var output = response.data;
             //console.log(JSON.stringify(output))
-            let gamecount = output.response.game_count;
-            var chosen = Math.floor(Math.random() * (gamecount + 1));
-            var gamename = output.response.games[chosen].name;
-            var appid = output.response.games[chosen].appid;
-            var hash = output.response.games[chosen].img_icon_url;
+            var gamecount = output.response.game_count;
+            gamecount = Number(gamecount);
+            //console.log(gamecount);
+            var notplayedgames = [];
+            for (let i = 0; i < gamecount; i++) {
+
+                if (output.response.games[i].playtime_forever == 0) {
+                    //console.log(i);
+                    notplayedgames.push(i);
+                }
+            }
+            //console.log(notplayedgames);
+            var chosen = Math.floor(Math.random() * notplayedgames.length);
+            var gamename = output.response.games[notplayedgames[chosen]].name;
+            var appid = output.response.games[notplayedgames[chosen]].appid;
+            var hash = output.response.games[notplayedgames[chosen]].img_icon_url;
 
             //console.log(gamecount);
             //console.log(chosen);
             //console.log(gamename);
 
-            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games; why don't you try \"" + gamename + "\"?" + "\n" 
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games and haven\'t ever run " + 
+            notplayedgames.length + " Why don't you try \"" + gamename + "\"?" + "\n" 
             + `http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${hash}.jpg`);
         } catch (e) {
             //console.error(e);
