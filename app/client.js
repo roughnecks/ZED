@@ -256,7 +256,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
             cookienow = (new Date()).getTime();
         } else {
             var cookiediff = cookienow - cookiestart;
-            console.log(cookiediff);
+            //console.log(cookiediff);
             if (cookiediff <= 60000) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "The fortune command is in cooldown. Try again in a minute");
                 cookienow = (new Date()).getTime();
