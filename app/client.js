@@ -757,6 +757,7 @@ setInterval(function () {
     //console.log(np);
 
     if (np !== song) {
+        if (song.startsWith('STR Mission Control')) { return; }
         if (song == "Not playing right now or no one's listening :(") {
             zed.manager._steam.chat.sendChatMessage('24488495', '87920756', song);
             np = song;
