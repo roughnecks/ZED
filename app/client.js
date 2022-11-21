@@ -580,7 +580,7 @@ async function chooseGame(groupID, chatID, sender, senderID) {
             //console.log(gamename);
 
             if (gamecount == notplayedgames.length) {
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You don\'t have your privacy set to allow playtime statistics, but I can still give you a suggestion: why don't you try \"" + gamename + "\"?" + "\n"
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games but I cannot check your playtime because your privacy settings don\' allow that. I can still give you a suggestion: why don't you play \"" + gamename + "\"?" + "\n"
                     + `http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${hash}.jpg`);
             } else {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games and haven\'t ever run " +
