@@ -246,21 +246,26 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         }
     } else if (message == '!fortune') {
 
-        cookiestart = (new Date()).getTime();
+        if (!cookiestart) {
+            cookiestart = (new Date()).getTime();
+        }
         if (cookiego <= 2) {
 
             fortune(groupID, chatID);
             cookiego = cookiego + 1;
             cookienow = (new Date()).getTime();
         } else {
-            var cookiediff = cookiestart - cookienow;
+            var cookiediff = cookienow - cookiestart;
+            console.log(cookiediff);
             if (cookiediff <= 60000) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "The fortune command is in cooldown. Try again in a minute");
+                cookienow = (new Date()).getTime();
                 return;
             } else {
                 fortune(groupID, chatID);
                 cookiego = 1;
-                cookienow = (new Date()).getTime(); 
+                cookienow = (new Date()).getTime();
+                cookiestart = (new Date()).getTime();
             }
         }
 
