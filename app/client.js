@@ -193,6 +193,10 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
 });
 
 
+var cookiego = 1;
+var cookiestart;
+var cookienow;
+
 async function parseMessage(groupID, chatID, message, senderID, senderAccountID, sender) {
 
 //console.log("groupid = " + groupID);
@@ -242,13 +246,23 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         }
     } else if (message == '!fortune') {
 
-            exec('fortune', (err, stdout, stderr) => {
-                if (err) {
-                    console.log("node couldn't execute the command");
-                    return;
-                }
-                zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
-            });
+        cookiestart = (new Date()).getTime();
+        if (cookiego <= 2) {
+
+            fortune(groupID, chatID);
+            cookiego = cookiego + 1;
+            cookienow = (new Date()).getTime();
+        } else {
+            var cookiediff = cookiestart - cookienow;
+            if (cookiediff <= 60000) {
+                zed.manager._steam.chat.sendChatMessage(groupID, chatID, "The fortune command is in cooldown. Try again in a minute");
+                return;
+            } else {
+                fortune(groupID, chatID);
+                cookiego = 1;
+                cookienow = (new Date()).getTime(); 
+            }
+        }
 
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
@@ -690,6 +704,20 @@ function get_line(filename, line_no, callback) {
     //console.log(lines[line_no]);
     callback(null, lines[line_no - 1]);
 }
+
+// Get a cookie
+
+function fortune(groupID, chatID) {
+    exec('fortune', (err, stdout, stderr) => {
+        if (err) {
+            console.log("node couldn't execute the command");
+            return;
+        } else {
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
+        }
+    });
+}
+
 
 var song;
 var np = np = fs.readFileSync(`${path}/miscellaneous/songtitle`, 'utf8');
