@@ -17,7 +17,8 @@ setInterval(function() {
         zed.manager._steam.webLogOn();
         //console.log(chalk.yellow('Called WebLogon (setInterval)'));
     } else {
-        zed.manager._steam.logOn(logOnOptions);
+        zed.manager._steam.logOn(zed.config.logOnOptions);
+        //zed.manager._steam.logOn(logOnOptions);
         console.log(chalk.yellow('Called Logon (setInterval)'));
     }
 }, 30 * 60 * 1000);
