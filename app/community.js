@@ -13,7 +13,7 @@ zed.manager._community.on('sessionExpired', function (err) {
         zed.manager._steam.webLogOn();
         console.log(chalk.yellow('Called WebLogon'));
     } else {
-        zed.manager._steam.logOn(logOnOptions);
+        zed.manager._steam.logOn(zed.config.logOnOptions);
         console.log(chalk.yellow('Called Logon'));
     }
 });
