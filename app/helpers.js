@@ -4,14 +4,14 @@ const enums = require('./enums');
 
 const utils = {
     getInventoryItemType: function (item) {
-        let tag = item.getTag('item_class');
-
-        if (typeof tag === undefined) {
-            if (item.type === 'Gift') {
-                return enums.InventoryItemType.Gift;
-            }
+        if (item.type === 'Gift') {
+            return enums.InventoryItemType.Gift;
+        }
+        else if (item.type === 'Coupon') {
             return enums.InventoryItemType.Unknown;
         }
+        
+        let tag = item.getTag('item_class');
 
         try {
             if (tag.internal_name === 'item_class_2') {
