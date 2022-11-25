@@ -321,6 +321,41 @@ async function processOffer(offer, them) {
         }
     }
 
+    if ((itemToReceiveType === itemToGiveType) && ((itemToReceiveType === enums.InventoryItemType.Emote) || (itemToReceiveType === enums.InventoryItemType.Background))) {
+        manager._community.getUserInventoryContents(config.botSteamID3, 753, 6, true, (err, inventory) => {
+            if (err) {
+                console.log(chalk.red('An error occurred while getting my Inventory'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'An error occurred while getting my Inventory, please try again later');
+                //throw err;
+                return;
+            }
+            var items = [];
+            for (let i = 0; i < inventory.length; i++) {
+                if (inventory[i].market_hash_name === offer.itemsToReceive[0].market_hash_name) {
+                    items.push(i);
+                    //console.log("inventory hash = " + inventory[i].market_hash_name);
+                }
+            }
+
+            if (items.length >= 2) {
+                offer.decline(err => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a background/emote which we have in a number greater or equal than 2.'));
+                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you offered an emothe/BG which we already have in a number greater or equal to 2 :steamsad:' + "\n" + 'Use steamtradematcher to swap duplicates instead..');
+                        console.log(chalk.cyan("=========================="));
+                    }
+                });
+                return;
+            }
+
+            acceptOffer(offer, them, goodtogo, path);
+
+        });
+        return;
+    }
+
     acceptOffer(offer, them, goodtogo, path);
 
 }
