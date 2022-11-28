@@ -218,7 +218,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
     } else if (message === "!np") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!choose - Suggests you a game to play next" + "\n" + "!fortune - A fortune cookie in Italian or English" + 
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!choose - Suggests you a game to play next" + "\n" + "!fortune - A fortune cookie in Italian" + 
         "\n" + "!np - Now Playing on StillStream" + "\n" + "!ud <term> - Search Urban Dictionary" + "\n" +
         "!csgo [SteamID64] - Retrieve CS:GO User Stats for yourself or optional given SteamID64" + "\n" 
         + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" + 
