@@ -8,7 +8,7 @@ const utils = {
             return enums.InventoryItemType.Gift;
         }
         else if (item.type === 'Coupon') {
-            return enums.InventoryItemType.Unknown;
+            return enums.InventoryItemType.Coupon;
         }
         
         let tag = item.getTag('item_class');

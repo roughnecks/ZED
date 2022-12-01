@@ -8,6 +8,7 @@ const enums = {
         Emote: 4,
         Gems: 7,
         Gift: 888,
+        Coupon: 1616,
         Unknown: 99999999,
         properties:
         {
@@ -16,6 +17,7 @@ const enums = {
             4: { name: 'Emote', value: 4 },
             7: { name: 'Gems', value: 7 },
             888: { name: 'Gift', value: 888 },
+            1616: { name: 'Coupon', value: 1616 },
             99999999: { name: 'Unknown', value: 99999999 }
         }
     },

@@ -181,17 +181,22 @@ async function processOffer(offer, them) {
     }
 
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length < 1) {
-        offer.decline(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(chalk.red('Offer declined, ' + them.personaName + ' didn\'t offer any item.'));
-                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined: you didn\'t offer any item :steamsad:');
-                console.log(chalk.cyan("=========================="));
+        if (itemToGiveType === enums.InventoryItemType.Coupon) {
+            acceptOffer(offer, them, goodtogo, path);
+            return;
+        } else {
+            offer.decline(err => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(chalk.red('Offer declined, ' + them.personaName + ' didn\'t offer any item.'));
+                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined: you didn\'t offer any item :steamsad: (Coupons are always free)');
+                    console.log(chalk.cyan("=========================="));
 
-            }
-        });
-        return;
+                }
+            });
+            return;
+        }
     }
 
 
