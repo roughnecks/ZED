@@ -124,7 +124,16 @@ async function processOffer(offer, them) {
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation! :pleased:');
 
                 if (offer.itemsToReceive.length > 4) {
-                    postComment(them.personaName, offer.itemsToReceive.length, offer.partner.getSteam3RenderedID());
+                    let coupons = [];
+                    for (let i = 0; i < offer.itemsToReceive.length; i++) {
+                        coupons.push(helpers.getInventoryItemType(offer.itemsToReceive[i]));
+                    }
+                    if (coupons[0] == 1616 && (coupons.every((val, i, arr) => val === arr[0]))) {
+                        //all coupons
+                        return;
+                    } else {
+                        postComment(them.personaName, offer.itemsToReceive.length, offer.partner.getSteam3RenderedID());
+                    }
                 }
             }
         });
