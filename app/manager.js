@@ -128,7 +128,7 @@ async function processOffer(offer, them) {
                     for (let i = 0; i < offer.itemsToReceive.length; i++) {
                         coupons.push(helpers.getInventoryItemType(offer.itemsToReceive[i]));
                     }
-                    if (coupons[0] == 1616 && (coupons.every((val, i, arr) => val === arr[0]))) {
+                    if ((coupons[0] == 1616) && (coupons.every((val, i, arr) => val === arr[0]))) {
                         //all coupons
                         return;
                     } else {
