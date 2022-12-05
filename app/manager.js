@@ -124,11 +124,13 @@ async function processOffer(offer, them) {
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Thanks for your generous donation! :pleased:');
 
                 if (offer.itemsToReceive.length > 4) {
-                    let coupons = [];
+                    let couponsQty = 0;
                     for (let i = 0; i < offer.itemsToReceive.length; i++) {
-                        coupons.push(helpers.getInventoryItemType(offer.itemsToReceive[i]));
+                        if (helpers.getInventoryItemType(offer.itemsToReceive[i]) == enums.InventoryItemType.Coupon) {
+                            couponsQty++;
+                        }
                     }
-                    if ((coupons[0] == 1616) && (coupons.every((val, i, arr) => val === arr[0]))) {
+                    if (couponsQty === offer.itemsToReceive.length) {
                         //all coupons
                         return;
                     } else {
