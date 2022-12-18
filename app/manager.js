@@ -253,13 +253,27 @@ async function processOffer(offer, them) {
     }
     
 
-    if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToReceive.length > 1 && offer.itemsToGive.length === 1 && itemToReceiveType !== itemToGiveType) {
- 
+    if (offer.itemsToGive[0].appid === 753 && offer.itemsToReceive[0].appid === 753 && offer.itemsToReceive.length > 1 && offer.itemsToGive.length === 1) {
+
+        if (offer.itemsToReceive.length > 1) {
+            let itemsQty = 0;
+            for (let i = 0; i < offer.itemsToReceive.length; i++) {
+                if (helpers.getInventoryItemType(offer.itemsToReceive[i]) == helpers.getInventoryItemType(offer.itemsToGive[0])) {
+                    itemsQty++;
+                }
+            }
+            if (itemsQty === offer.itemsToReceive.length) {
+                // all of the same items type
+                acceptOffer(offer, them, goodtogo, path);
+                return;
+            } else {
                 console.log(chalk.red('Offer in review, ' + them.personaName + ' offered multiple items but mismatched, like emote for card, etc..'));
                 manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer in review because you sent multiple items but asked for mismatched ones, like emote for card, etc.. Give my owner up to 10hrs to accept or decline.');
                 manager._steam.chatMessage(config.ownerSteamID3, 'Offer in progress, needs manual review!');
                 console.log(chalk.cyan("=========================="));
                 return;
+            }
+        }
     }
 
 
