@@ -331,13 +331,13 @@ async function processOffer(offer, them) {
                         //console.log("inventory hash = " + inventory[i].market_hash_name);
                     }
                 }
-                if (items.length >= 5) {
+                if (items.length >= 4) {
                     offer.decline(err => {
                         if (err) {
                             console.log(err);
                         } else {
-                            console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a card which we have in a number greater or equal than 5.'));
-                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you offered :tradingcard: which we already have in a number greater or equal to 5 :steamsad:' + "\n" + 'Use steamtradematcher to swap duplicates instead..');
+                            console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a card which we have in a number greater or equal than 4.'));
+                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you offered :tradingcard: which we already have in a number greater or equal to 4 :steamsad:' + "\n" + 'Use steamtradematcher to swap duplicates instead..');
                             console.log(chalk.cyan("=========================="));
                         }
                     });
