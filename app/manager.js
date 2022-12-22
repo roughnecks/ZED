@@ -296,6 +296,7 @@ async function processOffer(offer, them) {
     var cardBorderTypeToReceive = typeof (undefined);
     var cardBorderTypeToGive = typeof (undefined);
 
+
     if (itemToReceiveType === enums.InventoryItemType.Card && itemToGiveType === enums.InventoryItemType.Card) {
 
         cardBorderTypeToReceive = helpers.getCardBorderType(offer.itemsToReceive[0]);
@@ -317,6 +318,22 @@ async function processOffer(offer, them) {
         }
 
         if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && cardBorderTypeToReceive === cardBorderTypeToGive) {
+
+
+            if ((offer.itemsToGive[0].market_fee_app == 2243720) && (offer.itemsToReceive[0].market_fee_app != 2243720)) {
+                offer.decline(err => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(chalk.red('Offer Declined, '+ them.personaName + ' asked for Holiday cards in return for other cards'));
+                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for Holiday cards in return for other cards');
+                        console.log(chalk.cyan("=========================="));
+                    }
+                });
+                return;
+            }
+
+
             manager._community.getUserInventoryContents(config.botSteamID3, 753, 6, true, (err, inventory) => {
                 if (err) {
                     console.log(chalk.red('An error occurred while getting my Inventory'));
@@ -324,6 +341,7 @@ async function processOffer(offer, them) {
                     //throw err;
                     return;
                 }
+
                 var items = [];
                 for (let i = 0; i < inventory.length; i++) {
                     if (inventory[i].market_hash_name === offer.itemsToReceive[0].market_hash_name) {
