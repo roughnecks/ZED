@@ -176,7 +176,7 @@ zed.manager._steam.on('friendMessage', function (steamID, message) {
         zed.manager._steam.chatMessage(steamID, 'Hello, if you want me to sign your profile, type "!sign" without the quotes. Also join my group chat for more commands, like CSGO and TF2 user stats: https://steamcommunity.com/groups/zedspace' + "\n" + 'Have a nice day!');
     }
     else if (message === "!sign") {
-        zed.manager._community.postUserComment(steamID, 'ZED was here. :meltdownzed:');
+        zed.manager._community.postUserComment(steamID, 'ZED was here :meltdownzed:');
         zed.manager._steam.chatMessage(steamID, 'Done! Check your profile\'s comments.');
         zed.manager._steam.getPersonas([steamID], function (err, personas) {
             if (!err) {
