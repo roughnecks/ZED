@@ -25,17 +25,21 @@ const manager = new TradeOfferManager({
 manager.on('newOffer', offer => {
 
     offer.getUserDetails((err, me, them) => {
-
-        if (them.escrowDays > 0) {
-            offer.decline(err => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(chalk.red('Offer declined, ' + them.personaName + ' is in escrow.'));
-                    manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you are in Escrow (trade hold) :steamsad:');
-                    console.log(chalk.cyan("=========================="));
-                }
-            });
+        if (typeof them !== 'undefined') {
+            if (them.escrowDays > 0) {
+                offer.decline(err => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(chalk.red('Offer declined, ' + them.personaName + ' is in escrow.'));
+                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you are in Escrow (trade hold) :steamsad:');
+                        console.log(chalk.cyan("=========================="));
+                    }
+                });
+                return;
+            }
+        } else {
+            console.log('getuserdetails: ' + err);
             return;
         }
 
