@@ -37,17 +37,10 @@ manager.on('newOffer', offer => {
                     }
                 });
                 return;
+            } else {
+                processOffer(offer, them);
             }
         } else {
-            console.log('getuserdetails: ' + err);
-            return;
-        }
-
-
-        if (typeof them !== 'undefined') {
-            processOffer(offer, them);
-        }
-        else {
             console.log('getuserdetails: ' + err);
         }
     });
