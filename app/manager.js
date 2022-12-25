@@ -354,6 +354,43 @@ async function processOffer(offer, them) {
                     return;
                 }
 
+
+
+
+
+
+
+                if ((offer.itemsToGive[0].market_fee_app == 2243720) && (offer.itemsToReceive[0].market_fee_app == 2243720)) {
+                    var winterCards = [];
+                    for (let i = 0; i < inventory.length; i++) {
+                        if (inventory[i].market_hash_name === offer.itemsToGive[0].market_hash_name) {
+                            winterCards.push(i);
+                            console.log("inventory hash = " + inventory[i].market_hash_name);
+                        }
+                    }
+                    console.log(winterCards.length);
+                    if (winterCards.length == 1) {
+                        offer.decline(err => {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter card for which we only have one copy.'));
+                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we only have 1 copy left of that winter card :steamsad:');
+                                console.log(chalk.cyan("=========================="));
+                            }
+                        });
+                        return;
+                    }
+                }
+
+
+
+
+
+
+
+
+
                 var items = [];
                 for (let i = 0; i < inventory.length; i++) {
                     if (inventory[i].market_hash_name === offer.itemsToReceive[0].market_hash_name) {
