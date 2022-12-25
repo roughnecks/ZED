@@ -365,10 +365,10 @@ async function processOffer(offer, them) {
                     for (let i = 0; i < inventory.length; i++) {
                         if (inventory[i].market_hash_name === offer.itemsToGive[0].market_hash_name) {
                             winterCards.push(i);
-                            console.log("inventory hash = " + inventory[i].market_hash_name);
+                            //console.log("inventory hash = " + inventory[i].market_hash_name);
                         }
                     }
-                    console.log(winterCards.length);
+                    
                     if (winterCards.length == 1) {
                         offer.decline(err => {
                             if (err) {
