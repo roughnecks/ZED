@@ -338,7 +338,21 @@ async function processOffer(offer, them) {
                         console.log(err);
                     } else {
                         console.log(chalk.red('Offer Declined, '+ them.personaName + ' asked for Holiday cards in return for other cards'));
-                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for Holiday cards in return for other cards');
+                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for Holiday cards in return for other cards :steamsad:');
+                        console.log(chalk.cyan("=========================="));
+                    }
+                });
+                return;
+            }
+
+
+            if ((offer.itemsToReceive[0].market_fee_app == 2243720) && (offer.itemsToGive[0].market_fee_app != 2243720)) {
+                offer.decline(err => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(chalk.red('Offer Declined, '+ them.personaName + ' asked for other cards in return for Holiday cards'));
+                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for other cards in return for Holiday cards :steamsad:');
                         console.log(chalk.cyan("=========================="));
                     }
                 });
