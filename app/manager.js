@@ -332,7 +332,7 @@ async function processOffer(offer, them) {
         if (offer.itemsToReceive.length === 1 && offer.itemsToGive.length === 1 && cardBorderTypeToReceive === cardBorderTypeToGive) {
 
 
-            if ((offer.itemsToGive[0].market_fee_app == 2243720) && (offer.itemsToReceive[0].market_fee_app != 2243720)) {
+            if ((offer.itemsToGive[0].market_fee_app == config.holidaySale) && (offer.itemsToReceive[0].market_fee_app != config.holidaySale)) {
                 offer.decline(err => {
                     if (err) {
                         console.log(err);
@@ -346,7 +346,7 @@ async function processOffer(offer, them) {
             }
 
 
-            if ((offer.itemsToReceive[0].market_fee_app == 2243720) && (offer.itemsToGive[0].market_fee_app != 2243720)) {
+            if ((offer.itemsToReceive[0].market_fee_app == config.holidaySale) && (offer.itemsToGive[0].market_fee_app != config.holidaySale)) {
                 offer.decline(err => {
                     if (err) {
                         console.log(err);
@@ -374,7 +374,7 @@ async function processOffer(offer, them) {
 
 
 
-                if ((offer.itemsToGive[0].market_fee_app == 2243720) && (offer.itemsToReceive[0].market_fee_app == 2243720)) {
+                if ((offer.itemsToGive[0].market_fee_app == config.holidaySale) && (offer.itemsToReceive[0].market_fee_app == config.holidaySale)) {
                     var winterCards = [];
                     for (let i = 0; i < inventory.length; i++) {
                         if (inventory[i].market_hash_name === offer.itemsToGive[0].market_hash_name) {

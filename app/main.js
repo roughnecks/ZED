@@ -21,6 +21,7 @@ const zed = {
         pin: config.familyViewPin,        
         //Items that bot owns and are not up for trading
         lockedItems: config.lockedItems,
+        holidaySale: config.holidaySale,
         weatherAPI: config.openweathermapAPI,
         steamAPI: config.steamAPI,
         logOnOptions: {
