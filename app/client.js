@@ -715,7 +715,7 @@ function fortune(groupID, chatID) {
 
 
 var song;
-var np = np = fs.readFileSync(`${path}/miscellaneous/songtitle`, 'utf8');
+var np = fs.readFileSync(`${path}/miscellaneous/songtitle`, 'utf8');
 
 // Title refresh every 10 seconds
 setInterval(function () {
