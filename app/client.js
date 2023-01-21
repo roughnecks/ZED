@@ -151,8 +151,6 @@ zed.manager._steam.chat.on('chatMessage', function (message) {
     var senderID = message.steamid_sender;
     var senderAccountID = senderID.accountid;
     
-    //console.log(message);
-
     zed.manager._steam.getPersonas([senderID], function (err, personas) {
         if (!err) {
             var sender = personas[senderID]["player_name"];
@@ -336,11 +334,9 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                 try {
 
                     data = fs.readFileSync(`${path}/quotes/quotedb`, 'utf8');
-                    //console.log("data = " + data);
                     if (!data) {
                         sequenceID = 1;
                         sequenceID = Number(sequenceID);
-                        //console.log("1. sequenceID = " + sequenceID)
                     } else {
                         var lines = data.trim().split('\n');
                         var lastLine = lines.slice(-1)[0];
@@ -348,7 +344,6 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
                         var fields = lastLine.split(' ');
                         sequenceID = fields[0];
                         sequenceID = Number(sequenceID) +1;
-                        //console.log("2. sequenceID = " + sequenceID);
                     }
 
                 } catch (err) {
@@ -560,7 +555,6 @@ async function chooseGame(groupID, chatID, sender, senderID) {
             //console.log(JSON.stringify(output))
             var gamecount = output.response.game_count;
             gamecount = Number(gamecount);
-            //console.log(gamecount);
             var notplayedgames = [];
             for (let i = 0; i < gamecount; i++) {
 
@@ -569,15 +563,11 @@ async function chooseGame(groupID, chatID, sender, senderID) {
                     notplayedgames.push(i);
                 }
             }
-            //console.log(notplayedgames);
             var chosen = Math.floor(Math.random() * notplayedgames.length);
             var gamename = output.response.games[notplayedgames[chosen]].name;
             var appid = output.response.games[notplayedgames[chosen]].appid;
             var hash = output.response.games[notplayedgames[chosen]].img_icon_url;
 
-            //console.log(gamecount);
-            //console.log(chosen);
-            //console.log(gamename);
 
             if (gamecount == notplayedgames.length) {
                 zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You own " + gamecount + " games but I cannot check your playtime because your privacy settings don\'t allow that. I can still give you a suggestion: why don't you play \"" + gamename + "\"?" + "\n"
@@ -753,8 +743,6 @@ setInterval(function () {
 
 // Send radio title updates to chat - check every 15 seconds
 setInterval(function () {
-    //console.log(song);
-    //console.log(np);
 
     if (np !== song) {
         if (song.startsWith('STR Mission Control')) { return; }
