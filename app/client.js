@@ -13,12 +13,14 @@ const fs = require('fs');
 const shell = require('child_process').execSync;
 const streamTitle = require('stream-title');
 const { exec } = require('child_process');
-
 const ud = require('urban-dictionary')
-
 const http = require('node:http');
-
+const dns = require('node:dns');
 const path = __dirname;
+
+
+// https://github.com/nodejs/node/issues/40537
+dns.setDefaultResultOrder('ipv4first');
 
 zed.manager._steam.on('loggedOn', function (details) {
     if (details.eresult === SteamUser.EResult.OK) {
