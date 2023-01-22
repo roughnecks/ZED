@@ -16,6 +16,8 @@ const { exec } = require('child_process');
 
 const ud = require('urban-dictionary')
 
+const http = require('node:http');
+
 const path = __dirname;
 
 zed.manager._steam.on('loggedOn', function (details) {
@@ -715,6 +717,7 @@ function fortune(groupID, chatID) {
 
 
 var song;
+var message;
 var np = fs.readFileSync(`${path}/miscellaneous/songtitle`, 'utf8');
 
 // Title refresh every 10 seconds
@@ -748,10 +751,14 @@ setInterval(function () {
         if (song.startsWith('STR Mission Control')) { return; }
         if (song == "Not playing right now or no one's listening :(") {
             zed.manager._steam.chat.sendChatMessage('24488495', '87920756', song);
+            message = song;
+            webhook(message);
             np = song;
         }
         else {
             zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Now Playing: :PlayMusic: " + song);
+            message = "Now Playing: " + song;
+            webhook(message);
             np = song;
         }
     } else { return; }
@@ -762,6 +769,58 @@ setInterval(function () {
     if (np != "Not playing right now or no one's listening :(") {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
     "Server Status: https://woodpeckersnest.space:8090/status.xsl");
+    var announcement = "Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
+    "Server Status: https://woodpeckersnest.space:8090/status.xsl";
+    webhook(announcement);
     } else {return;}
 }, 90 * 60 * 1000);
 
+
+
+
+
+
+
+
+
+
+function webhook(message) {
+
+const postData = JSON.stringify({
+    'message': message,
+    'destination': 'spacenest@chat.woodpeckersnest.space',
+  });
+  
+  const options = {
+    hostname: 'woodpeckersnest.space',
+    port: 15670,
+    path: '/webhooks/roughnecks',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(postData),
+      'Authorization': 'Basic ' + config.webhookToken
+    },
+  };
+  
+  const req = http.request(options, (res) => {
+    //console.log(`STATUS: ${res.statusCode}`);
+    //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    //res.on('data', (chunk) => {
+      //console.log(`BODY: ${chunk}`);
+    //});
+    //res.on('end', () => {
+      //console.log('No more data in response.');
+    //});
+  });
+  
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  
+  // Write data to request body
+  req.write(postData);
+  req.end();
+
+}
