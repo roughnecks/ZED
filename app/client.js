@@ -758,27 +758,26 @@ setInterval(function () {
         if (song.startsWith('STR Mission Control')) { return; }
         if (song == "Not playing right now or no one's listening :(") {
             zed.manager._steam.chat.sendChatMessage('24488495', '87920756', song);
-            message = song;
-            webhook(message);
+            //message = song;
+            //webhook(message);
             np = song;
         }
         else {
             zed.manager._steam.chat.sendChatMessage('24488495', '87920756', "Now Playing: :PlayMusic: " + song);
-            message = "Now Playing: " + song;
-            webhook(message);
+            //message = "Now Playing: " + song;
+            //webhook(message);
             np = song;
         }
     } else { return; }
 }, 15 * 1000);
 
-// Send radio announcement every 6 hours
+// Send radio announcement every 90 minutes
 setInterval(function () {
-    zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
-    "Server Status: https://woodpeckersnest.space:8090/status.xsl");
-    var announcement = "Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
-    "Server Status: https://woodpeckersnest.space:8090/status.xsl";
-    webhook(announcement);
-}, 360 * 60 * 1000);
+    if (np != "Not playing right now or no one's listening :(") {
+        zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
+        "Server Status: https://woodpeckersnest.space:8090/status.xsl");
+    } else {return;}
+    }, 90 * 60 * 1000);
 
 
 
