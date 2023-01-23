@@ -718,6 +718,10 @@ function fortune(groupID, chatID) {
     });
 }
 
+// Spam a cookie every 3hrs
+
+setInterval(fortune, 180 * 60 * 1000);
+
 
 var song;
 var message;
@@ -767,7 +771,7 @@ setInterval(function () {
     } else { return; }
 }, 15 * 1000);
 
-// Send radio announcement every 90 minutes
+// Send radio announcement every 6 hours
 setInterval(function () {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
     "Server Status: https://woodpeckersnest.space:8090/status.xsl");
