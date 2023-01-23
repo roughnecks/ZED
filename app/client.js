@@ -713,6 +713,7 @@ function fortune(groupID, chatID) {
             return;
         } else {
             zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
+            webhook(stdout);
         }
     });
 }
