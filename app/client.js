@@ -768,14 +768,12 @@ setInterval(function () {
 
 // Send radio announcement every 90 minutes
 setInterval(function () {
-    if (np != "Not playing right now or no one's listening :(") {
     zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
     "Server Status: https://woodpeckersnest.space:8090/status.xsl");
     var announcement = "Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
     "Server Status: https://woodpeckersnest.space:8090/status.xsl";
     webhook(announcement);
-    } else {return;}
-}, 90 * 60 * 1000);
+}, 360 * 60 * 1000);
 
 
 
