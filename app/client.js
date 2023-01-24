@@ -712,24 +712,16 @@ function fortune(groupID, chatID) {
             console.log("node couldn't execute the command");
             return;
         } else {
+            if (groupID > 0 && chatID > 0) {
             zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
-            //webhook(stdout);
+            }
+            webhook(stdout);
         }
     });
 }
 
 // Spam a cookie on webhook every 3hrs
-
-setInterval( function() {
-    exec('fortune', (err, stdout, stderr) => {
-        if (err) {
-            console.log("node couldn't execute the command");
-            return;
-        } else {
-            webhook(stdout);
-        }
-    });
-}, 180 * 60 * 1000 );
+setInterval(fortune, 1 * 60 * 1000);
 
 
 
