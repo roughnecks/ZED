@@ -721,7 +721,7 @@ function fortune(groupID, chatID) {
 }
 
 // Spam a cookie on webhook every 3hrs
-setInterval(fortune, 1 * 60 * 1000);
+setInterval(fortune, 180 * 60 * 1000);
 
 
 
