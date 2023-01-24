@@ -713,14 +713,24 @@ function fortune(groupID, chatID) {
             return;
         } else {
             zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
-            webhook(stdout);
+            //webhook(stdout);
         }
     });
 }
 
-// Spam a cookie every 3hrs
+// Spam a cookie on webhook every 3hrs
 
-setInterval(fortune, 180 * 60 * 1000);
+setInterval( function() {
+    exec('fortune', (err, stdout, stderr) => {
+        if (err) {
+            console.log("node couldn't execute the command");
+            return;
+        } else {
+            webhook(stdout);
+        }
+    });
+}, 180 * 60 * 1000 );
+
 
 
 var song;
