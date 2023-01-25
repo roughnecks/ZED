@@ -721,7 +721,7 @@ function fortune(groupID, chatID) {
 }
 
 // Spam a cookie on webhook every 3hrs
-setInterval(fortune, 180 * 60 * 1000);
+setInterval(fortune, 300 * 60 * 1000);
 
 
 
@@ -782,7 +782,7 @@ setInterval(function () {
         "Server Status: https://woodpeckersnest.space:8090/status.xsl";
         webhook(announcement);
     } else {return;}
-    }, 360 * 60 * 1000);
+    }, 480 * 60 * 1000);
 
 
 
