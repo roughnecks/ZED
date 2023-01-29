@@ -26,20 +26,9 @@ manager.on('newOffer', offer => {
 
     offer.getUserDetails((err, me, them) => {
         if (typeof them !== 'undefined') {
-            if (them.escrowDays > 0) {
-                offer.decline(err => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(chalk.red('Offer declined, ' + them.personaName + ' is in escrow.'));
-                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you are in Escrow (trade hold) :steamsad:');
-                        console.log(chalk.cyan("=========================="));
-                    }
-                });
-                return;
-            } else {
-                processOffer(offer, them);
-            }
+            
+            processOffer(offer, them);
+
         } else {
             console.log('getuserdetails: ' + err);
         }
@@ -154,6 +143,18 @@ async function processOffer(offer, them) {
         return;
     }
 
+    if (them.escrowDays > 0) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' is in escrow.'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined; you are in Escrow (trade hold) :steamsad:');
+                console.log(chalk.cyan("=========================="));
+            }
+        });
+        return;
+    }
 
     // Check how many offers we got from a single user
 
