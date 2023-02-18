@@ -41,6 +41,12 @@ zed.manager._steam.on('loggedOn', function (details) {
         });
         zed.manager._steam.setPersona(5); //"5": "LookingToTrade" -- https://github.com/DoctorMcKay/node-steam-user/blob/master/enums/EPersonaState.js
         zed.manager._steam.gamesPlayed(zed.config.customGame);
+        //zed.manager._steam.gamesPlayed(
+            //{
+            //    "game_id": 672860,
+            //    "game_extra_info": "SteallarHub"
+            //}
+        //);
     } else {
         console.log(details);
         //Do whatever u want to handle the error...
