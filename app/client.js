@@ -763,6 +763,7 @@ setInterval(function () {
 setInterval(function () {
 
     if (np !== song) {
+        if (song.indexOf("StationID") >= 0) { return; }
         if (song.startsWith('STR Mission Control')) { return; }
         if (song == "Not playing right now or no one's listening :(") {
             zed.manager._steam.chat.sendChatMessage('24488495', '87920756', song);
