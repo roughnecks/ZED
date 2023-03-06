@@ -785,16 +785,18 @@ setInterval(function () {
     if (np != "Not playing right now or no one's listening :(") {
         zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio - Game OSTs All Day Long - using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
         "Server Status: https://woodpeckersnest.space:8090/status.xsl");
-        var announcement = "Listen to our StillStream Radio - Game OSTs All Day Long - using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
+        //var announcement = "Listen to our StillStream Radio - Game OSTs All Day Long - using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
         "Server Status: https://woodpeckersnest.space:8090/status.xsl";
-        webhook(announcement, "steam@chat.woodpeckersnest.space");
+        //webhook(announcement, "steam@chat.woodpeckersnest.space");
     } else {return;}
     }, 480 * 60 * 1000);
 
 
-
-
-
+setInterval(function () {
+    var tradebot = "Hi, I'm a trade bot, same and cross sets trades accepted, whole inventory." + "\n" + 
+    "Profile: http://steamcommunity.com/id/meltdownzed/ - Trade URL: https://steamcommunity.com/tradeoffer/new/?partner=65306342&token=lUyM27yx"
+    webhook(tradebot, "steam@chat.woodpeckersnest.space")
+}, 1440 * 60 * 1000);
 
 
 
