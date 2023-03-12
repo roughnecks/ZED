@@ -210,7 +210,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
 //console.log("groupid = " + groupID);
 //console.log("chatid = " + chatID);
 
-    if (!message.startsWith('!')) {
+    if (!message || !message.startsWith('!')) {
         return;
     }
 
