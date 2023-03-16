@@ -726,8 +726,8 @@ function fortune(groupID, chatID) {
     });
 }
 
-// Spam a cookie on webhook every 3hrs
-setInterval(fortune, 300 * 60 * 1000);
+// Spam a cookie on webhook every 6 hrs
+setInterval(fortune, 360 * 60 * 1000);
 
 
 
@@ -796,7 +796,7 @@ setInterval(function () {
     var tradebot = "Hi, I'm a trade bot, same and cross sets trades accepted, whole inventory." + "\n" + 
     "Profile: http://steamcommunity.com/id/meltdownzed/ - Trade URL: https://steamcommunity.com/tradeoffer/new/?partner=65306342&token=lUyM27yx"
     webhook(tradebot, "steam@chat.woodpeckersnest.space")
-}, 1440 * 60 * 1000);
+}, 2000 * 60 * 1000);
 
 
 
