@@ -721,13 +721,13 @@ function fortune(groupID, chatID) {
             if (groupID > 0 && chatID > 0) {
             zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
             }
-            webhook(stdout, "spacenest@chat.woodpeckersnest.space");
+            webhook(stdout, "steam@chat.woodpeckersnest.space");
         }
     });
 }
 
-// Spam a cookie on webhook every 6 hrs
-setInterval(fortune, 360 * 60 * 1000);
+// Spam a cookie on webhook
+setInterval(fortune, 450 * 60 * 1000);
 
 
 
