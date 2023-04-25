@@ -780,16 +780,16 @@ setInterval(function () {
     } else { return; }
 }, 15 * 1000);
 
-// Send radio announcement every 8hrs
+// Send radio announcement every 11hrs
 setInterval(function () {
     if (np != "Not playing right now or no one's listening :(") {
         zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio - Game OSTs All Day Long - using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
         "Server Status: https://woodpeckersnest.space:8090/status.xsl");
-        //var announcement = "Listen to our StillStream Radio - Game OSTs All Day Long - using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
+        var announcement = "Listen to our StillStream Radio - Game OSTs All Day Long - using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
         "Server Status: https://woodpeckersnest.space:8090/status.xsl";
-        //webhook(announcement, "steam@chat.woodpeckersnest.space");
+        webhook(announcement, "steam@chat.woodpeckersnest.space");
     } else {return;}
-    }, 480 * 60 * 1000);
+    }, 660 * 60 * 1000);
 
 
 setInterval(function () {
