@@ -369,12 +369,6 @@ async function processOffer(offer, them) {
                     return;
                 }
 
-
-
-
-
-
-
                 if ((offer.itemsToGive[0].market_fee_app == config.holidaySale) && (offer.itemsToReceive[0].market_fee_app == config.holidaySale)) {
                     var winterCards = [];
                     for (let i = 0; i < inventory.length; i++) {
@@ -397,14 +391,6 @@ async function processOffer(offer, them) {
                         return;
                     }
                 }
-
-
-
-
-
-
-
-
 
                 var items = [];
                 for (let i = 0; i < inventory.length; i++) {
@@ -467,6 +453,56 @@ async function processOffer(offer, them) {
         });
         return;
     }
+
+
+
+
+
+
+
+
+    if ((itemToReceiveType === itemToGiveType) && (itemToReceiveType === enums.InventoryItemType.Booster)) {
+        manager._community.getUserInventoryContents(config.botSteamID3, 753, 6, true, (err, inventory) => {
+            if (err) {
+                console.log(chalk.red('An error occurred while getting my Inventory'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'An error occurred while getting my Inventory, please try again later');
+                //throw err;
+                return;
+            }
+            var items = [];
+            for (let i = 0; i < inventory.length; i++) {
+                if (inventory[i].market_hash_name === offer.itemsToReceive[0].market_hash_name) {
+                    items.push(i);
+                    //console.log("inventory hash = " + inventory[i].market_hash_name);
+                }
+            }
+
+            if (items.length >= 4) {
+                offer.decline(err => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a Booster which we have in a number greater or equal than 4.'));
+                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you offered a Booster which we already have in a number greater or equal to 4 :steamsad:');
+                        console.log(chalk.cyan("=========================="));
+                    }
+                });
+                return;
+            }
+
+            acceptOffer(offer, them, goodtogo, path);
+
+        });
+        return;
+    }
+
+
+
+
+
+
+
+
 
     acceptOffer(offer, them, goodtogo, path);
 

@@ -9,6 +9,7 @@ const enums = {
         Gems: 7,
         Gift: 888,
         Coupon: 1616,
+        Booster: 3232,
         Unknown: 99999999,
         properties:
         {
@@ -18,6 +19,7 @@ const enums = {
             7: { name: 'Gems', value: 7 },
             888: { name: 'Gift', value: 888 },
             1616: { name: 'Coupon', value: 1616 },
+            3232: { name: 'Booster', value: 3232 },
             99999999: { name: 'Unknown', value: 99999999 }
         }
     },

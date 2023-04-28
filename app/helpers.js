@@ -10,6 +10,9 @@ const utils = {
         else if (item.type === 'Coupon') {
             return enums.InventoryItemType.Coupon;
         }
+        else if (item.type === 'Booster Pack') {
+            return enums.InventoryItemType.Booster;
+        }
         
         let tag = item.getTag('item_class');
 
