@@ -41,10 +41,12 @@ manager.on('newOffer', offer => {
 });
 
 //Functions
-async function postComment(donator, donationnum, donatorID3) {
+async function postComment(donator, donationnum, donatorID3, donatorID64) {
+
+    var donator_link = 'https://steamcommunity.com/profiles/' + donatorID64;
 
     if (donationnum < 50) {
-        manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Items! :steamhappy:');
+        manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' ( ' + donator_link + ' ) ' + 'for your kind contribution of ' + donationnum + ' Items! :steamhappy:');
         console.log(chalk.green('Comment Posted on Bot\'s Profile'));
 
         manager._community.postUserComment(donatorID3, 'Thanks ' + donator + ' for your kind contribution of ' + donationnum + ' Items! :steamhappy:');
@@ -52,7 +54,7 @@ async function postComment(donator, donationnum, donatorID3) {
 
         console.log(chalk.cyan("=========================="));
     } else {
-        manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' for your massive contribution of ' + donationnum + ' Items! :awesome:');
+        manager._community.postUserComment(config.botSteamID3, 'Thanks ' + donator + ' ( ' + donator_link + ' ) ' + 'for your massive contribution of ' + donationnum + ' Items! :awesome:');
         console.log(chalk.green('Comment Posted on Bot\'s Profile'));
 
         manager._community.postUserComment(donatorID3, 'Thanks ' + donator + ' for your massive contribution of ' + donationnum + ' Items! :awesome:');
@@ -135,7 +137,7 @@ async function processOffer(offer, them) {
                         //all coupons
                         return;
                     } else {
-                        postComment(them.personaName, offer.itemsToReceive.length, offer.partner.getSteam3RenderedID());
+                        postComment(them.personaName, offer.itemsToReceive.length, offer.partner.getSteam3RenderedID(), offer.partner.getSteamID64());
                     }
                 }
             }
