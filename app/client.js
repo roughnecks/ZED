@@ -799,7 +799,7 @@ setInterval(function () {
 }, 2000 * 60 * 1000);
 
 setInterval(function () {
-    var convoy = 'Join our Convoy\'s ETS2 Dedicated Server: connect to the Convoy section in Euro Truck Simulator 2 and look for "[ITA][DEDICATO] Dumb & Dumber" in the list' + "\n" +
+    var convoy = 'Join our ETS2 Dedicated Convoy Server: connect to the Convoy section in Euro Truck Simulator 2 and look for "[ITA][DEDICATO] Dumb & Dumber" in the list' + "\n" +
     'Also visit our Trucksbook Company Profile over at https://trucksbook.eu/company/113842'
     webhook(convoy, "steam@chat.woodpeckersnest.space")
 }, 3500 * 60 * 1000);
