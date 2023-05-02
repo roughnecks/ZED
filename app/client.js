@@ -16,6 +16,7 @@ const { exec } = require('child_process');
 const ud = require('urban-dictionary')
 const http = require('node:http');
 const dns = require('node:dns');
+const { log } = require('console');
 const path = __dirname;
 
 
@@ -527,7 +528,8 @@ async function checkWeather(city, units, groupID, chatID) {
             if (weather.cod === 200) {
                 if (units === 'METRIC') {
                     var kmh = weather.wind.speed * 3.6;
-                    let result = `It's ${weather.weather[0].description} and ${weather.main.temp}°C in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure}hPa, humidity is ${weather.main.humidity}% and wind speed is ${kmh}km/hour.`;
+                    var formattedkmh = kmh.toFixed(2);
+                    let result = `It's ${weather.weather[0].description} and ${weather.main.temp}°C in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure}hPa, humidity is ${weather.main.humidity}% and wind speed is ${formattedkmh}km/hour.`;
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, result);
                 } else if (units == 'IMPERIAL') {
                     let result = `It's ${weather.weather[0].description} and ${weather.main.temp}°F in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure}hPa, humidity is ${weather.main.humidity}% and wind speed is ${weather.wind.speed} miles/hour.`;
