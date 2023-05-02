@@ -526,10 +526,11 @@ async function checkWeather(city, units, groupID, chatID) {
             //console.log(weather);
             if (weather.cod === 200) {
                 if (units === 'METRIC') {
-                    let result = `It's ${weather.weather[0].description} and ${weather.main.temp} °C in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure} hPa, humidity is ${weather.main.humidity}% and wind speed is ${weather.wind.speed} meter/sec.`;
+                    var kmh = weather.wind.speed * 3.6;
+                    let result = `It's ${weather.weather[0].description} and ${weather.main.temp}°C in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure}hPa, humidity is ${weather.main.humidity}% and wind speed is ${kmh}km/hour.`;
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, result);
                 } else if (units == 'IMPERIAL') {
-                    let result = `It's ${weather.weather[0].description} and ${weather.main.temp} °F in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure} hPa, humidity is ${weather.main.humidity}% and wind speed is ${weather.wind.speed} miles/hour.`;
+                    let result = `It's ${weather.weather[0].description} and ${weather.main.temp}°F in ${weather.name}, ${weather.sys.country}! Pressure is ${weather.main.pressure}hPa, humidity is ${weather.main.humidity}% and wind speed is ${weather.wind.speed} miles/hour.`;
                     zed.manager._steam.chat.sendChatMessage(groupID, chatID, result);
                 }
             }
