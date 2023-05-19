@@ -230,7 +230,8 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!choose - Suggests you a game to play next" + "\n" + "!fortune - A fortune cookie in Italian" + 
         "\n" + "!np - Now Playing on StillStream" + "\n" + "!ud <term> - Search Urban Dictionary" + "\n" +
         "!csgo [SteamID64] - Retrieve CS:GO User Stats for yourself or optional given SteamID64" + "\n" 
-        + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" + 
+        + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" +
+        "!config <city> <metric || imperial> - Store your location in the bot to retrieve weather info for your city automatically" + "\n" +
         "!quote <add text> | <del number> | <info number> | <rand> - Quotes Management");
     } else if (message.startsWith('!ud')) {
         var term = message.substr(3);
@@ -280,14 +281,49 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
 
     } else if (message.startsWith('!weather')) {
         var str = message.substr(9);
+        if (!str) {
+            fs.readFile(`${path}/miscellaneous/w${senderID}`, 'utf-8', function (err, data) {
+                if (err) {
+                    zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You must specify a city and a unit of measure, either 'metric' or 'imperial' or use the '!config' command first.");
+                } else {
+                    var res = data.split(" ");
+                    if (res.length > 1) {
+                        var units = res[res.length - 1];
+                        units = units.toUpperCase();
+                        res.length = res.length - 1;
+                        var city = res.join(' ');
+                        checkWeather(city, units, groupID, chatID);
+                        return;
+                    }
+                } return;
+            });
+        } else {
+            var res = str.split(" ");
+            if (res.length > 1) {
+                var units = res[res.length - 1];
+                units = units.toUpperCase();
+                res.length = res.length - 1;
+                var city = res.join(' ');
+                checkWeather(city, units, groupID, chatID);
+            } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You must specify a city and a unit of measure, either 'metric' or 'imperial'."); }
+        }
+
+    } else if (message.startsWith('!config')) {
+        var str = message.substr(8);
         var res = str.split(" ");
         if (res.length > 1) {
             var units = res[res.length - 1];
             units = units.toUpperCase();
             res.length = res.length - 1;
             var city = res.join(' ');
-            checkWeather(city, units, groupID, chatID);
+            //console.log("config = " + city);
+            fs.writeFile(`${path}/miscellaneous/w${senderID}`, city + ' ' + units, function (err) {
+                if (err) return console.log(err);
+            });
+            zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Config saved!");
         } else { zed.manager._steam.chat.sendChatMessage(groupID, chatID, "You must specify a city and a unit of measure, either 'metric' or 'imperial'."); }
+
+
 
     } else if (message === "!choose") {
         chooseGame(groupID, chatID, sender, senderID);
