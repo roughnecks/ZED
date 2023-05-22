@@ -473,7 +473,7 @@ async function processOffer(offer, them) {
             }
             var items = [];
             for (let i = 0; i < inventory.length; i++) {
-                if (inventory[i].market_hash_name === offer.itemsToReceive[0].market_hash_name) {
+                if (inventory[i].market_fee_app == offer.itemsToReceive[0].market_fee_app) {
                     items.push(i);
                     //console.log("inventory hash = " + inventory[i].market_hash_name);
                 }
