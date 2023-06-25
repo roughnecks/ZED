@@ -770,6 +770,13 @@ setInterval(fortune, 450 * 60 * 1000);
 
 
 
+
+
+var song = "Not playing right now";
+
+
+
+/*
 var song;
 var message;
 var np = fs.readFileSync(`${path}/miscellaneous/songtitle`, 'utf8');
@@ -819,6 +826,8 @@ setInterval(function () {
     } else { return; }
 }, 15 * 1000);
 
+
+
 // Send radio announcement every 11hrs
 setInterval(function () {
     if (np != "Not playing right now or no one's listening :(") {
@@ -829,19 +838,24 @@ setInterval(function () {
         webhook(announcement, "steam@chat.woodpeckersnest.space");
     } else {return;}
     }, 660 * 60 * 1000);
+*/
+
+
+
+
 
 
 setInterval(function () {
     var tradebot = "Hi, I'm a trade bot, same and cross sets trades accepted, whole inventory." + "\n" + 
     "Profile: http://steamcommunity.com/id/meltdownzed/ - Trade URL: https://steamcommunity.com/tradeoffer/new/?partner=65306342&token=lUyM27yx"
     webhook(tradebot, "steam@chat.woodpeckersnest.space")
-}, 2000 * 60 * 1000);
+}, 1700 * 60 * 1000);
 
 setInterval(function () {
     var convoy = 'Join our ETS2 Dedicated Convoy Server: connect to the Convoy section in Euro Truck Simulator 2 and look for "[ITA][DEDICATO] Dumb & Dumber" in the list' + "\n" +
     'Also visit our Trucksbook Company Profile over at https://trucksbook.eu/company/113842 and connect to "mumble.woodpeckersnest.space" for voice chat with Mumble while trucking around';
     webhook(convoy, "steam@chat.woodpeckersnest.space")
-}, 3500 * 60 * 1000);
+}, 2000 * 60 * 1000);
 
 
 
