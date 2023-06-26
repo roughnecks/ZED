@@ -282,16 +282,10 @@ async function processOffer(offer, them) {
                 acceptOffer(offer, them, goodtogo, path);
                 return;
             } else {
-                offer.decline(err => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(chalk.red(them.personaName + ' offered multiple items but mismatched, like emote for card, etc.. Declining the offer.'));
-                        manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you sent multiple items but asked for mismatched ones, like emote for card, etc, and my owner cannot accept the trade manually anymore - Blame Steam.');
-                        //manager._steam.chatMessage(config.ownerSteamID3, 'Offer in progress, needs manual review!');
-                        console.log(chalk.cyan("=========================="));
-                    }
-                });
+                console.log(chalk.red('Offer in review, ' + them.personaName + ' offered multiple items but mismatched, like emote for card, etc..'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer in review because you sent multiple items but asked for mismatched ones, like emote for card, etc.. Give my owner up to 10hrs to accept or decline.');
+                manager._steam.chatMessage(config.ownerSteamID3, 'Offer in progress, needs manual review!');
+                console.log(chalk.cyan("=========================="));
                 return;
             }
         }
