@@ -385,8 +385,8 @@ async function processOffer(offer, them) {
                             if (err) {
                                 console.log(err);
                             } else {
-                                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter card for which we only have one copy.'));
-                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we only have 1 copy left of that winter card :steamsad:');
+                                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter/summer card for which we only have one copy.'));
+                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we only have 1 copy left of that winter/summer card :steamsad:');
                                 console.log(chalk.cyan("=========================="));
                             }
                         });
