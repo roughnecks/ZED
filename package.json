@@ -19,9 +19,9 @@
     "console-stamp": "^3.0.6",
     "node-schedule": "^2.1.0",
     "steam-totp": "^2.1.2",
-    "steam-tradeoffer-manager": "^2.10.5",
-    "steam-user": "^4.28.7",
-    "steamcommunity": "^3.46.0",
+    "steam-tradeoffer-manager": "^2.10.6",
+    "steam-user": "^4.29.2",
+    "steamcommunity": "^3.46.1",
     "steamid": "^2.0.0",
     "stream-title": "^1.0.7",
     "urban-dictionary": "^3.0.2"
