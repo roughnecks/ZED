@@ -767,7 +767,7 @@ function fortune(groupID, chatID) {
 }
 
 // Spam a cookie on webhook
-setInterval(fortune, 450 * 60 * 1000);
+setInterval(fortune, 900 * 60 * 1000);
 
 
 
