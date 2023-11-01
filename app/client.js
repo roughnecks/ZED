@@ -221,14 +221,14 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your satisfaction is our best prize. Next!");
     } else if (message === "!help") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a Steam CHAT and Trading BoT; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
-    } else if (message === "!radio") {
+    /*} else if (message === "!radio") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
         "Server Status: https://woodpeckersnest.space:8090/status.xsl");
     } else if (message === "!np") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);*/
     } else if (message === "!commands") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!radio" + "\n" + "!choose - Suggests you a game to play next" + "\n" + "!fortune - A fortune cookie in Italian" + 
-        "\n" + "!np - Now Playing on StillStream" + "\n" + "!ud <term> - Search Urban Dictionary" + "\n" +
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!choose - Suggests you a game to play next" + "\n" + "!fortune - A fortune cookie in Italian" + 
+        "\n" + "!ud <term> - Search Urban Dictionary" + "\n" +
         "!csgo [SteamID64] - Retrieve CS:GO User Stats for yourself or optional given SteamID64" + "\n" 
         + "!tf2 <class> - Retrieve TF2 User Stats for selected Class" + "\n" + "!weather <city> <metric || imperial> - Ask the weatherman for location" + "\n" +
         "!config <city> <metric || imperial> - Store your location in the bot to retrieve weather info for your city automatically" + "\n" +
