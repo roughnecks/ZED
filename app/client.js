@@ -759,9 +759,11 @@ function fortune(groupID, chatID) {
         } else {
             if (groupID > 0 && chatID > 0) {
             zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
-            }
+            return;
+            } else {
             webhook(stdout, "steam@chat.woodpeckersnest.space");
             webhook(stdout, "lozibaldone@groups.chat.sabatino.cloud");
+            }
         }
     });
 }
