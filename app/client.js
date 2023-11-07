@@ -850,16 +850,17 @@ setInterval(function () {
 
 setInterval(function () {
     var tradebot = "Hi, I'm a trade bot, same and cross sets trades accepted, whole inventory." + "\n" + 
-    "Profile: http://steamcommunity.com/id/meltdownzed/ - Trade URL: https://steamcommunity.com/tradeoffer/new/?partner=65306342&token=lUyM27yx"
+    "Profile: http://steamcommunity.com/id/meltdownzed/" + "\n" + "Trade URL: https://steamcommunity.com/tradeoffer/new/?partner=65306342&token=lUyM27yx"
     webhook(tradebot, "steam@chat.woodpeckersnest.space")
 }, 1700 * 60 * 1000);
 
+/*
 setInterval(function () {
     var convoy = 'Join our ETS2 Dedicated Convoy Server: connect to the Convoy section in Euro Truck Simulator 2 and look for "[ITA][DEDICATO] Dumb & Dumber" in the list' + "\n" +
     'Also visit our Trucksbook Company Profile over at https://trucksbook.eu/company/113842 and connect to "mumble.woodpeckersnest.space" for voice chat with Mumble while trucking around';
     webhook(convoy, "steam@chat.woodpeckersnest.space")
 }, 2000 * 60 * 1000);
-
+*/
 
 
 function webhook(message, destination) {
