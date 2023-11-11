@@ -14,14 +14,14 @@
     "start": "node zed.js"
   },
   "dependencies": {
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "chalk": "^2.4.2",
     "console-stamp": "^3.0.6",
     "node-schedule": "^2.1.0",
     "steam-totp": "^2.1.2",
     "steam-tradeoffer-manager": "^2.10.6",
     "steam-user": "^4.29.2",
-    "steamcommunity": "^3.46.1",
+    "steamcommunity": "^3.47.1",
     "steamid": "^2.0.0",
     "stream-title": "^1.0.7",
     "urban-dictionary": "^3.0.2"
