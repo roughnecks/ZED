@@ -20,7 +20,7 @@
     "node-schedule": "^2.1.0",
     "steam-totp": "^2.1.2",
     "steam-tradeoffer-manager": "^2.10.6",
-    "steam-user": "^4.29.2",
+    "steam-user": "^4.29.3",
     "steamcommunity": "^3.47.1",
     "steamid": "^2.0.0",
     "stream-title": "^1.0.7",
