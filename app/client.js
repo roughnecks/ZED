@@ -854,13 +854,19 @@ setInterval(function () {
     webhook(tradebot, "steam@chat.woodpeckersnest.space")
 }, 1700 * 60 * 1000);
 
-/*
+
 setInterval(function () {
     var convoy = 'Join our ETS2 Dedicated Convoy Server: connect to the Convoy section in Euro Truck Simulator 2 and look for "[ITA][DEDICATO] Dumb & Dumber" in the list' + "\n" +
     'Also visit our Trucksbook Company Profile over at https://trucksbook.eu/company/113842 and connect to "mumble.woodpeckersnest.space" for voice chat with Mumble while trucking around';
     webhook(convoy, "steam@chat.woodpeckersnest.space")
 }, 2000 * 60 * 1000);
-*/
+
+setInterval(function () {
+    var lazy = 'New Team Fortress 2 Dedicated Server is live! Featuring "lazytown_lazyday" and "lazytown_lazynitez" maps' + "\n" +
+    'From console "connect 213.136.74.177:27015" or search for "woodpeckers" in Steam\'s Game Server List, add to favorite and connect.';
+    webhook(lazy, "steam@chat.woodpeckersnest.space")
+}, 2300 * 60 * 1000);
+
 
 
 function webhook(message, destination) {
