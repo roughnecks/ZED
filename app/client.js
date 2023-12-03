@@ -857,7 +857,7 @@ setInterval(function () {
 
 setInterval(function () {
     var convoy = 'Join our ETS2 Dedicated Convoy Server: connect to the Convoy section in Euro Truck Simulator 2 and look for "[ITA][DEDICATO] Dumb & Dumber" in the list' + "\n" +
-    'Also visit our Trucksbook Company Profile over at https://trucksbook.eu/company/113842 and connect to "mumble.woodpeckersnest.space" for voice chat with Mumble while trucking around';
+    'Also visit our Trucksbook Company Profile over at https://trucksbook.eu/company/113842 and connect to "voice.woodpeckersnest.space" for voice chat with Mumble while trucking around';
     webhook(convoy, "steam@chat.woodpeckersnest.space")
 }, 2000 * 60 * 1000);
 
