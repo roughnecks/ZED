@@ -872,7 +872,7 @@ setInterval(function () {
 
 setInterval(function () {
     var lazy = 'New Team Fortress 2 Dedicated Server is live! Featuring "lazytown_lazyday" and "lazytown_lazynitez" maps' + "\n" +
-    'From console "connect 213.136.74.177:27015" or search for "woodpeckers" in Steam\'s Game Server List, add to favorite and connect.';
+    'From console "connect 213.136.74.177:27115" or search for "woodpeckers" in Steam\'s Game Server List, add to favorite and connect.';
     webhook(lazy, "steam@chat.woodpeckersnest.space")
 }, 2300 * 60 * 1000);
 
