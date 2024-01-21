@@ -762,7 +762,7 @@ function fortune(groupID, chatID) {
             return;
             } else {
             webhook(stdout, "steam@chat.woodpeckersnest.space");
-            webhook(stdout, "lozibaldone@groups.chat.sabatino.cloud");
+            webhook(stdout, "lozibaldone@conference.xmpp-it.net");
             }
         }
     });
