@@ -221,11 +221,11 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Your satisfaction is our best prize. Next!");
     } else if (message === "!help") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "I'm a Steam CHAT and Trading BoT; if you want to trade with me, first read the info showcase on my profile. For a list of available commands, type '!commands' without the quotes. More at: https://github.com/roughnecks/ZED" );
-    /*} else if (message === "!radio") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
-        "Server Status: https://woodpeckersnest.space:8090/status.xsl");
+    } else if (message === "!radio") {
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8190/live" + "\n" +
+        "Server Status: https://woodpeckersnest.space:8190/status.xsl");
     } else if (message === "!np") {
-        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);*/
+        zed.manager._steam.chat.sendChatMessage(groupID, chatID, "Now Playing: :PlayMusic: " +  song);
     } else if (message === "!commands") {
         zed.manager._steam.chat.sendChatMessage(groupID, chatID, "!hello" + "\n" + "!help" + "\n" + "!next" + "\n" + "!choose - Suggests you a game to play next" + "\n" + "!fortune - A fortune cookie in Italian" + 
         "\n" + "!ud <term> - Search Urban Dictionary" + "\n" +
@@ -779,7 +779,7 @@ var song = "Not playing right now";
 
 
 
-/*
+
 var song;
 var message;
 var np = fs.readFileSync(`${path}/miscellaneous/songtitle`, 'utf8');
@@ -787,7 +787,7 @@ var np = fs.readFileSync(`${path}/miscellaneous/songtitle`, 'utf8');
 // Title refresh every 10 seconds
 setInterval(function () {
     streamTitle({
-        url: 'https://woodpeckersnest.space:8090',
+        url: 'https://woodpeckersnest.space:8190',
         type: 'icecast',
         mount: '/live'
     }).then(function (title) {
@@ -834,14 +834,14 @@ setInterval(function () {
 // Send radio announcement every 11hrs
 setInterval(function () {
     if (np != "Not playing right now or no one's listening :(") {
-        zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio - Game OSTs All Day Long - using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
-        "Server Status: https://woodpeckersnest.space:8090/status.xsl");
-        var announcement = "Listen to our StillStream Radio - Game OSTs All Day Long - using your favorite music player or connecting directly to: https://woodpeckersnest.space:8090/live" + "\n" +
-        "Server Status: https://woodpeckersnest.space:8090/status.xsl";
-        webhook(announcement, "steam@chat.woodpeckersnest.space");
+        zed.manager._steam.chat.sendChatMessage('24488495', '87920756', ":cassette: Listen to our StillStream Radio using your favorite music player or connecting directly to: https://woodpeckersnest.space:8190/live" + "\n" +
+        "Server Status: https://woodpeckersnest.space:8190/status.xsl");
+        //var announcement = "Listen to our StillStream Radio - Game OSTs All Day Long - using your favorite music player or connecting directly to: https://woodpeckersnest.space:8190/live" + "\n" +
+        //"Server Status: https://woodpeckersnest.space:8190/status.xsl";
+        //webhook(announcement, "steam@chat.woodpeckersnest.space");
     } else {return;}
     }, 660 * 60 * 1000);
-*/
+
 
 
 
@@ -869,13 +869,13 @@ setInterval(function () {
 }, 2000 * 60 * 1000);
 
 
-
+/*
 setInterval(function () {
     var lazy = 'New Team Fortress 2 Dedicated Server is live! Featuring "lazytown_lazyday" and "lazytown_lazynitez" maps' + "\n" +
     'From console "connect 213.136.74.177:27115" or search for "woodpeckers" in Steam\'s Game Server List, add to favorite and connect.';
     webhook(lazy, "steam@chat.woodpeckersnest.space")
 }, 2300 * 60 * 1000);
-
+*/
 
 
 function webhook(message, destination) {
