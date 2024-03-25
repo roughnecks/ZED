@@ -761,7 +761,7 @@ function fortune(groupID, chatID) {
             zed.manager._steam.chat.sendChatMessage(groupID, chatID, stdout);
             return;
             } else {
-            webhook(stdout, "steam@chat.woodpeckersnest.space");
+            webhook(stdout, "bots@chat.woodpeckersnest.space");
             webhook(stdout, "lozibaldone@conference.xmpp-it.net");
             }
         }
@@ -773,13 +773,7 @@ setInterval(fortune, 900 * 60 * 1000);
 
 
 
-
-
-var song = "Not playing right now";
-
-
-
-
+/*
 var song;
 var message;
 var np = fs.readFileSync(`${path}/miscellaneous/songtitle`, 'utf8');
@@ -842,25 +836,23 @@ setInterval(function () {
     } else {return;}
     }, 660 * 60 * 1000);
 
+*/
 
 
 
 
-
-
+/*
 setInterval(function () {
     var tradebot = "Hi, I'm a trade bot, same and cross sets trades accepted, whole inventory." + "\n" + 
     "Profile: http://steamcommunity.com/id/meltdownzed/" + "\n" + "Trade URL: https://steamcommunity.com/tradeoffer/new/?partner=65306342&token=lUyM27yx"
     webhook(tradebot, "steam@chat.woodpeckersnest.space")
 }, 1700 * 60 * 1000);
 
-/*
 setInterval(function () {
     var convoy = 'Join our ETS2 Dedicated Convoy Server: connect to the Convoy section in Euro Truck Simulator 2 and look for "[ITA][DEDICATO] Dumb & Dumber" in the list' + "\n" +
     'Also visit our Trucksbook Company Profile over at https://trucksbook.eu/company/113842 and connect to "voice.woodpeckersnest.space" for voice chat with Mumble while trucking around';
     webhook(convoy, "steam@chat.woodpeckersnest.space")
 }, 2000 * 60 * 1000);
-*/
 
 setInterval(function () {
     var wesnoth = 'Join our Wesnoth MP Server: connect to "woodpeckersnest.space:15000"' + "\n" + 
@@ -868,8 +860,6 @@ setInterval(function () {
     webhook(wesnoth, "steam@chat.woodpeckersnest.space")
 }, 2000 * 60 * 1000);
 
-
-/*
 setInterval(function () {
     var lazy = 'New Team Fortress 2 Dedicated Server is live! Featuring "lazytown_lazyday" and "lazytown_lazynitez" maps' + "\n" +
     'From console "connect 213.136.74.177:27115" or search for "woodpeckers" in Steam\'s Game Server List, add to favorite and connect.';
