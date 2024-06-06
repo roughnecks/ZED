@@ -262,6 +262,7 @@ async function parseMessage(groupID, chatID, message, senderID, senderAccountID,
         if (cookiego <= 2) {
 
             fortune(groupID, chatID);
+            //console.log(groupID + "\n" + chatID);
             cookiego = cookiego + 1;
             cookienow = (new Date()).getTime();
         } else {

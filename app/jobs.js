@@ -43,3 +43,12 @@ schedule.scheduleJob('0 0 * * *', () => {
         }
     });
 });
+
+
+//Announce bot shutdown before steam maintenance
+
+schedule.scheduleJob('29 23 * * 2', () => {
+
+    zed.manager._steam.chat.sendChatMessage('24488495', '87280742', "Going down for planned Steam Maintenance; will ba back tomorrow morning. Thanks");
+
+});
