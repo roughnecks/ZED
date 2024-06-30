@@ -1,6 +1,7 @@
 {
   "username": "",
   "password": "",
+  "tradingEnabled": "",
   "sharedSecret": "",
   "identitySecret": "",
   "ownerSteamID64": "",

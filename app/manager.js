@@ -21,12 +21,20 @@ const manager = new TradeOfferManager({
 
 //EVENTS
 
+
 //Offer Incoming
 manager.on('newOffer', offer => {
 
     offer.getUserDetails((err, me, them) => {
+        
+        //Trading Enabled?
+        if (config.tradingEnabled == 0) {
+            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Sorry, trading is temporarily disabled. Try again later, thanks.');
+            return;
+        }
+
         if (typeof them !== 'undefined') {
-            
+
             processOffer(offer, them);
 
         } else {
@@ -371,28 +379,53 @@ async function processOffer(offer, them) {
                     return;
                 }
 
+
                 if ((offer.itemsToGive[0].market_fee_app == config.holidaySale) && (offer.itemsToReceive[0].market_fee_app == config.holidaySale)) {
-                    var winterCards = [];
+                    //var winterCards = [];
+                    var winterCardsOfferedInInventory = [];
+                    /*
                     for (let i = 0; i < inventory.length; i++) {
                         if (inventory[i].market_hash_name === offer.itemsToGive[0].market_hash_name) {
                             winterCards.push(i);
                             //console.log("inventory hash = " + inventory[i].market_hash_name);
                         }
                     }
-                    
-                    if (winterCards.length == 1) {
+                    */
+
+                    for (let i = 0; i < inventory.length; i++) {
+                        if (inventory[i].market_hash_name === offer.itemsToReceive[0].market_hash_name) {
+                            winterCardsOfferedInInventory.push(i);
+                            //console.log("inventory hash = " + inventory[i].market_hash_name);
+                        }
+                    }
+
+                    if (winterCardsOfferedInInventory.length >= 1) {
                         offer.decline(err => {
                             if (err) {
                                 console.log(err);
                             } else {
-                                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter/summer card for which we only have one copy.'));
-                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we only have 1 copy left of that winter/summer card :steamsad:');
+                                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter/summer card for which we already have one or more copies.'));
+                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we already have 1 or more copies of that winter/summer card :steamsad: - please offer a card we don\'t have');
                                 console.log(chalk.cyan("=========================="));
                             }
                         });
                         return;
                     }
+
                 }
+
+                /*if (winterCards.length == 1) {
+                    offer.decline(err => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter/summer card for which we only have one copy.'));
+                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we only have 1 copy left of that winter/summer card :steamsad:');
+                            console.log(chalk.cyan("=========================="));
+                        }
+                    });
+                    return;
+                }*/
 
                 var items = [];
                 for (let i = 0; i < inventory.length; i++) {
