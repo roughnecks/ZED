@@ -753,9 +753,9 @@ function get_line(filename, line_no, callback) {
 // Get a cookie
 
 function fortune(groupID, chatID) {
-    exec('fortune', (err, stdout, stderr) => {
+    exec('/usr/games/fortune', (err, stdout, stderr) => {
         if (err) {
-            console.log("node couldn't execute the command");
+            console.log("node couldn't execute the command: " + stderr);
             return;
         } else {
             if (groupID > 0 && chatID > 0) {
