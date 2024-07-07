@@ -399,13 +399,13 @@ async function processOffer(offer, them) {
                         }
                     }
 
-                    if (winterCardsOfferedInInventory.length >= 1) {
+                    if (winterCardsOfferedInInventory.length > 1) {
                         offer.decline(err => {
                             if (err) {
                                 console.log(err);
                             } else {
-                                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter/summer card for which we already have one or more copies.'));
-                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we already have 1 or more copies of that winter/summer card :steamsad: - please offer a card we don\'t have');
+                                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter/summer card for which we already have more copies.'));
+                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we already have more than 1 copy of that winter/summer card :steamsad:');
                                 console.log(chalk.cyan("=========================="));
                             }
                         });
