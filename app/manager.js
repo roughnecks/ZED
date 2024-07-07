@@ -381,16 +381,16 @@ async function processOffer(offer, them) {
 
 
                 if ((offer.itemsToGive[0].market_fee_app == config.holidaySale) && (offer.itemsToReceive[0].market_fee_app == config.holidaySale)) {
-                    //var winterCards = [];
+                    var winterCardsRequestedInInventory = [];
                     var winterCardsOfferedInInventory = [];
-                    /*
+
                     for (let i = 0; i < inventory.length; i++) {
                         if (inventory[i].market_hash_name === offer.itemsToGive[0].market_hash_name) {
-                            winterCards.push(i);
+                            winterCardsRequestedInInventory.push(i);
                             //console.log("inventory hash = " + inventory[i].market_hash_name);
                         }
                     }
-                    */
+
 
                     for (let i = 0; i < inventory.length; i++) {
                         if (inventory[i].market_hash_name === offer.itemsToReceive[0].market_hash_name) {
@@ -412,20 +412,20 @@ async function processOffer(offer, them) {
                         return;
                     }
 
-                }
+                    if (winterCardsRequestedInInventory.length == 1) {
+                        offer.decline(err => {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter/summer card for which we only have one copy.'));
+                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we only have 1 copy left of that winter/summer card :steamsad:');
+                                console.log(chalk.cyan("=========================="));
+                            }
+                        });
+                        return;
+                    }
 
-                /*if (winterCards.length == 1) {
-                    offer.decline(err => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter/summer card for which we only have one copy.'));
-                            manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we only have 1 copy left of that winter/summer card :steamsad:');
-                            console.log(chalk.cyan("=========================="));
-                        }
-                    });
-                    return;
-                }*/
+                }
 
                 var items = [];
                 for (let i = 0; i < inventory.length; i++) {
