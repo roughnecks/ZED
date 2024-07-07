@@ -399,7 +399,7 @@ async function processOffer(offer, them) {
                         }
                     }
 
-                    if (winterCardsOfferedInInventory.length > 1) {
+                    if ((winterCardsOfferedInInventory.length > 1) && (winterCardsRequestedInInventory.length == 1)) {
                         offer.decline(err => {
                             if (err) {
                                 console.log(err);
@@ -411,20 +411,6 @@ async function processOffer(offer, them) {
                         });
                         return;
                     }
-
-                    if (winterCardsRequestedInInventory.length == 1) {
-                        offer.decline(err => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log(chalk.red('Offer declined, ' + them.personaName + ' wanted to trade a winter/summer card for which we only have one copy.'));
-                                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because we only have 1 copy left of that winter/summer card :steamsad:');
-                                console.log(chalk.cyan("=========================="));
-                            }
-                        });
-                        return;
-                    }
-
                 }
 
                 var items = [];
