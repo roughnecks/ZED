@@ -299,7 +299,20 @@ async function processOffer(offer, them) {
         }
     }
 
+    if (offer.itemsToGive[0].appid !== offer.itemsToReceive[0].appid) {
+        offer.decline(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(chalk.red('Offer declined, ' + them.personaName + ' wants to trade from different Inventories'));
+                manager._steam.chatMessage(offer.partner.getSteam3RenderedID(), 'Offer declined because you asked for items from different Inventories.');
+                console.log(chalk.cyan("=========================="));
+            }
+        });
+        return;
+    }
 
+    /*
     if (offer.itemsToGive.length === 1 && offer.itemsToReceive.length === 1) {
         if (offer.itemsToGive[0].appid !== offer.itemsToReceive[0].appid) {
             offer.decline(err => {
@@ -314,7 +327,7 @@ async function processOffer(offer, them) {
             return;
         }
     }
-
+    */
 
     var cardBorderTypeToReceive = typeof (undefined);
     var cardBorderTypeToGive = typeof (undefined);
